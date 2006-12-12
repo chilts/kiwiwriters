@@ -17,7 +17,7 @@
     PerlModule Apache::Request
     PerlModule Apache::DBI
     PerlModule Config::Simple
-    PerlModule WebApp::Session
+    # PerlModule WebApp::Session
 
     # other misc configuration
     Options -Indexes

@@ -14,11 +14,11 @@
     );
 
     # wrap it all up in cookie/session handling
-    WebApp::Session::begin( $SESS, $r, $DBH );
+    # WebApp::Session::begin( $SESS, $r, $DBH );
 
     $m->call_next();
 
-    WebApp::Session::end( $SESS, $r, $DBH );
+    # WebApp::Session::end( $SESS, $r, $DBH );
 </%init>
 %# --- FLAGS ------------------------------------------------------------------
 <%flags>
