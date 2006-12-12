@@ -1,0 +1,12 @@
+<div id="nav">
+    <ul>
+        <li id="current"><a href="index.html">Home</a></li>
+% if ( 0 ) {
+        <li ><a href="alternative.html">Alternative layout</a></li>
+        <li><a href="photo.html">Photo layout</a></li>
+        <li><a href="styles.html">Styles</a></li>
+        <li><a href="empty.html">Empty</a></li>
+% }
+    </ul>
+    <p class="hide"><a href="#top">Back to top</a></p>
+</div>

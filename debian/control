@@ -1,0 +1,14 @@
+Source: kiwiwriters
+Section: web
+Priority: optional
+Maintainer: Andrew Chilton <andychilton@gmail.com>
+Build-Depends: debhelper (>= 4.1.16)
+Standards-Version: 3.5.5.0
+
+Package: kiwiwriters
+Architecture: all
+Depends: debconf, ${shlibs:Depends}, pgutils, libhtml-mason-perl, libapache-dbi-perl, libapache-request-perl, libdbd-pg-perl, libconfig-simple-perl, libxml-rss-perl, libxml-atom-perl, pgpatcher
+Recommends: apache-perl
+Suggests: 
+Description: blog site for kiwiwriters
+ Homepage: http://kiwiwriters.????.??/

@@ -1,0 +1,99 @@
+#!/bin/sh
+set -e
+
+# Load the debconf library - this must come FIRST; do not insert any other
+# commands before this
+. /usr/share/debconf/confmodule
+
+echo "INFO: postinst as '$1'"
+
+case "$1" in
+    configure)
+        echo "Configuring..."
+
+        # debconf
+        CFG=/etc/kiwiwriters/config.m4
+        echo "m4_changecom()m4_dnl" > $CFG
+
+        db_get kiwiwriters/server_name
+        echo "m4_define(__SERVER_NAME__,$RET)m4_dnl" >> $CFG
+
+        db_get kiwiwriters/server_alias
+        if [ -n "$RET" ]; then
+            echo "m4_define(__SERVER_ALIAS__,$RET)m4_dnl" >> $CFG
+        fi
+
+        db_get kiwiwriters/db_name
+        echo "m4_define(__DB_NAME__,$RET)m4_dnl" >> $CFG
+
+        db_get kiwiwriters/db_user
+        echo "m4_define(__DB_USER__,$RET)m4_dnl" >> $CFG
+
+        db_get kiwiwriters/google_adsense_show
+        if [ "$RET" = "false" ]; then
+            echo "m4_define(__GOOGLE_ADSENSE_SHOW__,0)m4_dnl" >> $CFG
+        else
+            echo "m4_define(__GOOGLE_ADSENSE_SHOW__,1)m4_dnl" >> $CFG
+        fi
+
+        db_get kiwiwriters/paypal_donate_show
+        if [ "$RET" = "false" ]; then
+            echo "m4_define(__PAYPAL_DONATE_SHOW__,0)m4_dnl" >> $CFG
+        else
+            echo "m4_define(__PAYPAL_DONATE_SHOW__,1)m4_dnl" >> $CFG
+        fi
+
+        db_get kiwiwriters/server_staging
+        if [ "$RET" = "false" ]; then
+            echo "m4_define(__SERVER_STAGING__,0)m4_dnl" >> $CFG
+        else
+            echo "m4_define(__SERVER_STAGING__,1)m4_dnl" >> $CFG
+        fi
+
+        db_get kiwiwriters/server_live
+        if [ "$RET" = "false" ]; then
+            echo "m4_define(__SERVER_LIVE__,0)m4_dnl" >> $CFG
+        else
+            echo "m4_define(__SERVER_LIVE__,1)m4_dnl" >> $CFG
+        fi
+
+        echo "Installing configuration files..."
+        m4 -P $CFG /etc/kiwiwriters/kiwiwriters.conf.template > /etc/apache-perl/conf.d/40_kiwiwriters.conf
+        m4 -P $CFG /etc/kiwiwriters/kiwiwriters.cfg.template > /etc/kiwiwriters/kiwiwriters.cfg
+
+        # remove all mason information (cache and objects)
+        echo "Remove Mason information..."
+        find /var/www/kiwiwriters/mason -type f -mindepth 1 -exec rm {} ';'
+
+        # make the site info owned by www-data, 
+        WEBUSER=www-data
+        WEBGROUP=www-data
+        if [ "`getent passwd $WEBUSER`" -a "`getent group $WEBGROUP `" ]; then
+            chown -R $WEBUSER:$WEBGROUP /var/www/kiwiwriters/mason
+            chmod -R 0700 /var/www/kiwiwriters/mason
+        fi
+
+        # create the database
+        su - postgres -c 'createuser -A -D kiwiwriters' || true
+        su - postgres -c 'createdb -O kiwiwriters -E UTF-8 -T template0 kiwiwriters' || true
+        su - postgres -c 'createlang plpgsql kiwiwriters' || true
+        pgpatcher -U kiwiwriters -d kiwiwriters -s /usr/share/kiwiwriters/db/patch -l 3 || true
+
+        # reload apache
+        /etc/init.d/apache-perl restart
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 0
+        ;;
+esac
+
+#DEBHELPER#
+
+# finish up
+db_stop
+exit 0

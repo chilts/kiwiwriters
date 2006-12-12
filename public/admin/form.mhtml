@@ -1,0 +1,16 @@
+<%args>
+    $error => undef
+    $username => undef
+</%args>
+<h1>Please sign in...</h1>
+<p style="color:red;"><% $error | h %></p>
+<div style="width:50%;background-color:#ccc;margin:0 auto;padding:10px;text-align:center;">
+<form action="sign-in.html" method="post">
+    Username<br />
+    <input type="text" name="username" value="<% $username || '' | h %>" /><br />
+    Password<br />
+    <input type="password" name="password" /><br />
+    <br />
+    <input type="submit" value="Sign In" /><br />
+</form>
+</div>

@@ -1,0 +1,54 @@
+<VirtualHost *:80>
+    ServerName __SERVER_NAME__
+    m4_ifdef(`__SERVER_ALIAS__',ServerAlias __SERVER_ALIAS__)
+
+    DocumentRoot /var/www/kiwiwriters/htdocs
+
+    PerlSetVar MasonInPackage WebApp::kiwiwriters
+
+    PerlSetVar MasonAllowGlobals $DBH
+    PerlAddVar MasonAllowGlobals $CFG
+    PerlAddVar MasonAllowGlobals $SESS
+
+    PerlSetVar MasonCompRoot /var/www/kiwiwriters/htdocs
+    PerlSetVar MasonDataDir /var/www/kiwiwriters/mason
+
+    PerlModule HTML::Mason::ApacheHandler
+    PerlModule Apache::Request
+    PerlModule Apache::DBI
+    PerlModule Config::Simple
+    PerlModule WebApp::Session
+
+    # other misc configuration
+    Options -Indexes
+    AddDefaultCharset utf-8
+    ExpiresActive On
+
+    # set which files Mason handles
+    <LocationMatch "\.(html|xml)$">
+        SetHandler perl-script
+        PerlHandler HTML::Mason::ApacheHandler
+    </LocationMatch>
+
+    # but don't show them any internal Mason files
+    <LocationMatch "(handler|\.mhtml|\.mas)$">
+        SetHandler perl-script
+        PerlModule Apache::Constants
+        PerlHandler "sub { return Apache::Constants::NOT_FOUND }"
+    </LocationMatch>
+
+    # everything in /d/ is dynamic
+    <LocationMatch "^/d/">
+        SetHandler perl-script
+        PerlHandler HTML::Mason::ApacheHandler
+        Options -Indexes
+    </LocationMatch>
+
+    # add expires headers to all static content
+    <Location /s/>
+        ExpiresDefault "access plus 3 hours"
+    </Location>
+
+    CustomLog /var/log/apache-perl/kiwiwriters-access.log common
+    ErrorLog /var/log/apache-perl/kiwiwriters-error.log
+</VirtualHost>

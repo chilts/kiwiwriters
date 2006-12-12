@@ -1,0 +1,19 @@
+%# --- INIT -------------------------------------------------------------------
+<%init>
+    # if not logged in, redirect to the main page
+    unless ( $SESS->{_signed_in} ) {
+        $m->redirect('/');
+        return;
+    }
+
+    WebApp::Session::signed_out( $SESS );
+
+    # back to home
+    $m->redirect('/');
+    return;
+</%init>
+%# --- ATTRS ------------------------------------------------------------------
+<%attr>
+    access_required => 0
+</%attr>
+%# --- END --------------------------------------------------------------------

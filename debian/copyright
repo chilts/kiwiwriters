@@ -1,0 +1,13 @@
+Upstream Author: Andrew Chilton <andychilton@gmail.com>
+
+Copying:
+
+    Copyright (c) 2006 Andrew Chilton. All rights reserved.
+
+    This program is free software; you can redistribute it and/or modify
+    it under the same terms as Perl itself.
+
+Perl is distributed under either the Artistic licence or the GPL.
+
+On Debian systems, the complete text of the GNU General Public License can
+be found in `/usr/share/common-licenses/GPL'.

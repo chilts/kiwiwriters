@@ -1,0 +1,51 @@
+Template: kiwiwriters/server_name
+Type: string
+Default: kiwiwriters.??.??
+Description: Website ServerName
+ What domain name do you want this site to listen on
+ Note that this is just the domain name, so for "http://my.site.com" you only
+ need to enter "my.site.com"
+
+Template: kiwiwriters/server_alias
+Type: string
+Default: www.kiwiwriters.??.??
+Description: Website ServerAlias
+ If you would like to listen on another domain, enter that here.
+ Note that this is just the domain name, so for "http://my.site.com" you only
+ need to enter "my.site.com"
+
+Template: kiwiwriters/db_name
+Type: string
+Default: kiwiwriters
+Description: What the name of the database is?
+ You need a database name to be able to connect to it.
+
+Template: kiwiwriters/db_user
+Type: string
+Default: kiwiwriters
+Description: What the user of the database is?
+ You need a database user to be able to connect to it.
+
+Template: kiwiwriters/google_adsense_show
+Type: boolean
+Default: true
+Description: Should Google Adsense appear?
+ Various webpages use this value to decide whether to show Google Adsense.
+
+Template: kiwiwriters/paypal_donate_show
+Type: boolean
+Default: true
+Description: Should PayPal Donate appear?
+ Various webpages use this value to decide whether to show PayPal Donate.
+
+Template: kiwiwriters/server_staging
+Type: boolean
+Default: false
+Description: Is this site Staging?
+ Pages use this value to decide what to do.
+
+Template: kiwiwriters/server_live
+Type: boolean
+Default: true
+Description: Is this site Live?
+ Pages use this value to decide what to do.

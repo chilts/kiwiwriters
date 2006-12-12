@@ -1,0 +1,78 @@
+#!/usr/bin/make -f
+# -*- make -*-
+
+# or 3
+export DH_COMPAT=4
+# Uncomment to turn on verbose mode
+# Comment out for quieter operation
+# export DH_VERBOSE=1 # uncomment for verbose, com
+
+# -----------------------------------------------------------------------------
+
+configure: configure-stamp
+
+# -----------------------------------------------------------------------------
+
+configure-stamp:
+	dh_testdir
+# Add here commands to configure the package.
+	touch configure-stamp
+
+# -----------------------------------------------------------------------------
+
+build: configure-stamp build-stamp
+
+# -----------------------------------------------------------------------------
+
+build-stamp:
+	dh_testdir
+# Add here commands to compile the package.
+	touch build-stamp
+
+# -----------------------------------------------------------------------------
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+# Add here commands to do extra things after building.
+#$(MAKE)
+	dh_fixperms
+
+# -----------------------------------------------------------------------------
+
+# Build architecture-independent files here.
+# Pass -i to all debhelper commands in this target to reduce clutter.
+binary: binary-indep
+binary-indep: build install
+	dh_testdir -i
+	dh_testroot -i 
+	dh_installdebconf -i
+	dh_installdocs -i
+	dh_installcron -i
+	dh_installchangelogs -i
+	dh_install -Xsvn
+	dh_link -i
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_perl -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+# -----------------------------------------------------------------------------
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+# Add here commands to clean up after the build process.
+	dh_clean
+
+# -----------------------------------------------------------------------------
+
+.PHONY: build clean binary-indep binary-arch binary install configure
+
+# -----------------------------------------------------------------------------

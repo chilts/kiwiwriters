@@ -1,0 +1,11 @@
+<div id="leftside">
+    <a id="sectionmenu"></a>
+    <p class="soft">Use the navigation tabs for the main sections of the site.</p>
+    <h1>Menu:</h1>
+    <p class="menublock">
+        <a class="nav" href="#">Home</a><br class="hide" />
+        <a class="nav sub" href="#">- About</a><br class="hide" />
+        <a class="nav sub" href="#">- Credits</a><br class="hide" />
+        <a class="nav sub" href="#">- Contact</a><br class="hide" />
+    </p>
+</div>

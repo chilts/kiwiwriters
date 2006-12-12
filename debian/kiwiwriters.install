@@ -1,0 +1,6 @@
+public/*                            var/www/kiwiwriters/htdocs
+etc/kiwiwriters.conf.template       etc/kiwiwriters
+etc/kiwiwriters.cfg.template        etc/kiwiwriters
+db/*.sql                            usr/share/kiwiwriters/db
+lib/*                               usr/share/perl5
+bin/*                               usr/share/kiwiwriters/bin
