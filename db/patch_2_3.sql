@@ -13,21 +13,8 @@ BEGIN;
 
 -- ----------------------------------------------------------------------------
 
--- insert an initial user
-INSERT INTO account.account(username, firstname, lastname, email, salt, password, admin)
-    VALUES('andy', 'Andrew', 'Chilton', 'andychilton@gmail.com', 'Ya1t', md5('Ya1t' || 'password'), True);
-
--- add an editor role, this will have overall admin privileges on the whole site
-INSERT INTO account.role(name, description)
-    VALUES('editor', 'This will be the overall editor of the whole site.');
-
-INSERT INTO account.privilege(account_id, role_id)
-    VALUES(currval('account.account_id_seq'), currval('account.role_id_seq'));
-
--- ----------------------------------------------------------------------------
-
 -- allow using Phliky as the page markup
-INSERT INTO content.type(tid) VALUES('phliky');
+INSERT INTO content.type(name) VALUES('phliky');
 
 -- ----------------------------------------------------------------------------
 
