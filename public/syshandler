@@ -5,6 +5,12 @@
 </%once>
 %# --- INIT -------------------------------------------------------------------
 <%init>
+    # automatically destroy these when they go out of scope
+    local *SESS;
+    local *ZAAPT;
+
+    $SESS = {};
+
     # connect to the database
     $DBH = DBI->connect(
         "dbi:Pg:dbname=$CFG->{db_name}",
@@ -13,12 +19,10 @@
         { RaiseError => 1, AutoCommit => 1 }
     );
 
-    # wrap it all up in cookie/session handling
-    # WebApp::Session::begin( $SESS, $r, $DBH );
+    # create the Zaapt model
+    $ZAAPT = Zaapt->new({ store => 'Pg', dbh => $DBH });
 
     $m->call_next();
-
-    # WebApp::Session::end( $SESS, $r, $DBH );
 </%init>
 %# --- FLAGS ------------------------------------------------------------------
 <%flags>

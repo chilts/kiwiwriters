@@ -77,7 +77,7 @@ case "$1" in
         su - postgres -c 'createuser -A -D kiwiwriters' || true
         su - postgres -c 'createdb -O kiwiwriters -E UTF-8 -T template0 kiwiwriters' || true
         su - postgres -c 'createlang plpgsql kiwiwriters' || true
-        pg_patcher -U kiwiwriters -d kiwiwriters -s /usr/share/kiwiwriters/db/patch -l 3 || true
+        pgpatcher -U kiwiwriters -d kiwiwriters -s /usr/share/kiwiwriters/db/patch -l 4 || true
 
         # reload apache
         /etc/init.d/apache-perl restart

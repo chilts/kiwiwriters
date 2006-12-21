@@ -4,20 +4,25 @@
 
     DocumentRoot /var/www/kiwiwriters/htdocs
 
-    PerlSetVar MasonInPackage WebApp::kiwiwriters
+    PerlSetVar MasonInPackage WebApp::KiwiWriters
 
     PerlSetVar MasonAllowGlobals $DBH
     PerlAddVar MasonAllowGlobals $CFG
     PerlAddVar MasonAllowGlobals $SESS
+    PerlAddVar MasonAllowGlobals $ZAAPT
 
-    PerlSetVar MasonCompRoot /var/www/kiwiwriters/htdocs
+    PerlAddVar MasonCompRoot "main => /var/www/kiwiwriters/htdocs"
+    PerlAddVar MasonCompRoot "zaapt => /usr/share/zaapt/mason"
     PerlSetVar MasonDataDir /var/www/kiwiwriters/mason
 
     PerlModule HTML::Mason::ApacheHandler
     PerlModule Apache::Request
     PerlModule Apache::DBI
     PerlModule Config::Simple
-    # PerlModule WebApp::Session
+    PerlModule WebApp::Session
+    PerlModule Zaapt
+    PerlModule HTML::Entities
+    PerlModule URI::Escape
 
     # other misc configuration
     Options -Indexes
@@ -46,7 +51,7 @@
 
     # add expires headers to all static content
     <Location /s/>
-        ExpiresDefault "access plus 3 hours"
+        ExpiresDefault "access plus 24 hours"
     </Location>
 
     CustomLog /var/log/apache-perl/kiwiwriters-access.log common

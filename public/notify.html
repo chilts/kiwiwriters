@@ -1,0 +1,39 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $email => ''
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    use Mail::Sendmail qw();
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    $m->redirect('/') if $email eq '';
+
+    my $message = <<'EOF';
+Dear Friend,
+
+
+
+KiwiWriters.org
+
+P.S. We're sorry if you did not want to receive this email, but a friend of
+yours thought you might like it. You may safely ignore this email and don't
+worry, you will not be sent any more.
+
+EOF
+
+    my %mail = (
+        To => $email,
+        From => 'noreply@kiwiwriters.org',
+        Subject => 'A friend of your wants to tell you about KiwiWriters.org',
+        Message => ,
+        'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
+    );
+
+    Mail::Sendmail::sendmail(%mail)
+        || die "Error sending mail: $Mail::Sendmail::error";    
+<%init>
+%# ----------------------------------------------------------------------------
+%# ----------------------------------------------------------------------------
+%# ----------------------------------------------------------------------------

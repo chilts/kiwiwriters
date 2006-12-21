@@ -1,0 +1,33 @@
+%# ----------------------------------------------------------------------------
+<%doc>
+    This althandler is for those pages inside '/my/' which do not require login.
+</%doc>
+%# ----------------------------------------------------------------------------
+<%once>
+    my $intro = 'Before you can use the \'My Pages\' section of the site, you must sign in first.';
+    my $menus = [
+        {
+            text => 'My Pages',
+            href => '/my/',
+            submenus => [
+                { text => 'Sign In', href => 'sign-in.html' },
+                { text => 'Join Us!', href => 'sign-up.html' },
+                { text => 'Confirm', href => 'confirm.html' },
+            ], 
+        },
+    ];
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    $m->call_next();
+</%init>
+%# ----------------------------------------------------------------------------
+<%method .menu>
+<& /comp/menu.mhtml, intro => $intro, menus => $menus &>
+</%method>
+%# ----------------------------------------------------------------------------
+<%attr>
+    sign_in_req => 0
+    right => 1
+</%attr>
+%# ----------------------------------------------------------------------------

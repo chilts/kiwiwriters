@@ -1,0 +1,103 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $name => ''
+    $email => ''
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    use Mail::Sendmail qw();
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $err;
+    if ( $email ne '' ) {
+        my $to = $name || $email;
+        my $friend = "$SESS->{firstname} $SESS->{lastname} <$SESS->{email}>";
+
+        my $message = <<'EOF';
+Dear $to,
+
+   Sender: $friend
+
+Your friend thinks you might be interested in the site KiwiWriters.org. It's a
+hip and happening place for writers everywhere but most especially for those in
+New Zealand.
+
+There are writing hints and tips, information about editing and lots of
+resources including a comprehensive list of New Zealand publishers. There is
+also an active forum to ask any questions you might have - someone out there
+knows the answer.
+
+One of the best parts of the site however is the personal area in which you can
+set yourself challenges, join in other people's challenges or go the whole way
+and participate in the site-wide challenges. Watch out for the small ones as
+well as the bigger ones - they're amazing!
+
+If you think you'll be interested, head over to the site to take a look around:
+
+- http://kiwiwriters.org/
+
+Alternatively, why not dive straight into the deep end and sign up straight
+away:
+
+- http://kiwiwriters.org/sign-up.html
+
+We hope you'll have a great deal of fun and why not drop us a line sometime,
+we'd love to hear from you.
+
+Yours faithfully,
+The KiwiWriters.org Team
+
+P.S. You have been sent this email because a friend of yours thought you might
+like to hear about the KiwiWriters.org site. You may safely ignore this email
+if you choose and don't worry, you will not be sent any more.
+
+EOF
+
+        my %mail = (
+            To => $email,
+            From => 'noreply@kiwiwriters.org',
+            Subject => 'A friend of yours invites you to use KiwiWriters.org',
+            Message => $message,
+            'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
+        );
+
+        # TODO: change this to work with Sendmail once on the server
+        if ( 0 ) {
+        # unless ( Mail::Sendmail::sendmail(%mail) ) {
+            warn "Error sending mail: $Mail::Sendmail::error";
+        }
+    }
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Invitation</h1>
+
+% if ( $email =~ m{ \S }xms ) {
+%     if ( defined $err ) {
+<p class="error">We're sorry, there was an error sending your invitation. Please try again later.</p>
+
+<& comp/form_invite.mhtml, name => $name, email => $email &>
+
+%     } else {
+
+<p>
+    Your invitation to <code>&lt;<% $email | h %>&gt;</code> has been sent.
+</p>
+<p>
+    Thanks for spreading the word. You're doing a great job getting people
+    interested in writing or letting them know about the great resources you
+    can find here.
+</p>
+
+<h2>Why not tell someone else?</h2>
+
+<& comp/form_invite.mhtml &>
+%     }
+% } else {
+<p>
+    We're sorry, we need an email address to send an invitation. Please fill in
+    at least the email field and try again. Thank you.
+</p>
+<& comp/form_invite.mhtml, name => $name, email => $email &>
+% }
+%# ----------------------------------------------------------------------------

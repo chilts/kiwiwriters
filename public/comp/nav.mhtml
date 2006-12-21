@@ -1,12 +1,28 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    my $menu = [
+        {
+            section => 'home',
+            href => '/',
+            text => 'Home',
+        },
+        {
+            section => 'info',
+            href => '/info/',
+            text => 'Information',
+        },
+    ];
+</%once>
+%# ----------------------------------------------------------------------------
 <div id="nav">
     <ul>
-        <li id="current"><a href="index.html">Home</a></li>
-% if ( 0 ) {
-        <li ><a href="alternative.html">Alternative layout</a></li>
-        <li><a href="photo.html">Photo layout</a></li>
-        <li><a href="styles.html">Styles</a></li>
-        <li><a href="empty.html">Empty</a></li>
+% foreach my $item ( @$menu ) {
+        <li<% $m->request_comp->attr('section') eq $item->{section} ? ' id="current"' : '' %>><a href="<% $item->{href} %>"><% $item->{text} %></a></li>
 % }
+    </ul>
+    <ul style="float: right;">
+        <li <% $m->request_comp->attr('section') eq 'my' ? ' id="current"' : '' %>><a href="/my/">My Pages</a></li>
     </ul>
     <p class="hide"><a href="#top">Back to top</a></p>
 </div>
+%# ----------------------------------------------------------------------------

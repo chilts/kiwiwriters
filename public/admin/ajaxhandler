@@ -1,0 +1,21 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    WebApp::Session::begin( $SESS, $r, $DBH, 'session' );
+
+    # all of the pages under /admin/ requires that the user is an 'admin'
+    unless ( $SESS->{admin} ) {
+        $m->clear_buffer();
+        $m->abort(403);
+        return;
+    }
+
+    # we're signed in okay and have admin privileges so continue...
+    $m->call_next();
+
+    WebApp::Session::end( $SESS, $r, $DBH, 'session' );
+</%init>
+%# ----------------------------------------------------------------------------
+<%flags>
+    inherit => '/syshandler'
+</%flags>
+%# ----------------------------------------------------------------------------

@@ -1,4 +1,6 @@
+%# ----------------------------------------------------------------------------
 <div id="leftside">
+    <& $m->request_comp()->comp('.menu') &>
     <a id="sectionmenu"></a>
     <p class="soft">Use the navigation tabs for the main sections of the site.</p>
     <h1>Menu:</h1>
@@ -9,3 +11,4 @@
         <a class="nav sub" href="#">- Contact</a><br class="hide" />
     </p>
 </div>
+%# ----------------------------------------------------------------------------

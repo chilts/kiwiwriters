@@ -1,0 +1,30 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    my $intro = 'Here you will find many resources for writers everywhere but especially those in New Zealand.';
+    my $menus = [
+        {
+            text => 'Info',
+            href => '/info/',
+            submenus => [
+                { text => 'Writing', href => '/info/writing/' },
+                { text => 'Editing', href => '/info/editing/' },
+                { text => 'Publishing', href => '/info/publishing/' },
+                { text => 'Relaxing', href => '/info/relaxing/' },
+            ], 
+        }
+    ];
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    $m->call_next();
+</%init>
+%# ----------------------------------------------------------------------------
+<%method .menu>
+<& /comp/menu.mhtml, intro => $intro, menus => $menus &>
+</%method>
+%# ----------------------------------------------------------------------------
+<%attr>
+    section => 'info'
+    right => 1
+</%attr>
+%# ----------------------------------------------------------------------------

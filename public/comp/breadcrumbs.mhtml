@@ -1,4 +1,10 @@
 <div id="topbox">
-    <strong><span class="hide">Currently viewing: </span>
-    Kiwi Writers &raquo; <a href="/">Home</a></strong>
+    <strong>
+    <span class="hide">Currently viewing: </span>
+% if ( 0 ) {
+    Kiwi Writers &raquo; <a href="/">Home</a>
+% } else {
+    &nbsp;
+% }
+    </strong>
 </div>

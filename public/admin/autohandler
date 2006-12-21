@@ -1,0 +1,54 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    my $intro = 'Click on the name of the content you which to edit.';
+    my $menus = [
+        {
+            text => 'Models',
+            href => '/admin/',
+            submenus => [
+                { text => 'Content', href => '/admin/content/edit.html' },
+                { text => 'Blog', href => '/admin/blog/edit.html' },
+                { text => 'FAQ', href => '/admin/faq/edit.html' },
+            ], 
+        },
+        #{
+        #    text => 'Zaapt',
+        #    href => '/admin/zaapt/',
+        #    submenus => [
+        #        { text => 'Properties', href => '/admin/zaapt/properties/' },
+        #    ], 
+        #},
+        {
+            text => 'Sign Out',
+            href => '/my/sign-out.html',
+        },
+    ];
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    WebApp::Session::begin( $SESS, $r, $DBH, 'session' );
+
+    # all of the pages under /admin/ requires that the user is an 'admin'
+    unless ( $SESS->{admin} ) {
+        $m->clear_buffer();
+        $m->abort(403);
+        return;
+    }
+
+    # we're signed in okay and have admin privileges so continue...
+    $m->call_next();
+
+    WebApp::Session::end( $SESS, $r, $DBH, 'session' );
+</%init>
+%# ----------------------------------------------------------------------------
+<%method .menu>
+<& /comp/menu.mhtml, intro => $intro, menus => $menus &>
+</%method>
+%# ----------------------------------------------------------------------------
+<%attr>
+    section => 'admin'
+    sign_in_req => 1
+    use_zaapt => 0
+    use_mochikit => 1
+</%attr>
+%# ----------------------------------------------------------------------------

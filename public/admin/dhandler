@@ -1,0 +1,23 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    my $models = {
+        content => 1,
+    };
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    $r->content_type('text/html');
+    my ($model, $a) = $m->dhandler_arg() =~ m{ \A (\w*) \/ (\w*) \.html \z }xms;
+
+    # see if this model can be edited
+    if ( exists $models->{$model} ) {
+        $m->comp( "/zaapt/model/$model/$a.mhtml", %ARGS, zaapt => $ZAAPT, roles => $SESS->{roles} );
+    }
+    else {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

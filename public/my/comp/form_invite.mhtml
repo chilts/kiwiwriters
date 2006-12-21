@@ -1,0 +1,21 @@
+%# ----------------------------------------------------------------------------
+<%doc>
+    Are we going to add a note so the person can send something personal?
+</%doc>
+%# ----------------------------------------------------------------------------
+<%args>
+    $name => ''
+    $email => ''
+</%args>
+%# ----------------------------------------------------------------------------
+<div class="box center">
+<form action="/my/invite.html" method="post">
+    Name<br />
+    <input type="text" name="name" value="<% $name | h %>" /><br />
+    Email Address<br />
+    <input type="text" name="email" value="<% $email | h %>" /><br />
+    <br />
+    <input type="submit" value="Send Invitation :-)" /><br />
+</form>
+</div>
+%# ----------------------------------------------------------------------------

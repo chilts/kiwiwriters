@@ -1,0 +1,22 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $intro => undef
+    $menus
+</%args>
+%# ----------------------------------------------------------------------------
+<div id="leftside">
+    <a id="sectionmenu"></a>
+% if ( defined $intro ) {
+    <p class="soft"><% $intro | h %></p>
+% }
+    <h1>Menu:</h1>
+    <p class="menublock">
+% foreach my $menu ( @$menus ) {
+        <a class="nav" href="<% $menu->{href} %>"><% $menu->{text} %></a><br class="hide" />
+%     foreach my $submenu ( @{$menu->{submenus}} ) {
+        <a class="nav sub" href="<% $submenu->{href} %>">- <% $submenu->{text} | h %></a><br class="hide" />
+%     }
+% }
+    </p>
+</div>
+%# ----------------------------------------------------------------------------

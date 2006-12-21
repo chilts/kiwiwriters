@@ -1,0 +1,151 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $action    => ''
+    $username  => ''
+    $password  => ''
+    $repeat    => ''
+    $email     => ''
+    $firstname => ''
+    $lastname  => ''
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    use Mail::Sendmail qw();
+    use String::Random qw(random_string);
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    # do some checking
+    my $err = [];
+    my $is_good;
+
+    # someone is trying to sign up
+    if ( $action ne '' ) {
+        # check that the username consists only of lowercase letters, numbers and the dash
+        $username = lc $username;
+        unless ( $username =~ m{ \A [a-z0-9][a-z0-9\-]+[a-z0-9] \z }xms ) {
+            push @$err, "Username must consist only of letters, numbers or the dash (-) and be at least 3 characters long.";
+        }
+
+        my $empty = 0;
+        foreach ( $username, $password, $email, $firstname, $lastname ) {
+            $empty++ unless m{ \S }xms;
+        }
+        push @$err, "At least one field is blank, please enter all fields" if $empty;
+
+        unless ( $password eq $repeat ) {
+            push @$err, "Password and the repeat are not the same, please re-type";
+        }
+
+        unless ( length $password >= 6 ) {
+            push @$err, "Password must be at least 6 characters long.";
+        }
+
+        unless ( @$err ) {
+            # TODO: a shedload of this stuff can be pushed down into the Account.pm module
+
+            # get a random_string for the salt
+            my $salt = random_string('s' x 8);
+            my $code = random_string('0' x 32, [ 'A'..'Z', 'a'..'z', '0'..'9' ]);
+
+            # insert this new user into the database
+            my $model = $ZAAPT->get_model('Account');
+            eval {
+                $model->ins_account({
+                    a_username  => $username,
+                    a_firstname => $firstname,
+                    a_lastname  => $lastname,
+                    a_email     => $email,
+                    a_salt      => $salt,
+                    a_password  => $password,
+                });
+            };
+            if ( $@ ) {
+                if ( $DBI::errstr =~ m{duplicate key violates unique constraint "account_username_key"}ms ) {
+                    push @$err, 'This username is already taken, please provide another one.';
+                }
+                else {
+                    die $@;
+                }
+            }
+            else {
+                # get that account back out again
+                my $account = $model->sel_account_using_username({ a_username => $username });
+
+                # insert the code into the confirm table
+                $model->ins_confirm({ a_id => $account->{a_id}, c_code => $code });
+
+                # so far, this looks okay
+                my %mail = (
+                    To => $email,
+                    From => 'noreply@kiwiwriters.org',
+                    Subject => 'Confirmation email...',
+                    Message => 'Here...',
+                    'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
+                );
+
+                # TODO: change this to work with Sendmail once on the server
+                if ( 1 ) {
+                # if ( Mail::Sendmail::sendmail(%mail) ) {
+                    $m->clear_buffer();
+                    $m->redirect('confirm.html');
+                    return;
+                }
+                else {
+                    warn "Error sending mail: $Mail::Sendmail::error";
+                    push @$err, 'There was an error sending you a confirmation email. Please email <admin at kiwiwriters dot org> stating your username and email. We can then confirm your account for you. Thanks.';
+                }
+                
+            }            
+        }
+    }
+
+    if ( $is_good ) {
+        $m->clear_buffer();
+        $m->redirect('confirm.html');
+        return;
+    }
+</%init>
+%# ----------------------------------------------------------------------------
+% if ( 0 ) {
+<pre>
+% foreach ( $action, $username, $password, $repeat, $email, $firstname, $lastname ) {
+- '<% $_ | h %>'
+% }
+% print Data::Dumper->Dump([$err], ['e']);
+</pre>
+% }
+
+<h1>Join us in 2 easy steps...</h1>
+
+<& /zaapt/common/err.mhtml, err => $err &>
+
+<div class="box center">
+<form action="sign-up.html" method="post">
+    Username<br />
+    <input type="text" name="username" value="<% $username || '' | h %>" /><br />
+    Password<br />
+    <input type="password" name="password" /><br />
+    Password (re-type)<br />
+    <input type="password" name="repeat" /><br />
+    Firstname<br />
+    <input type="text" name="firstname" value="<% $firstname || '' | h %>" /><br />
+    Lastname<br />
+    <input type="text" name="lastname" value="<% $lastname || '' | h %>" /><br />
+    Email<br />
+    <input type="text" name="email" value="<% $email || '' | h %>" /><br />
+    <br />
+    <input type="submit" name="action" value="Sign In" /><br />
+</form>
+</div>
+
+<p class="center soft">
+    Note that once you have signed up, you will need to click the confirmation
+    link in the email sent to you. Therefore, you should double check your
+    email address.
+</p>
+%# ----------------------------------------------------------------------------
+<%flags>
+    inherit => 'althandler'
+</%flags>
+%# ----------------------------------------------------------------------------
