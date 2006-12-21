@@ -85,8 +85,7 @@
                 );
 
                 # TODO: change this to work with Sendmail once on the server
-                if ( 1 ) {
-                # if ( Mail::Sendmail::sendmail(%mail) ) {
+                if ( Mail::Sendmail::sendmail(%mail) ) {
                     $m->clear_buffer();
                     $m->redirect('confirm.html');
                     return;
