@@ -1,5 +1,5 @@
 deb:
-	fakeroot dpkg-buildpackage
+	fakeroot dpkg-buildpackage -tc 
 
 check:
 	lintian ../*.deb

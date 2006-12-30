@@ -18,6 +18,7 @@
     PerlModule HTML::Mason::ApacheHandler
     PerlModule Apache::Request
     PerlModule Apache::DBI
+    PerlModule Apache::Cookie
     PerlModule Config::Simple
     PerlModule WebApp::Session
     PerlModule Zaapt
