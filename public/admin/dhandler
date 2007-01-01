@@ -1,7 +1,9 @@
 %# ----------------------------------------------------------------------------
 <%once>
     my $models = {
+        account => 1,
         content => 1,
+        faq => 1,
     };
 </%once>
 %# ----------------------------------------------------------------------------
@@ -11,7 +13,7 @@
 
     # see if this model can be edited
     if ( exists $models->{$model} ) {
-        $m->comp( "/zaapt/model/$model/$a.mhtml", %ARGS, zaapt => $ZAAPT, roles => $SESS->{roles} );
+        $m->comp( "/zaapt/model/$model/$a.mhtml", %ARGS, zaapt => $ZAAPT, roles => $SESS->{roles}, my_roles => $SESS->{roles} );
     }
     else {
         $m->clear_buffer();

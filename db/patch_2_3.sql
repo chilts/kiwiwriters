@@ -2,14 +2,10 @@ BEGIN;
 
 -- ----------------------------------------------------------------------------
 
--- get the 'base' table and the 'updated' function from zaapt
-
--- \i /usr/share/zaapt/store/Pg/create_zaapt.sql
--- \i /usr/share/zaapt/store/Pg/create_account.sql
--- \i /usr/share/zaapt/store/Pg/create_content.sql
-\i /home/andy/svn/google/zaapt/trunk/store/Pg/create_zaapt.sql
-\i /home/andy/svn/google/zaapt/trunk/store/Pg/create_account.sql
-\i /home/andy/svn/google/zaapt/trunk/store/Pg/create_content.sql
+-- create the Zaapt tables
+\i /usr/share/zaapt/store/Pg/create_zaapt.sql
+\i /usr/share/zaapt/store/Pg/create_account.sql
+\i /usr/share/zaapt/store/Pg/create_content.sql
 
 -- ----------------------------------------------------------------------------
 

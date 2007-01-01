@@ -28,6 +28,9 @@
             my $roles = $model->sel_roles_for_account({ a_id => $account->{a_id} });
             foreach my $role ( @$roles ) {
                 $SESS->{roles}{$role->{r_id}} = $role->{r_name};
+                if ( $role->{r_name} eq 'super' ) {
+                    $SESS->{roles}{super} = $role->{r_id};
+                }
             }
 
             $m->redirect('/my/');

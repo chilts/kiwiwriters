@@ -32,7 +32,7 @@ EOF
     );
 
     Mail::Sendmail::sendmail(%mail)
-        || die "Error sending mail: $Mail::Sendmail::error";    
+        || die "Error sending mail: $Mail::Sendmail::error";
 <%init>
 %# ----------------------------------------------------------------------------
 %# ----------------------------------------------------------------------------

@@ -19,6 +19,8 @@
     PerlModule Apache::Request
     PerlModule Apache::DBI
     PerlModule Apache::Cookie
+    PerlModule Apache::Session
+    PerlModule Apache::Session::Postgres
     PerlModule Config::Simple
     PerlModule WebApp::Session
     PerlModule Zaapt
