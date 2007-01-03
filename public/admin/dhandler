@@ -2,6 +2,7 @@
 <%once>
     my $models = {
         account => 1,
+        blog => 1,
         content => 1,
         faq => 1,
     };

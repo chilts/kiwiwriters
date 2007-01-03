@@ -67,6 +67,8 @@ password = <% $password | h %>
 </form>
 </div>
 
+% if ( 0 ) {
+
 <h2>Forgotten your password?</h2>
 
 <p>
@@ -89,6 +91,8 @@ password = <% $password | h %>
     plain text. This means that we can only reset your password - we cannot
     send you your current one.
 </p>
+
+% }
 %# ----------------------------------------------------------------------------
 <%flags>
     inherit => 'althandler'

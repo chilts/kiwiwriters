@@ -9,13 +9,18 @@
         {
             section => 'info',
             href => '/info/',
-            text => 'Information',
+            text => 'Info',
         },
         {
             section => 'faq',
             href => '/faq/',
-            text => 'FAQ',
+            text => 'FAQs',
         },
+#        {
+#            section => 'blogs',
+#            href => '/blogs/',
+#            text => 'Blogs',
+#        },
     ];
 </%once>
 %# ----------------------------------------------------------------------------
