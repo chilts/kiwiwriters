@@ -21,7 +21,7 @@
             $is_confirmed = 1;
         }
         else {
-            $err = 'Username/Confirmation code not found';
+            $err = 'Username/Confirmation code not found. If you have already confirmed your account you do not need to do it again.';
         }
     }
 </%init>
@@ -32,8 +32,6 @@
 <p>
     Your account has been confirmed, you may proceed to <a href="sign-in.html">sign in</a>.
 </p>
-
-<& comp/form_sign-in.mhtml, username => $username &>
 
 % } else {
 <h1>...confirm your email</h1>
@@ -53,7 +51,7 @@
     Code<br />
     <input type="text" name="code" value="<% $code || '' | h %>"/><br />
     <br />
-    <input type="submit" name="action" value="Confirm Email" /><br />
+    <input type="submit" name="action" value="Confirm Sign Up" /><br />
 </form>
 </div>
 
