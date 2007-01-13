@@ -39,24 +39,30 @@
     ];
     my $menus_new = [
         {
-            text => 'Announcements',
-            href => "/my/forum/#announcements",
-            submenus => [],
+            text => 'Forums',
+            href => "/my/forum/",
+            submenus => [
+                {
+                    text => 'Announcements',
+                    href => "/my/forum/#announcements",
+                },
+                {
+                    text => 'General',
+                    href => "/my/forum/#general",
+                },
+                {
+                    text => 'Challenges',
+                    href => "/my/forum/#challenges",
+                },
+                {
+                    text => 'Write, Write, Write',
+                    href => "/my/forum/#write-write-write",
+                },
+            ],
         },
         {
-            text => 'General',
-            href => "/my/forum/#general",
-            submenus => [],
-        },
-        {
-            text => 'Challenges',
-            href => "/my/forum/#challenges",
-            submenus => [],
-        },
-        {
-            text => 'Write, Write, Write',
-            href => "/my/forum/#write-write-write",
-            submenus => [],
+            text => 'Sign Out',
+            href => '/my/sign-out.html',
         },
     ];
 </%once>

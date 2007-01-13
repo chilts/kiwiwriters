@@ -14,7 +14,7 @@
 % foreach my $menu ( @$menus ) {
         <a class="nav" href="<% $menu->{href} %>"><% $menu->{text} %></a><br class="hide" />
 %     foreach my $submenu ( @{$menu->{submenus}} ) {
-        <a class="nav sub" href="<% $submenu->{href} %>">- <% $submenu->{text} | h %></a><br class="hide" />
+        <a class="nav sub" href="<% $submenu->{href} %>"><% $submenu->{text} | h %></a><br class="hide" />
 %     }
 % }
     </p>
