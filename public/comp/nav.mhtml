@@ -16,10 +16,17 @@
             href => '/faq/',
             text => 'FAQs',
         },
+    ];
+    my $right = [
+        {
+            section => 'my',
+            href => '/my/',
+            text => 'My Pages',
+        },
 #        {
-#            section => 'blogs',
-#            href => '/blogs/',
-#            text => 'Blogs',
+#            section => 'forum',
+#            href => '/my/forum/',
+#            text => 'Forums',
 #        },
     ];
 </%once>
@@ -31,7 +38,9 @@
 % }
     </ul>
     <ul style="float: right;">
-        <li <% $m->request_comp->attr('section') eq 'my' ? ' id="current"' : '' %>><a href="/my/">My Pages</a></li>
+% foreach my $item ( @$right ) {
+        <li<% $m->request_comp->attr('section') eq $item->{section} ? ' id="current"' : '' %>><a href="<% $item->{href} %>"><% $item->{text} %></a></li>
+% }
     </ul>
     <p class="hide"><a href="#top">Back to top</a></p>
 </div>

@@ -6,10 +6,11 @@
             text => 'Models',
             href => '/admin/',
             submenus => [
-                { text => 'Account', href => '/admin/account/edit.html' },
+#                { text => 'Account', href => '/admin/account/edit.html' },
                 { text => 'Content', href => '/admin/content/edit.html' },
                 { text => 'Blog', href => '/admin/blog/edit.html' },
                 { text => 'FAQ', href => '/admin/faq/edit.html' },
+                { text => 'Forum', href => '/admin/forum/edit.html' },
                 { text => 'News', href => '/admin/news/edit.html' },
             ], 
         },

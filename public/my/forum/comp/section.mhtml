@@ -1,0 +1,33 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $section
+    $anchor => undef
+    $forums
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    $anchor = $section unless defined $anchor;
+</%init>
+%# ----------------------------------------------------------------------------
+    <tr class="r0"><td colspan="6"><a id="<% $anchor | u %>" name="<% $anchor | u %>"><% $section | h %></a></td></tr>
+% foreach my $forum ( @$forums ) {
+    <tr class="r1">
+        <td><& /zaapt/common/icon.mhtml, name => 'script' &></td>
+        <td>
+            <a href="<% $forum->{f_name} | h %>/"><% $forum->{f_title} | h %></a>
+            <p><% $forum->{f_description} | h %></p>
+        </td>
+        <td class="center"><% $forum->{f_topics} | h %></td>
+        <td class="center"><% $forum->{f_posts} | h %></td>
+        <td class="center nw">
+%     if ( defined $forum->{po_username} ) {
+            <& /zaapt/common/a_username.mhtml, a_username => $forum->{po_username} &>
+            <br style="clear: both;" />
+            <span class="footnote"><% $forum->{po_inserted} | h %></span>
+%     } else {
+            &nbsp;
+%     }
+        </td>
+    </tr>
+% }
+%# ----------------------------------------------------------------------------

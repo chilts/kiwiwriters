@@ -218,6 +218,10 @@ padding:0;
 }
 
 #content img,#contentalt img{
+border:0;
+}
+
+#content img.logo,#contentalt img.logo{
 border:1px solid #fa9035;
 float:left;
 margin:5px 15px 6px;
@@ -338,12 +342,37 @@ color:#101010;
 text-align:center;
 }
 
+.right{
+text-align:right;
+}
+
 .hide{
 display:none;
 }
 
+.floatright{
+float:right;
+}
+
+table {
+width: 100%;
+}
+
+th {
+background:url(/s/grad.png) repeat-x;
+}
+
+th, td {
+padding: 0.25em 0.5em;
+margin: 0;
+}
+
 table.edit{
 width:100%;
+}
+
+th{ 
+text-align:center;
 }
 
 th.list{ 
@@ -354,16 +383,20 @@ th.action{
 width:30%;
 }
 
-td{ 
-padding:2px 6px;
-}
-
 .r0{
 background-color:#e7e7e7;
 }
 
 .r1{
 background-color:#f0f0f0;
+}
+
+.nw{
+white-space: nowrap;
+}
+
+.top{
+vertical-align: top;
 }
 
 .r{
@@ -388,4 +421,9 @@ width:75%;
 .footnote{
 color:#808080;
 text-align: right;
+font-size:0.85em;
+}
+
+.bbcode-u{
+text-decoration: underline;
 }

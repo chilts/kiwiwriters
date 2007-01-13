@@ -1,0 +1,33 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $a          => ''
+    $tp_subject => ''
+    $p_message  => ''
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    my $t_id;
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my ($name) = $m->dhandler_arg() =~ m{ \A (.+) \. html \z }xms;
+    # return if $m->cache_self( key => $name, expire_in => '10s' );
+
+    # if we don't have the t_id yet, then let's get it now
+    unless ( defined $t_id ) {
+        my $common = $ZAAPT->get_model('Common');
+        my $type = $common->sel_type_using_name({ t_name => 'bbcode' });
+        $t_id = $type->{t_id};
+    }
+
+    $m->comp('/zaapt/model/forum/view.mhtml',
+        %ARGS,
+        zaapt => $ZAAPT,
+        f_name => 'w4',
+        page => $name,
+        a_id => $SESS->{id},
+        t_id => $t_id
+    );
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

@@ -1,0 +1,4 @@
+<%args>
+    $a_username
+</%args>
+<a href="/u/<% $a_username | h %>.html"><% $a_username %></a>\

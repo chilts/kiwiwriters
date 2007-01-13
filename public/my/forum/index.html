@@ -1,0 +1,61 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $ZAAPT->get_model('Forum');
+    my $forums = $model->sel_forums_all();
+    # get a hash of the forums
+    my $h = {};
+    foreach my $forum ( @$forums ) {
+        $h->{$forum->{f_name}} = $forum;
+    }
+    $forums = [];
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Forums</h1>
+
+<table>
+    <tr class="r0">
+        <th colspan="2">Forum</th>
+        <th>Topics</th>
+        <th>Posts</th>
+        <th class="nw">Last Post</th>
+    </tr>
+<& comp/section.mhtml,
+    section => 'Announcements',
+    anchor => 'announcements',
+    forums => [
+        $h->{announcements},
+        $h->{achievements},
+        $h->{contests},
+    ],
+&>
+<& comp/section.mhtml,
+    section => 'General',
+    anchor => 'general',
+    forums => [
+        $h->{general},
+        $h->{introductions},
+        $h->{'how-do-i'},
+        $h->{'help-help'},
+    ],
+&>
+<& comp/section.mhtml,
+    section => 'Challenges',
+    anchor => 'challenges',
+    forums => [
+        $h->{challenges},
+        $h->{w4},
+    ],
+&>
+<& comp/section.mhtml,
+    section => 'Write Write Write',
+    anchor => 'write-write-write',
+    forums => [
+        $h->{preparation},
+        $h->{'write-it'},
+        $h->{editing},
+        $h->{'preparation-and-review'},
+        $h->{submission},
+    ],
+&>
+</table>
+%# ----------------------------------------------------------------------------

@@ -337,6 +337,10 @@ color:#101010;
 text-align:center;
 }
 
+.right{
+text-align:right;
+}
+
 .hide{
 display:none;
 }
