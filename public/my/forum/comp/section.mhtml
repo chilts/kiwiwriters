@@ -25,7 +25,7 @@
             <br style="clear: both;" />
             <span class="footnote"><% $forum->{po_inserted} | h %></span>
 %     } else {
-            &nbsp;
+            No Posts
 %     }
         </td>
     </tr>

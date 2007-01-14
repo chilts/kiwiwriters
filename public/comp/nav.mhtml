@@ -16,6 +16,11 @@
             href => '/faq/',
             text => 'FAQs',
         },
+        {
+            section => 'news',
+            href => '/news/',
+            text => 'News',
+        },
     ];
     my $right = [
         {
@@ -23,11 +28,11 @@
             href => '/my/',
             text => 'My Pages',
         },
-#        {
-#            section => 'forum',
-#            href => '/my/forum/',
-#            text => 'Forums',
-#        },
+        {
+            section => 'forum',
+            href => '/my/forum/',
+            text => 'Forums',
+        },
     ];
 </%once>
 %# ----------------------------------------------------------------------------
