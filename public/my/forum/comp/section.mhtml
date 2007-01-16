@@ -9,7 +9,7 @@
     $anchor = $section unless defined $anchor;
 </%init>
 %# ----------------------------------------------------------------------------
-    <tr class="r0"><td colspan="6"><a id="<% $anchor | u %>" name="<% $anchor | u %>"><% $section | h %></a></td></tr>
+    <tr class="r0"><td colspan="6"><a id="<% $anchor | u %>" name="<% $anchor | u %>"></a><% $section | h %></td></tr>
 % foreach my $forum ( @$forums ) {
     <tr class="r1">
         <td><& /zaapt/common/icon.mhtml, name => 'script' &></td>
