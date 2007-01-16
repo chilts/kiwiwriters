@@ -6,9 +6,31 @@
             text => 'My Pages',
             href => '/my/',
             submenus => [
-                { text => 'Fun Stuff', href => '#' },
-                { text => 'Participation Icons', href => '#' },
+                { text => 'Edit Account Info', href => '#' },
+                { text => 'Edit Profile', href => '#' },
             ], 
+        },
+        {
+            text => 'Forums',
+            href => "/my/forum/",
+            submenus => [
+                {
+                    text => 'Announcements',
+                    href => "/my/forum/#announcements",
+                },
+                {
+                    text => 'General',
+                    href => "/my/forum/#general",
+                },
+                {
+                    text => 'Challenges',
+                    href => "/my/forum/#challenges",
+                },
+                {
+                    text => 'Write, Write, Write',
+                    href => "/my/forum/#write-write-write",
+                },
+            ],
         },
         {
             text => 'Sign Out',

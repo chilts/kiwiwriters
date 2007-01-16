@@ -6,8 +6,8 @@
             text => 'FAQ',
             href => '/faq/',
             submenus => [
-                { text => 'About', href => '/faq/about.html' },
                 { text => 'Basics', href => '/faq/basics.html' },
+                { text => 'About', href => '/faq/about.html' },
             ], 
         }
     ];
@@ -23,6 +23,6 @@
 %# ----------------------------------------------------------------------------
 <%attr>
     section => 'faq'
-    right => 1
+    right => 0
 </%attr>
 %# ----------------------------------------------------------------------------

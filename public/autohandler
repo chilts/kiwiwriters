@@ -7,8 +7,10 @@
             href => '/',
             submenus => [
                 { text => 'About', href => '/about.html' },
+                { text => 'Staff', href => '/staff.html' },
                 { text => 'Credits', href => '/credits.html' },
-                { text => 'Contact', href => '/contact.html' },
+                { text => 'FAQ', href => '/faq/faq.html' },
+#                { text => 'Contact', href => '/contact.html' },
             ], 
         }
     ];

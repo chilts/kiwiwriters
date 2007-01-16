@@ -5,8 +5,7 @@
     $r->content_type('text/html');
     # return if $m->cache_self( key => $name, expire_in => '10s' );
 
-    $m->comp('/zaapt/model/content/view.mhtml', zaapt => $ZAAPT, c_name => 'info', 
-p_name => $name);
+    $m->comp('/zaapt/model/content/view.mhtml', zaapt => $ZAAPT, c_name => 'info', page => $name);
     return;
 </%init>
 %# ----------------------------------------------------------------------------

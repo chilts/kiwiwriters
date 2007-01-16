@@ -6,20 +6,20 @@
             href => '/',
             text => 'Home',
         },
-        {
-            section => 'info',
-            href => '/info/',
-            text => 'Info',
-        },
-        {
-            section => 'faq',
-            href => '/faq/',
-            text => 'FAQs',
-        },
+#        {
+#            section => 'info',
+#            href => '/info/',
+#            text => 'Info',
+#        },
         {
             section => 'news',
-            href => '/news/',
+            href => '/news/site/',
             text => 'News',
+        },
+        {
+            section => 'forum',
+            href => '/my/forum/',
+            text => 'Forums',
         },
     ];
     my $right = [
@@ -27,11 +27,6 @@
             section => 'my',
             href => '/my/',
             text => 'My Pages',
-        },
-        {
-            section => 'forum',
-            href => '/my/forum/',
-            text => 'Forums',
         },
     ];
 </%once>

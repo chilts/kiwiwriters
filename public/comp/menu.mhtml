@@ -6,9 +6,6 @@
 %# ----------------------------------------------------------------------------
 <div id="leftside">
     <a id="sectionmenu"></a>
-% if ( defined $intro ) {
-    <p class="soft"><% $intro | h %></p>
-% }
     <h1>Menu:</h1>
     <p class="menublock">
 % foreach my $menu ( @$menus ) {
