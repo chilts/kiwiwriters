@@ -4,7 +4,7 @@
     my $menus = [
         {
             text => 'FAQ',
-            href => '/faq/',
+            href => '/faq/faq.html',
             submenus => [
                 { text => 'Basics', href => '/faq/basics.html' },
                 { text => 'About', href => '/faq/about.html' },
