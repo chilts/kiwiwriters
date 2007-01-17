@@ -1,0 +1,32 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $action    => ''
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model;
+    my $profile;
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Edit your profile</h1>
+
+<& /zaapt/common/form.mhtml, action => '?', elements => [
+        { type => 'hidden', name => 'action', value => 'update' },
+        { type => 'text', field => 'Age', name => 'age', size => 3, maxlength => 3, value => '' },
+        { type => 'text', field => 'Website', name => 'website', size => 30, maxlength => 50, value => '' },
+        { type => 'text', field => 'Location', name => 'location', size => 30, maxlength => 30, value => '' },
+        { type => 'text', field => 'Favourite Novelists', name => 'fav_novelists', size => 30, maxlength => 30, value => '' },
+        { type => 'text', field => 'Favourite Music', name => 'fav_music', size => 30, maxlength => 30, value => '' },
+        { type => 'text', field => 'Other Interests', name => 'other', size => 30, maxlength => 30, value => '' },
+        { type => 'textarea', field => 'Signature', name => 'signature', rows => 4, cols => 40, value => '' },
+        { type => 'submit', field => '', value => 'Save Changes' },
+    ]
+&>
+
+% if ( 0 ) {
+<pre>
+% print Data::Dumper->Dump([$profile], ['p']);
+</pre>
+% }
+
+%# ----------------------------------------------------------------------------

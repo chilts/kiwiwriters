@@ -1,0 +1,57 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $action    => ''
+    $password  => ''
+    $repeat    => ''
+    $firstname => ''
+    $lastname  => ''
+    $email     => ''
+    $notify    => ''
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $ZAAPT->get_model('Account');
+    my $account = $model->sel_account({ a_id => $SESS->{id} });
+
+    if ( $action eq 'update' ) {
+        # here
+    }
+    elsif ( $action eq 'password' ) {
+        # here
+    }
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Edit your Account Info</h1>
+
+<& /zaapt/common/form.mhtml, action => '?', elements => [
+        { type => 'hidden', name => 'action', value => 'update' },
+        { type => 'text', field => 'Firstname', name => 'firstname', size => 30, maxlength => 30, value => $account->{a_firstname} },
+        { type => 'text', field => 'Lastname', name => 'lastname', size => 30, maxlength => 30, value => $account->{a_lastname} },
+        { type => 'text', field => 'Email', name => 'email', size => 30, maxlength => 30, value => $account->{a_email} },
+        {
+            type => 'radio',
+            field => 'Receive Site Notifications',
+            name => 'notify',
+            options => [ { name => 'Yes', value => 1 }, { name => 'No', value => 0 } ],
+            checked => $account->{a_notify},
+        },
+        { type => 'submit', field => '', value => 'Save Changes' },
+    ]
+&>
+
+<h1>Change Password</h1>
+
+<& /zaapt/common/form.mhtml, action => '?', elements => [
+        { type => 'hidden', name => 'action', value => 'password' },
+        { type => 'password', field => 'Password', name => 'password', size => 30, maxlength => 30, value => '' },
+        { type => 'password', field => 'Repeat', name => 'repeat', size => 30, maxlength => 30, value => '' },
+        { type => 'submit', field => '', value => 'Save Changes' },
+    ]
+&>
+
+% if ( 0 ) {
+<pre>
+% print Data::Dumper->Dump([$account], ['a']);
+</pre>
+% }
+%# ----------------------------------------------------------------------------
