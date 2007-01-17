@@ -399,10 +399,17 @@ white-space: nowrap;
 vertical-align: top;
 }
 
-.r{
+.key{
 vertical-align:top;
 text-align:right;
 font-weight:bold;
+width: 25%;
+}
+
+.val{
+vertical-align:top;
+text-align:left;
+width: 75%;
 }
 
 .err{ 
