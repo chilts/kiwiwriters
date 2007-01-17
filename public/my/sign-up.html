@@ -5,7 +5,7 @@
     $password  => ''
     $repeat    => ''
     $email     => ''
-    $notify    => ''
+    $notify    => 1
     $firstname => ''
     $lastname  => ''
 </%args>
@@ -152,7 +152,7 @@ EOF
     <input type="text" name="email" value="<% $email || '' | h %>" /><br />
     Receive Site Notifications?<br />
     <input type="radio" name="notify" value="1"<% $notify ? ' checked="checked"' : '' %> />Yes
-    <input type="radio" name="notify" value="0"<% $notify ? ' checked="checked"' : '' %> />No
+    <input type="radio" name="notify" value="0"<% $notify ? '' : ' checked="checked"' %> />No
     <br />
     <input type="submit" name="action" value="Join Us!" /><br />
 </form>
