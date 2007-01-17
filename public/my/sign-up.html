@@ -23,7 +23,7 @@
     # someone is trying to sign up
     if ( $action ne '' ) {
         # turn notify into a boolean
-        $notify = ( $notify eq 'true' ? 1 : 0 );
+        $notify = ( $notify eq '1' ? 1 : 0 );
 
         # check that the username consists only of lowercase letters, numbers and the dash
         $username = lc $username;
