@@ -1,27 +1,82 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $action    => ''
-    $password  => ''
-    $repeat    => ''
     $firstname => ''
     $lastname  => ''
     $email     => ''
-    $notify    => ''
+    $notify    => 1
+    $password  => ''
+    $repeat    => ''
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
     my $model = $ZAAPT->get_model('Account');
     my $account = $model->sel_account({ a_id => $SESS->{id} });
 
+    my $err_info = [];
+    my $err_pass = [];
+
     if ( $action eq 'update' ) {
-        # here
+        # turn notify into a boolean
+        $notify = ( $notify eq '1' ? 1 : 0 );
+
+        my $empty = 0;
+        foreach ( $firstname, $lastname, $email ) {
+            $empty++ unless m{ \S }xms;
+        }
+        push @$err_info, "At least one field is blank, please enter all fields" if $empty;
+
+        unless ( @$err_info ) {
+            my $model = $ZAAPT->get_model('Account');
+            $model->upd_account({
+                a_firstname => $firstname,
+                a_lastname  => $lastname,
+                a_email     => $email,
+                a_notify    => $notify,
+                a_id        => $SESS->{id},
+            });
+            $SESS->{firstname} = $firstname;
+            $SESS->{lastname} = $lastname;
+            $SESS->{email} = $email;
+            $SESS->{notify} = $notify;
+            $m->clear_buffer();
+            $m->redirect('?');
+            return;
+        }
     }
     elsif ( $action eq 'password' ) {
-        # here
+        # check the passwords are okay
+
+        my $empty = 0;
+        foreach ( $password, $repeat ) {
+            $empty++ unless m{ \S }xms;
+        }
+        push @$err_pass, "At least one field is blank, please enter all fields" if $empty;
+
+        unless ( $password eq $repeat ) {
+            push @$err_pass, "Password and the repeat are not the same, please re-type";
+        }
+
+        unless ( length $password >= 6 ) {
+            push @$err_pass, "Password must be at least 6 characters long.";
+        }
+
+        unless ( @$err_pass ) {
+            my $model = $ZAAPT->get_model('Account');
+            $model->upd_password({
+                a_password => $password,
+                a_id       => $SESS->{id},
+            });
+            $m->clear_buffer();
+            $m->redirect('?');
+            return;
+        }
     }
 </%init>
 %# ----------------------------------------------------------------------------
 <h1>Edit your Account Info</h1>
+
+<& /zaapt/common/err.mhtml, err => $err_info &>
 
 <& /zaapt/common/form.mhtml, action => '?', elements => [
         { type => 'hidden', name => 'action', value => 'update' },
@@ -40,6 +95,8 @@
 &>
 
 <h1>Change Password</h1>
+
+<& /zaapt/common/err.mhtml, err => $err_pass &>
 
 <& /zaapt/common/form.mhtml, action => '?', elements => [
         { type => 'hidden', name => 'action', value => 'password' },
