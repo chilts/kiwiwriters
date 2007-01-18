@@ -1,4 +1,10 @@
 %# ----------------------------------------------------------------------------
+<%args>
+    $a          => ''
+    $tp_subject => ''
+    $p_message  => ''
+</%args>
+%# ----------------------------------------------------------------------------
 <%once>
     my $t_id;
 </%once>
@@ -17,8 +23,8 @@
     $m->comp('/zaapt/model/forum/view.mhtml',
         %ARGS,
         zaapt => $ZAAPT,
-        f_name => 'w4',
-        page => 'index',
+        f_name => 'wwww',
+        page => $name,
         a_id => $SESS->{id},
         t_id => $t_id
     );
