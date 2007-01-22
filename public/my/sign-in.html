@@ -33,6 +33,9 @@
                 }
             }
 
+            # update last login info
+            $model->upd_last_login({ a_id => $account->{a_id} });
+
             $m->redirect('/my/');
             return;
         }
