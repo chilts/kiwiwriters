@@ -23,7 +23,7 @@
 %     if ( defined $forum->{po_username} ) {
             <& /zaapt/common/a_username.mhtml, a_username => $forum->{po_username} &>
             <br style="clear: both;" />
-            <span class="footnote"><% $forum->{tp_updated} | h %></span>
+            <span class="footnote"><% $forum->{f_updated} | h %></span>
 %     } else {
             No Posts
 %     }
