@@ -17,10 +17,12 @@
     $m->comp('/zaapt/model/forum/view.mhtml',
         %ARGS,
         zaapt => $ZAAPT,
-        f_name => 'write-it',
+        my_roles => $SESS->{roles},
+        f_name => '',
         page => 'index',
         a_id => $SESS->{id},
-        t_id => $t_id
+        t_id => $t_id,
+        last => $SESS->{last},
     );
     return;
 </%init>

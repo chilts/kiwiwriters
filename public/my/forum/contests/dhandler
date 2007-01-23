@@ -1,10 +1,4 @@
 %# ----------------------------------------------------------------------------
-<%args>
-    $a          => ''
-    $tp_subject => ''
-    $p_message  => ''
-</%args>
-%# ----------------------------------------------------------------------------
 <%once>
     my $t_id;
 </%once>
@@ -23,6 +17,7 @@
     $m->comp('/zaapt/model/forum/view.mhtml',
         %ARGS,
         zaapt => $ZAAPT,
+        my_roles => $SESS->{roles},
         f_name => 'contests',
         page => $name,
         a_id => $SESS->{id},
