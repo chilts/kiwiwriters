@@ -20,7 +20,7 @@
         if ( defined $account ) {
             # use WebApp to manage the session for us and place some things in there
             WebApp::Session::sign_in( $SESS, $r, $DBH, 'session' );
-            foreach ( qw( id username firstname lastname email admin ) ) {
+            foreach ( qw( id username firstname lastname email admin logins last ) ) {
                 $SESS->{$_} = $account->{"a_$_"};
             }
 
