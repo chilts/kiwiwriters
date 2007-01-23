@@ -9,7 +9,6 @@
     use BBCode::Parser;
 </%once>
 %# ----------------------------------------------------------------------------
-% warn "$content\n";
 % if ( $t_name eq 'text' ) {
 %     my @paras = split /\n\n+/, $content;
 %     foreach my $para ( @paras ) {
