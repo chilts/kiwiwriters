@@ -39,13 +39,13 @@
 
         <& /comp/header.mhtml &>
         <& /comp/nav.mhtml &>
- 
+
         <div id="wrap1">
         <div id="wrap2">
 
         <& /comp/today.mhtml &>
 
-        <div id="leftside"><& SELF:.menu &></div>
+        <& SELF:.menu &>
 
 % if ( $m->request_comp->attr('right') ) {
         <& /comp/rightside.mhtml &>
