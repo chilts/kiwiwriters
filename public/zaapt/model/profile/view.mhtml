@@ -1,0 +1,29 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $a_id
+    $page
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    if ( $page eq '' ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+
+    if ( $page eq 'index' ) {
+        # main index page
+        $m->comp('/zaapt/model/profile/view-index.mhtml',
+            zaapt      => $zaapt,
+            a_id       => $a_id,
+        );
+    }
+    else {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

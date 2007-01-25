@@ -3,7 +3,12 @@
     my ($name) = $m->dhandler_arg() =~ m{ \A (.+) \. html \z }xms;
     # return if $m->cache_self( key => $name, expire_in => '10s' );
 
-    $m->comp('/zaapt/model/account/view.mhtml', zaapt => $ZAAPT, a_username => $name, page => 'index');
+    my $model = $ZAAPT->get_model('Account');
+    my $account = $model->sel_account_using_username({ a_username => $name });
+
+    # do all the different info
+    $m->comp('/zaapt/model/account/view.mhtml', zaapt => $ZAAPT, a_id => $account->{a_id}, page => 'index');
+    $m->comp('/zaapt/model/profile/view.mhtml', zaapt => $ZAAPT, a_id => $account->{a_id}, page => 'index');
     return;
 </%init>
 %# ----------------------------------------------------------------------------

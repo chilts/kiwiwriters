@@ -1,0 +1,12 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    # return if $m->cache_self( key => 'index', expire_in => '10s' );
+
+    $m->comp( '/zaapt/model/profile/user-edit.mhtml',
+        %ARGS,
+        zaapt => $ZAAPT,
+        a_id => $SESS->{id},
+    );
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

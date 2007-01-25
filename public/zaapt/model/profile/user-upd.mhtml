@@ -1,0 +1,72 @@
+%# ----------------------------------------------------------------------------
+<%doc>
+    Note: $my_roles is not a required arg, so make sure the person editing this
+    is allowed to.
+</%doc>
+%# ----------------------------------------------------------------------------
+<%once>
+    use Zaapt::Utils::Valid;
+</%once>
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $a_id         => undef
+    $p_age        => undef
+    $p_location   => undef
+    $p_website    => undef
+    $p_favauthors => undef
+    $p_favbooks   => undef
+    $p_signature  => undef
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Profile");
+    my $profile = $model->sel_profile({ a_id => $a_id });
+
+    $m->redirect('./') unless defined $profile;
+
+    my $err = [];
+    unless ( $p_age =~ m{ \A \d+ \z }xms ) {
+        push @$err, "please specify a valid age";
+    }
+
+    $p_favauthors =~ s{\r}{}gxms;
+    $p_favbooks =~ s{\r}{}gxms;
+    $p_signature =~ s{\r}{}gxms;
+
+    unless ( @$err ) {
+        $model->upd_profile({
+            p_age => $p_age,
+            p_location => $p_location,
+            p_website => $p_website,
+            p_favauthors => $p_favauthors,
+            p_favbooks => $p_favbooks,
+            p_signature => $p_signature,
+            a_id => $a_id,
+        });
+        $m->redirect("./");
+        return;
+    }
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Edit your profile</h1>
+
+<& /zaapt/common/form.mhtml, action => '?', elements => [
+        { type => 'hidden', name => 'action', value => 'update' },
+        { type => 'text', field => 'Age', name => 'age', size => 3, maxlength => 3, value => $p_age },
+        { type => 'text', field => 'Location', name => 'location', size => 30, maxlength => 30, value => $p_location },
+        { type => 'text', field => 'Website', name => 'website', size => 30, maxlength => 50, value => $p_website },
+        { type => 'textarea', field => 'Favourite Authors', name => 'favauthors', size => 30, maxlength => 30, value => $p_favauthors },
+        { type => 'textarea', field => 'Favourite Books', name => 'favbooks', size => 30, maxlength => 30, value => $p_favbooks },
+        { type => 'textarea', field => 'Signature', name => 'signature', rows => 4, cols => 40, value => $p_signature },
+        { type => 'submit', field => '', value => 'Save Changes' },
+    ]
+&>
+
+% if ( 0 ) {
+<pre>
+% print Data::Dumper->Dump([$profile], ['profile']);
+</pre>
+% }
+
+%# ----------------------------------------------------------------------------

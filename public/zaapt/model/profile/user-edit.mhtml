@@ -1,0 +1,46 @@
+%# ----------------------------------------------------------------------------
+<%doc>
+    Note: $my_roles is not a required arg, so make sure the person editing this
+    is allowed to.
+</%doc>
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $a_id => undef
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Profile");
+    my $profile = $model->sel_profile({ a_id => $a_id });
+
+    # check the error conditions first - we need to recover
+    unless ( defined $profile ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Edit your profile</h1>
+
+<a href="./">&laquo; Back to Profile</a>
+
+<& /zaapt/common/form.mhtml, action => 'user-upd.html', elements => [
+        { type => 'hidden', name => 'action', value => 'update' },
+        { type => 'text', field => 'Age', name => 'p_age', size => 3, maxlength => 3, value => $profile->{p_age} },
+        { type => 'text', field => 'Location', name => 'p_location', size => 30, maxlength => 30, value => $profile->{p_location} },
+        { type => 'text', field => 'Website', name => 'p_website', size => 30, maxlength => 50, value => $profile->{p_website} },
+        { type => 'textarea', field => 'Favourite Authors', name => 'p_favauthors', size => 30, maxlength => 30, value => $profile->{p_favauthors} },
+        { type => 'textarea', field => 'Favourite Books', name => 'p_favbooks', size => 30, maxlength => 30, value => $profile->{p_favbooks} },
+        { type => 'textarea', field => 'Signature', name => 'p_signature', rows => 4, cols => 40, value => $profile->{p_signature} },
+        { type => 'submit', field => '', value => 'Save Changes' },
+    ]
+&>
+
+% if ( 0 ) {
+<pre>
+% print Data::Dumper->Dump([$profile], ['p']);
+</pre>
+% }
+
+%# ----------------------------------------------------------------------------

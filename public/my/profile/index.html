@@ -1,16 +1,15 @@
 %# ----------------------------------------------------------------------------
 <%init>
     # return if $m->cache_self( key => 'index', expire_in => '10s' );
-</%init>
-%# ----------------------------------------------------------------------------
-<h1>Profile Information</h1>
 
-<& /zaapt/model/profile/view.mhtml,
+    $m->comp( '/zaapt/model/profile/view.mhtml',
         a_id => $SESS->{id},
         zaapt => $ZAAPT,
         page => 'index',
-&>
+    );
+</%init>
+%# ----------------------------------------------------------------------------
 
-<p><a href="profile-edit.html">Edit this profile &raquo;</a></p>
+<p><a href="user-edit.html">Edit this profile &raquo;</a></p>
 
 %# ----------------------------------------------------------------------------
