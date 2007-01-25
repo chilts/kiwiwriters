@@ -6,7 +6,7 @@
             text => 'My Pages',
             href => '/my/',
             submenus => [
-                { text => 'Edit Account Info', href => 'account.html' },
+                { text => 'Edit Account Info', href => '/my/account.html' },
                 { text => 'View Profile', href => '/my/profile/' },
                 { text => 'Edit Profile', href => '/my/profile/user-edit.html' },
             ], 
