@@ -30,8 +30,8 @@
         { type => 'text', field => 'Age', name => 'p_age', size => 3, maxlength => 3, value => $profile->{p_age} },
         { type => 'text', field => 'Location', name => 'p_location', size => 30, maxlength => 30, value => $profile->{p_location} },
         { type => 'text', field => 'Website', name => 'p_website', size => 30, maxlength => 50, value => $profile->{p_website} },
-        { type => 'textarea', field => 'Favourite Authors', name => 'p_favauthors', size => 30, maxlength => 30, value => $profile->{p_favauthors} },
-        { type => 'textarea', field => 'Favourite Books', name => 'p_favbooks', size => 30, maxlength => 30, value => $profile->{p_favbooks} },
+        { type => 'textarea', field => 'Favourite Authors', name => 'p_favauthors', rows => 4, cols => 40, value => $profile->{p_favauthors} },
+        { type => 'textarea', field => 'Favourite Books', name => 'p_favbooks', rows => 4, cols => 40, value => $profile->{p_favbooks} },
         { type => 'textarea', field => 'Signature', name => 'p_signature', rows => 4, cols => 40, value => $profile->{p_signature} },
         { type => 'submit', field => '', value => 'Save Changes' },
     ]

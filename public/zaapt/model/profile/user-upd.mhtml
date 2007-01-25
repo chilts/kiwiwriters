@@ -56,8 +56,8 @@
         { type => 'text', field => 'Age', name => 'age', size => 3, maxlength => 3, value => $p_age },
         { type => 'text', field => 'Location', name => 'location', size => 30, maxlength => 30, value => $p_location },
         { type => 'text', field => 'Website', name => 'website', size => 30, maxlength => 50, value => $p_website },
-        { type => 'textarea', field => 'Favourite Authors', name => 'favauthors', size => 30, maxlength => 30, value => $p_favauthors },
-        { type => 'textarea', field => 'Favourite Books', name => 'favbooks', size => 30, maxlength => 30, value => $p_favbooks },
+        { type => 'textarea', field => 'Favourite Authors', name => 'favauthors', rows => 4, cols => 40, value => $p_favauthors },
+        { type => 'textarea', field => 'Favourite Books', name => 'favbooks', rows => 4, cols => 40, value => $p_favbooks },
         { type => 'textarea', field => 'Signature', name => 'signature', rows => 4, cols => 40, value => $p_signature },
         { type => 'submit', field => '', value => 'Save Changes' },
     ]
