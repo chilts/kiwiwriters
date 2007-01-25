@@ -8,7 +8,7 @@
             submenus => [
                 { text => 'Edit Account Info', href => 'account.html' },
                 { text => 'View Profile', href => '/my/profile/' },
-                { text => 'Edit Profile', href => '/my/profile/edit.html' },
+                { text => 'Edit Profile', href => '/my/profile/user-edit.html' },
             ], 
         },
         {
