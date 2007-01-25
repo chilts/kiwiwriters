@@ -51,6 +51,8 @@
 %# ----------------------------------------------------------------------------
 <h1>Edit your profile</h1>
 
+<& /zaapt/common/err.mhtml, err => $err &>
+
 <& /zaapt/common/form.mhtml, action => '?', elements => [
         { type => 'hidden', name => 'action', value => 'update' },
         { type => 'text', field => 'Age', name => 'age', size => 3, maxlength => 3, value => $p_age },
