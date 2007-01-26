@@ -143,7 +143,7 @@ width:180px;
 
 #topbox{
 color:#808080;
-margin:0 0 4px;
+margin:0 0 35px;
 text-align:right;
 }
 
@@ -190,11 +190,11 @@ padding:2px;
 }
 
 #content{
-margin:45px 160px 0 180px;
+margin:0px 160px 0 180px;
 }
 
 #contentalt{
-margin:45px 15px 0 180px;
+margin:0px 15px 0 180px;
 }
 
 #content p,#contentalt p{

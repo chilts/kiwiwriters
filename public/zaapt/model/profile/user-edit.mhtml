@@ -26,7 +26,7 @@
 <a href="./">&laquo; Back to Profile</a>
 
 <& /zaapt/common/form.mhtml, action => 'user-upd.html', elements => [
-        { type => 'hidden', name => 'action', value => 'update' },
+        { type => 'hidden', name => 'act', value => 'update' },
         { type => 'text', field => 'Age', name => 'p_age', size => 3, maxlength => 3, value => $profile->{p_age} },
         { type => 'text', field => 'Location', name => 'p_location', size => 30, maxlength => 30, value => $profile->{p_location} },
         { type => 'text', field => 'Website', name => 'p_website', size => 30, maxlength => 50, value => $profile->{p_website} },

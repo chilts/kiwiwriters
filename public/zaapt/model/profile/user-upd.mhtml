@@ -44,7 +44,7 @@
             p_signature => $p_signature,
             a_id => $a_id,
         });
-        $m->redirect("./");
+        $m->redirect(".");
         return;
     }
 </%init>
@@ -54,7 +54,7 @@
 <& /zaapt/common/err.mhtml, err => $err &>
 
 <& /zaapt/common/form.mhtml, action => '?', elements => [
-        { type => 'hidden', name => 'action', value => 'update' },
+        { type => 'hidden', name => 'act', value => 'update' },
         { type => 'text', field => 'Age', name => 'age', size => 3, maxlength => 3, value => $p_age },
         { type => 'text', field => 'Location', name => 'location', size => 30, maxlength => 30, value => $p_location },
         { type => 'text', field => 'Website', name => 'website', size => 30, maxlength => 50, value => $p_website },

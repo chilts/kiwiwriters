@@ -43,17 +43,29 @@
 <%init>
     WebApp::Session::begin( $SESS, $r, $DBH, 'session' );
 
-    # all of the pages under /my/ requires access, so check first
+    # all of the pages under /my/ (with access restrictions) requires access, so check first
     if ( $m->request_comp->attr('sign_in_req') and !$SESS->{_signed_in} ) {
         $m->redirect('/my/sign-in.html');
         return;
     }
-
-    # we're signed in okay so continue...
-    $m->call_next();
-
-    WebApp::Session::end( $SESS, $r, $DBH, 'session' );
 </%init>
+%# ----------------------------------------------------------------------------
+
+% if ( $m->request_comp->attr('sign_in_req') ) {
+%     if ( $SESS->{_signed_in} ) {
+    <& comp/today.mhtml &>
+%     } else {
+    <& /comp/today.mhtml &>
+%     }
+% }
+
+% $m->call_next();
+
+%# ----------------------------------------------------------------------------
+<%perl>
+    # end the session
+    WebApp::Session::end( $SESS, $r, $DBH, 'session' );    
+</%perl>
 %# ----------------------------------------------------------------------------
 <%method .menu>
 <& /comp/menu.mhtml, intro => $intro, menus => $menus &>
@@ -62,5 +74,6 @@
 <%attr>
     section => 'my'
     sign_in_req => 1
+    right => 0
 </%attr>
 %# ----------------------------------------------------------------------------
