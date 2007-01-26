@@ -1,0 +1,10 @@
+<div id="topbox">
+    Username:
+    <a href="/u/<% $SESS->{username} | h %>.html"><% $SESS->{username} | h %></a>
+    -
+    <a href="/my/account.html">Account</a>
+    -
+    <a href="/my/profile/user-edit.html">Edit Profile</a>
+    -
+    <a href="/my/sign-out.html">Sign Out</a>
+</div>
