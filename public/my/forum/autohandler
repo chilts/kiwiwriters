@@ -1,79 +1,7 @@
 %# ----------------------------------------------------------------------------
-<%once>
-    my $intro = 'Welcome to the forums.';
-    my $menus = [
-        {
-            text => 'Announcements',
-            submenus => [
-                { text => 'Announcements', href => '/my/forum/announcements/' },
-                { text => 'Kiwi Writer Achievements', href => '/my/forum/achievements/' },
-                { text => 'Contests', href => '/my/forum/contests/' },
-            ], 
-        },
-        {
-            text => 'General',
-            submenus => [
-                { text => 'General Chat', href => '/my/forum/general/' },
-                { text => 'Introductions', href => '/my/forum/introductions/' },
-                { text => 'How Do ?', href => '/my/forum/how-do-i/' },
-                { text => 'Help! Help!', href => '/my/forum/help-help/' },
-            ], 
-        },
-        {
-            text => 'Challenges',
-            submenus => [
-                { text => 'Challenges', href => '/my/forum/challenges/' },
-                { text => 'Waitangi Weekend Word Wace', href => '/my/forum/w4/' },
-            ], 
-        },
-        {
-            text => 'Write, Write, Write',
-            submenus => [
-                { text => 'Preparation', href => '/my/forum/preparation/' },
-                { text => 'Write It', href => '/my/forum/write-it/' },
-                { text => 'Editing', href => '/my/forum/editing/' },
-                { text => 'Critique & Review', href => '/my/forum/critique-and-review/' },
-                { text => 'Submission', href => '/my/forum/submission/' },
-            ], 
-        },
-    ];
-    my $menus_new = [
-        {
-            text => 'Forums',
-            href => "/my/forum/",
-            submenus => [
-                {
-                    text => 'Announcements',
-                    href => "/my/forum/#announcements",
-                },
-                {
-                    text => 'General',
-                    href => "/my/forum/#general",
-                },
-                {
-                    text => 'Challenges',
-                    href => "/my/forum/#challenges",
-                },
-                {
-                    text => 'Write, Write, Write',
-                    href => "/my/forum/#write-write-write",
-                },
-            ],
-        },
-        {
-            text => 'Sign Out',
-            href => '/my/sign-out.html',
-        },
-    ];
-</%once>
-%# ----------------------------------------------------------------------------
 <%init>
     $m->call_next();
 </%init>
-%# ----------------------------------------------------------------------------
-<%method .menu>
-<& /comp/menu.mhtml, intro => $intro, menus => $menus_new &>
-</%method>
 %# ----------------------------------------------------------------------------
 <%attr>
     section => 'forum'
