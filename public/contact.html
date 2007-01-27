@@ -23,7 +23,7 @@
         },
     };
     my @options;
-    foreach my $to ( qw(contact admin) ) {
+    foreach my $to ( qw(contact webmaster) ) {
         push @options, { value => $to, name => "<strong>$contacts->{$to}{what}</strong><br />$contacts->{$to}{display}" };
     }
 </%once>
