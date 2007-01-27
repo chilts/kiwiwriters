@@ -1,6 +1,86 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $act     => undef
+    $name    => undef
+    $email   => undef
+    $to      => 'contact'
+    $subject => undef
+    $message => undef
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    use Mail::Sendmail qw();
+    my $contacts = {
+        contact => {
+            email   => 'contact@nanowrimo.org',
+            display => 'contact at nanowrimo dot org',
+            what    => 'General contact questions or information',
+        },
+        admin => {
+            email   => 'admin@nanowrimo.org',
+            display => 'admin at nanowrimo dot org',
+            what    => 'Website queries, bugs or suggestions',
+        },
+    };
+    my @options;
+    foreach my $to ( qw(contact admin) ) {
+        push @options, { value => $to, name => "<strong>$contacts->{$to}{what}</strong><br />$contacts->{$to}{display}" };
+    }
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $err = [];
+    if ( $act eq 'send' ) {
+        unless ( exists $contacts->{$to} ) {
+            push @$err, 'unknown to address';
+        }
+        unless ( $name =~ m{ \S }xms ) {
+            push @$err, 'please tell us your name';
+        }
+        unless ( $subject =~ m{ \S }xms ) {
+            push @$err, 'please type a subject';
+        }
+        unless ( $message =~ m{ \S }xms ) {
+            push @$err, 'please type a message';
+        }
+
+        $message =~ s{\r}{}gxms;
+
+        unless ( @$err ) {
+            my %mail;
+
+            # send this message to us
+            %mail = (
+                To => $contacts->{$to}{email},
+                From => $email,
+                Subject => $subject,
+                Message => $message,
+                'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
+            );
+
+            unless ( Mail::Sendmail::sendmail(%mail) ) {
+                warn "Error sending mail: $Mail::Sendmail::error";
+            }
+        }
+    }
+
+</%init>
+%# ----------------------------------------------------------------------------
 <h1>Contact Us</h1>
 
-<p>
-    This contact page will not be content managed but will instead have the
-    feedback form and suchlike. To be done.
-</p>
+<& /zaapt/common/err.mhtml, err => $err &>
+
+<p>Please fill in the details in this form, or just email any of the addresses as shown below.</p>
+
+<& /zaapt/common/form.mhtml, action => '?', elements => [
+        { type => 'hidden', name => 'act', value => 'send' },
+        { type => 'radio', field => 'To', name => 'to', br => 1, options => \@options, selected => $to, noesc => 1 },
+        { type => 'text', field => 'Your Name', name => 'name', size => 40, value => $name },
+        { type => 'text', field => 'Your Email', name => 'email', size => 40, value => $email },
+        { type => 'text', field => 'Subject', name => 'subject', size => 40, value => $subject },
+        { type => 'textarea', field => 'Message', name => 'message', rows => 10, cols => 40, value => $message },
+        { type => 'submit', field => 'Actions', value => 'Send Message' },
+    ]
+&>
+
+%# ----------------------------------------------------------------------------
