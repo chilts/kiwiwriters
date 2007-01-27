@@ -58,9 +58,15 @@
                 'X-Mailer' => "Mail::Sendmail version $Mail::Sendmail::VERSION",
             );
 
-            unless ( Mail::Sendmail::sendmail(%mail) ) {
-                warn "Error sending mail: $Mail::Sendmail::error";
+            if ( Mail::Sendmail::sendmail(%mail) ) {
+                $m->redirect('?act=sent');
+                $name = $email = $subject = $message = undef;
             }
+            else {
+                warn "Error sending mail: $Mail::Sendmail::error";
+                push @$err, "there was an error sending your mail, please try again later";
+            }
+
         }
     }
 
@@ -70,11 +76,15 @@
 
 <& /zaapt/common/err.mhtml, err => $err &>
 
+% if ( $act eq 'sent' ) {
+<p>Thank you very much for your feedback.</p>
+% }
+
 <p>Please fill in the details in this form, or just email any of the addresses as shown below.</p>
 
 <& /zaapt/common/form.mhtml, action => '?', elements => [
         { type => 'hidden', name => 'act', value => 'send' },
-        { type => 'radio', field => 'To', name => 'to', br => 1, options => \@options, selected => $to, noesc => 1 },
+        { type => 'radio', field => 'To', name => 'to', br => 1, options => \@options, checked => $to, noesc => 1 },
         { type => 'text', field => 'Your Name', name => 'name', size => 40, value => $name },
         { type => 'text', field => 'Your Email', name => 'email', size => 40, value => $email },
         { type => 'text', field => 'Subject', name => 'subject', size => 40, value => $subject },
