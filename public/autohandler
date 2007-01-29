@@ -12,6 +12,14 @@
                 { text => 'FAQ', href => '/faq/faq.html' },
                 { text => 'Contact', href => '/contact.html' },
             ], 
+        },
+        {
+            text => 'My Pages',
+            href => '/my/',
+            submenus => [
+                { text => 'Join Us!', href => '/my/sign-up.html' },
+                { text => 'Sign In', href => '/my/sign-in.html' },
+            ], 
         }
     ];
 </%once>
