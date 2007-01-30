@@ -22,11 +22,6 @@ my $upd_profile = __PACKAGE__->_mk_upd( 'profile.profile', 'account_id', qw(age 
 my $del_profile = __PACKAGE__->_mk_del('profile.profile', 'account_id');
 my $sel_profile = "SELECT $profile_cols FROM $profile_tablename WHERE p.account_id = ?";
 
-#print "i=$ins_profile\n";
-#print "u=$upd_profile\n";
-#print "s=$del_profile\n";
-#print "d=$sel_profile\n";
-
 ## ----------------------------------------------------------------------------
 # methods
 
@@ -37,7 +32,6 @@ sub ins_profile {
 
 sub upd_profile {
     my ($self, $hr) = @_;
-    warn Data::Dumper->Dump([$hr], ['hr']);
     $self->_do( $upd_profile, $hr->{p_age}, $hr->{p_location}, $hr->{p_website}, $hr->{p_favauthors}, $hr->{p_favbooks}, $hr->{a_id} );
 }
 
