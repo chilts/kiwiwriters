@@ -24,7 +24,6 @@
         { field => 'Website', value => $profile->{p_website}, type => 'url' },
         { field => 'Favourite Authors', value => $profile->{p_favauthors} },
         { field => 'Favourite Books', value => $profile->{p_favbooks} },
-        { field => 'Signature', value => $profile->{p_signature} },
     ]
 &>
 </div>

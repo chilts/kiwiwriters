@@ -32,7 +32,6 @@
         { type => 'text', field => 'Website', name => 'p_website', size => 30, maxlength => 50, value => $profile->{p_website} },
         { type => 'textarea', field => 'Favourite Authors', name => 'p_favauthors', rows => 4, cols => 40, value => $profile->{p_favauthors} },
         { type => 'textarea', field => 'Favourite Books', name => 'p_favbooks', rows => 4, cols => 40, value => $profile->{p_favbooks} },
-        { type => 'textarea', field => 'Signature', name => 'p_signature', rows => 4, cols => 40, value => $profile->{p_signature} },
         { type => 'submit', field => '', value => 'Save Changes' },
     ]
 &>

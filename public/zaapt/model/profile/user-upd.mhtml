@@ -16,7 +16,6 @@
     $p_website    => undef
     $p_favauthors => undef
     $p_favbooks   => undef
-    $p_signature  => undef
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
@@ -32,7 +31,6 @@
 
     $p_favauthors =~ s{\r}{}gxms;
     $p_favbooks =~ s{\r}{}gxms;
-    $p_signature =~ s{\r}{}gxms;
 
     unless ( @$err ) {
         $model->upd_profile({
@@ -41,7 +39,6 @@
             p_website => $p_website,
             p_favauthors => $p_favauthors,
             p_favbooks => $p_favbooks,
-            p_signature => $p_signature,
             a_id => $a_id,
         });
         $m->redirect(".");
@@ -60,7 +57,6 @@
         { type => 'text', field => 'Website', name => 'website', size => 30, maxlength => 50, value => $p_website },
         { type => 'textarea', field => 'Favourite Authors', name => 'favauthors', rows => 4, cols => 40, value => $p_favauthors },
         { type => 'textarea', field => 'Favourite Books', name => 'favbooks', rows => 4, cols => 40, value => $p_favbooks },
-        { type => 'textarea', field => 'Signature', name => 'signature', rows => 4, cols => 40, value => $p_signature },
         { type => 'submit', field => '', value => 'Save Changes' },
     ]
 &>

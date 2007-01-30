@@ -10,7 +10,6 @@ CREATE TABLE profile.profile (
     website         VARCHAR(255) NOT NULL DEFAULT '',
     favauthors      TEXT NOT NULL DEFAULT '',
     favbooks        TEXT NOT NULL DEFAULT '',
-    signature       TEXT NOT NULL DEFAULT '',
 
     LIKE base       INCLUDING DEFAULTS
 );

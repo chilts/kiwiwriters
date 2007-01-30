@@ -14,11 +14,11 @@ my $profile_tablename = "profile.profile p";
 
 
 # helper
-my $profile_cols = __PACKAGE__->_mk_cols( 'p', qw(account_id age location website favauthors favbooks signature ts:inserted ts:updated) );
+my $profile_cols = __PACKAGE__->_mk_cols( 'p', qw(account_id age location website favauthors favbooks ts:inserted ts:updated) );
 
 # profile
-my $ins_profile = __PACKAGE__->_mk_ins( 'profile.profile', qw(account_id age location website favauthors favbooks signature) );
-my $upd_profile = __PACKAGE__->_mk_upd( 'profile.profile', 'account_id', qw(age location website favauthors favbooks signature) );
+my $ins_profile = __PACKAGE__->_mk_ins( 'profile.profile', qw(account_id age location website favauthors favbooks) );
+my $upd_profile = __PACKAGE__->_mk_upd( 'profile.profile', 'account_id', qw(age location website favauthors favbooks) );
 my $del_profile = __PACKAGE__->_mk_del('profile.profile', 'account_id');
 my $sel_profile = "SELECT $profile_cols FROM $profile_tablename WHERE p.account_id = ?";
 
@@ -32,13 +32,13 @@ my $sel_profile = "SELECT $profile_cols FROM $profile_tablename WHERE p.account_
 
 sub ins_profile {
     my ($self, $hr) = @_;
-    $self->_do( $ins_profile, $hr->{a_id}, $hr->{p_age}, $hr->{p_location}, $hr->{p_website}, $hr->{p_favauthors}, $hr->{p_favbooks}, $hr->{signature} );
+    $self->_do( $ins_profile, $hr->{a_id}, $hr->{p_age}, $hr->{p_location}, $hr->{p_website}, $hr->{p_favauthors}, $hr->{p_favbooks} );
 }
 
 sub upd_profile {
     my ($self, $hr) = @_;
     warn Data::Dumper->Dump([$hr], ['hr']);
-    $self->_do( $upd_profile, $hr->{p_age}, $hr->{p_location}, $hr->{p_website}, $hr->{p_favauthors}, $hr->{p_favbooks}, $hr->{signature}, $hr->{a_id} );
+    $self->_do( $upd_profile, $hr->{p_age}, $hr->{p_location}, $hr->{p_website}, $hr->{p_favauthors}, $hr->{p_favbooks}, $hr->{a_id} );
 }
 
 sub del_profile {
