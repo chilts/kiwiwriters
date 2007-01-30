@@ -6,7 +6,7 @@
         return;
     }
 
-    WebApp::Session::sign_out( $SESS, $r );
+    WebApp::Session::sign_out( $SESS, $r, ".$CFG->{domain_name}" );
 
     # back to home
     $m->redirect('/my/');

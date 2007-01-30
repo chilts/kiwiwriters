@@ -15,6 +15,9 @@ case "$1" in
         CFG=/etc/kiwiwriters/config.m4
         echo "m4_changecom()m4_dnl" > $CFG
 
+        db_get kiwiwriters/domain_name
+        echo "m4_define(__DOMAIN_NAME__,$RET)m4_dnl" >> $CFG
+
         db_get kiwiwriters/server_name
         echo "m4_define(__SERVER_NAME__,$RET)m4_dnl" >> $CFG
 

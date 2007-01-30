@@ -41,7 +41,7 @@
 </%once>
 %# ----------------------------------------------------------------------------
 <%init>
-    WebApp::Session::begin( $SESS, $r, $DBH, 'session' );
+    WebApp::Session::begin( $SESS, $r, $DBH, 'session', ".$CFG->{domain_name}" );
 
     # all of the pages under /my/ (with access restrictions) requires access, so check first
     if ( $m->request_comp->attr('sign_in_req') and !$SESS->{_signed_in} ) {
@@ -64,7 +64,7 @@
 %# ----------------------------------------------------------------------------
 <%perl>
     # end the session
-    WebApp::Session::end( $SESS, $r, $DBH, 'session' );    
+    WebApp::Session::end( $SESS, $r, $DBH, 'session', ".$CFG->{domain_name}" );
 </%perl>
 %# ----------------------------------------------------------------------------
 <%method .menu>

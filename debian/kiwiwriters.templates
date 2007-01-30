@@ -1,6 +1,13 @@
+Template: kiwiwriters/domain_name
+Type: string
+Default: kiwiwriters.org
+Description: Domain Name
+ This is the domain name which this site will respond to - used for cookies.
+ Example: kiwiwriters.org
+
 Template: kiwiwriters/server_name
 Type: string
-Default: kiwiwriters.??.??
+Default: kiwiwriters.org
 Description: Website ServerName
  What domain name do you want this site to listen on
  Note that this is just the domain name, so for "http://my.site.com" you only
@@ -8,7 +15,7 @@ Description: Website ServerName
 
 Template: kiwiwriters/server_alias
 Type: string
-Default: www.kiwiwriters.??.??
+Default: www.kiwiwriters.org
 Description: Website ServerAlias
  If you would like to listen on another domain, enter that here.
  Note that this is just the domain name, so for "http://my.site.com" you only
