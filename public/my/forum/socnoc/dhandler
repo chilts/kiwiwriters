@@ -21,7 +21,8 @@
         f_name => 'socnoc',
         page => $name,
         a_id => $SESS->{id},
-        t_id => $t_id
+        t_id => $t_id,
+        last => $SESS->{last},
     );
     return;
 </%init>

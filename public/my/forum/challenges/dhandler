@@ -21,7 +21,8 @@
         f_name => 'challenges',
         page => $name,
         a_id => $SESS->{id},
-        t_id => $t_id
+        t_id => $t_id,
+        last => $SESS->{last},
     );
     return;
 </%init>

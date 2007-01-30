@@ -3,6 +3,7 @@
     $section
     $anchor => undef
     $forums
+    $last       => '9999-99-99 99:99:99'
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
@@ -12,7 +13,13 @@
     <tr class="r0"><td colspan="6"><a id="<% $anchor | u %>" name="<% $anchor | u %>"></a><% $section | h %></td></tr>
 % foreach my $forum ( @$forums ) {
     <tr class="r1">
-        <td><& /zaapt/common/icon.mhtml, name => 'script', title => 'Forum' &></td>
+        <td>
+%         if ( $last lt $forum->{f_updated} ) {
+            <& /zaapt/common/icon.mhtml, name => 'script_add', title => 'Forum with New Posts' &>
+%         } else {
+            <& /zaapt/common/icon.mhtml, name => 'script', title => 'Forum' &>
+%         }
+        </td>
         <td>
             <a href="<% $forum->{f_name} | h %>/"><% $forum->{f_title} | h %></a>
             <p><% $forum->{f_description} | h %></p>

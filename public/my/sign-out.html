@@ -6,6 +6,10 @@
         return;
     }
 
+    # update last login info
+    my $model = $ZAAPT->get_model('Account');
+    $model->upd_last({ a_id => $SESS->{id} });
+
     WebApp::Session::sign_out( $SESS, $r, ".$CFG->{domain_name}" );
 
     # back to home
