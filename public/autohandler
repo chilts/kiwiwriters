@@ -11,6 +11,7 @@
                 { text => 'Credits', href => '/credits.html' },
                 { text => 'FAQ', href => '/faq/faq.html' },
                 { text => 'Contact', href => '/contact.html' },
+                { text => 'Link to Us', href => '/link-to-us.html' },
             ], 
         },
         {
