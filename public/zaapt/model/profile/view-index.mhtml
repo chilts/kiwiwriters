@@ -13,6 +13,11 @@
         $m->abort(404);
         return;
     }
+
+    # check that the URL has a http:// in front
+    unless ( $profile->{p_website} =~ m{ \A http:// }xms ) {
+        $profile->{p_website} = "http://$profile->{p_website}";
+    }
 </%init>
 %# ----------------------------------------------------------------------------
 <div class="kw_profile">
