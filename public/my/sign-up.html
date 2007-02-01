@@ -80,6 +80,10 @@
                 # insert the code into the confirm table
                 $model->ins_confirm({ a_id => $account->{a_id}, c_code => $code });
 
+                # and create a profile for them
+                my $profile = $ZAAPT->get_model("KiwiWriters::Zaapt::Store::Pg::Profile");
+                $profile->ins_profile_skeleton({ a_id => $account->{a_id} });
+
                 # so far, this looks okay
                 my %mail = (
                     To => $email,

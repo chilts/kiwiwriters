@@ -18,6 +18,7 @@ my $profile_cols = __PACKAGE__->_mk_cols( 'p', qw(account_id age location websit
 
 # profile
 my $ins_profile = __PACKAGE__->_mk_ins( 'profile.profile', qw(account_id age location website favauthors favbooks) );
+my $ins_profile_skeleton = "INSERT INTO profile.profile(account_id) VALUES(?)";
 my $upd_profile = __PACKAGE__->_mk_upd( 'profile.profile', 'account_id', qw(age location website favauthors favbooks) );
 my $del_profile = __PACKAGE__->_mk_del('profile.profile', 'account_id');
 my $sel_profile = "SELECT $profile_cols FROM $profile_tablename WHERE p.account_id = ?";
@@ -28,6 +29,11 @@ my $sel_profile = "SELECT $profile_cols FROM $profile_tablename WHERE p.account_
 sub ins_profile {
     my ($self, $hr) = @_;
     $self->_do( $ins_profile, $hr->{a_id}, $hr->{p_age}, $hr->{p_location}, $hr->{p_website}, $hr->{p_favauthors}, $hr->{p_favbooks} );
+}
+
+sub ins_profile_skeleton {
+    my ($self, $hr) = @_;
+    $self->_do( $ins_profile_skeleton, $hr->{a_id} );
 }
 
 sub upd_profile {
