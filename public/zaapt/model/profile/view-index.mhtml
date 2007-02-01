@@ -15,7 +15,7 @@
     }
 
     # check that the URL has a http:// in front
-    unless ( $profile->{p_website} =~ m{ \A http:// }xms ) {
+    if ( $profile->{p_website} =~ m{ \S }xms and $profile->{p_website} !~ m{ \A http:// }xms ) {
         $profile->{p_website} = "http://$profile->{p_website}";
     }
 </%init>
