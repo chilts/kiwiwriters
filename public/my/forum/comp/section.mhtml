@@ -8,6 +8,7 @@
 %# ----------------------------------------------------------------------------
 <%init>
     $anchor = $section unless defined $anchor;
+    $last = '9999-99-99 99:99:99' unless defined $last;
 </%init>
 %# ----------------------------------------------------------------------------
     <tr class="r0"><td colspan="6"><a id="<% $anchor | u %>" name="<% $anchor | u %>"></a><% $section | h %></td></tr>
