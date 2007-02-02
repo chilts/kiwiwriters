@@ -3,15 +3,6 @@
     my $intro = 'Click on the name of the content you which to edit.';
     my $menus = [
         {
-            text => 'My Pages',
-            href => '/my/',
-            submenus => [
-                { text => 'Edit Account Info', href => '/my/account.html' },
-                { text => 'View Profile', href => '/my/profile/' },
-                { text => 'Edit Profile', href => '/my/profile/user-edit.html' },
-            ], 
-        },
-        {
             text => 'Forums',
             href => "/my/forum/",
             submenus => [
@@ -32,10 +23,6 @@
                     href => "/my/forum/#write-write-write",
                 },
             ],
-        },
-        {
-            text => 'Sign Out',
-            href => '/my/sign-out.html',
         },
     ];
 </%once>

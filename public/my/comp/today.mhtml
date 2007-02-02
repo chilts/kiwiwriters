@@ -4,7 +4,8 @@
     -
     <a href="/my/account.html">Account</a>
     -
-    <a href="/my/profile/user-edit.html">Edit Profile</a>
+    <a href="/my/profile/">Profile</a>
+    (<a href="/my/profile/user-edit.html">Edit</a>)
     -
     <a href="/my/sign-out.html">Sign Out</a>
 </div>
