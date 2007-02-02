@@ -14,16 +14,29 @@
         $t_id = $type->{t_id};
     }
 
-    $m->comp('/zaapt/model/forum/user.mhtml',
-        %ARGS,
-        zaapt => $ZAAPT,
-        my_roles => $SESS->{roles},
-        f_name => 'critique-and-review',
-        page => 'index',
-        a_id => $SESS->{id},
-        t_id => $t_id,
-        last => $SESS->{last},
-    );
+    # see if this person is logged in
+    if ( $SESS->{_signed_in} ) {
+        $m->comp('/zaapt/model/forum/user.mhtml',
+            %ARGS,
+            zaapt => $ZAAPT,
+            my_roles => $SESS->{roles},
+            f_name => 'critique-and-review',
+            page => 'index',
+            a_id => $SESS->{id},
+            t_id => $t_id,
+            last => $SESS->{last},
+        );
+    }
+    else {
+        $m->comp('/zaapt/model/forum/view.mhtml',
+            %ARGS,
+            zaapt => $ZAAPT,
+            f_name => 'critique-and-review',
+            page => 'index',
+            t_id => $t_id,
+        );
+    }
+
     return;
 </%init>
 %# ----------------------------------------------------------------------------
