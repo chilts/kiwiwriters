@@ -8,19 +8,67 @@
             submenus => [
                 {
                     text => 'Announcements',
-                    href => "/my/forum/#announcements",
+                    href => '/my/forum/announcements/',
+                },
+                {
+                    text => 'Achievements',
+                    href => '/my/forum/achievements/',
+                },
+                {
+                    text => 'Contests',
+                    href => '/my/forum/contests/',
                 },
                 {
                     text => 'General',
-                    href => "/my/forum/#general",
+                    href => '/my/forum/general/',
+                },
+                {
+                    text => 'Introductions',
+                    href => '/my/forum/introductions/',
+                },
+                {
+                    text => 'How Do I?',
+                    href => '/my/forum/how-do-i/',
+                },
+                {
+                    text => 'Help! Help!',
+                    href => '/my/forum/help-help/',
+                },
+                {
+                    text => 'Resources',
+                    href => '/my/forum/resources/',
                 },
                 {
                     text => 'Challenges',
-                    href => "/my/forum/#challenges",
+                    href => '/my/forum/challenges/',
                 },
                 {
-                    text => 'Write, Write, Write',
-                    href => "/my/forum/#write-write-write",
+                    text => 'wwwW',
+                    href => '/my/forum/wwww/',
+                },
+                {
+                    text => 'SoCNoC',
+                    href => '/my/forum/socnoc/',
+                },
+                {
+                    text => 'Preparation',
+                    href => '/my/forum/preparation/',
+                },
+                {
+                    text => 'Write It',
+                    href => '/my/forum/write-it/',
+                },
+                {
+                    text => 'Editing',
+                    href => '/my/forum/editing/',
+                },
+                {
+                    text => 'Critique and Review',
+                    href => '/my/forum/critique-and-review/',
+                },
+                {
+                    text => 'Submission',
+                    href => '/my/forum/submission/',
                 },
             ],
         },
