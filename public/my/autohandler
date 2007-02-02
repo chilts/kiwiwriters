@@ -38,12 +38,10 @@
 </%init>
 %# ----------------------------------------------------------------------------
 
-% if ( $m->request_comp->attr('sign_in_req') ) {
-%     if ( $SESS->{_signed_in} ) {
+% if ( $SESS->{_signed_in} ) {
     <& comp/today.mhtml &>
-%     } else {
+% } else {
     <& /comp/today.mhtml &>
-%     }
 % }
 
 % $m->call_next();
