@@ -33,6 +33,8 @@
     <meta name="description" content="Kiwi Writers - It's all about writing...!" />
     <meta name="keywords" content="Kiwi Writers, Kiwi, Writers, Writer, Write" />
     <meta name="author" content="Andrew Chilton / Original design: Andreas Viklund - http://andreasviklund.com/" />
+    <link rel="shortcut icon" href="http://kiwiwriters.org/favicon.png" type="image/png" />
+    <link rel="icon" href="http://kiwiwriters.org/favicon.png" type="image/png" />
 % if ( $m->request_comp->attr('use_mochikit') ) {
     <script type="text/javascript" src="/s/MochiKit.js"></script>
 % }
