@@ -1,0 +1,17 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    use Zaapt::Utils::SiteMapIndex;
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $sitemapindex = Zaapt::Utils::SiteMapIndex->new();
+    $sitemapindex->add({ loc => "http://kiwiwriters.org/urlset.xml" });
+
+    print $sitemapindex->as_xml();
+    return;
+</%init>
+%# ----------------------------------------------------------------------------
+<%flags>
+    inherit => '/syshandler'
+</%flags>
+%# ----------------------------------------------------------------------------
