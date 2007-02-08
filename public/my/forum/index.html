@@ -12,6 +12,9 @@
 %# ----------------------------------------------------------------------------
 <h1>Forums</h1>
 
+% if ( $SESS->{_signed_in} ) {
+<p class="right">Last Login: <% $SESS->{last} | h %></p>
+% }
 <p class="right"><& /zaapt/model/forum/widget-stats.mhtml, zaapt => $ZAAPT &></p>
 
 <table>
