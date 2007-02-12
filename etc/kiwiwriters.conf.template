@@ -27,6 +27,9 @@
     PerlModule HTML::Entities
     PerlModule URI::Escape
 
+    # since we're using UTF-8, then we only have to escape the basic chars
+    PerlSetVar  MasonEscapeFlags "h => \\&HTML::Mason::Escapes::basic_html_escape"
+
     # other misc configuration
     Options -Indexes
     AddDefaultCharset utf-8

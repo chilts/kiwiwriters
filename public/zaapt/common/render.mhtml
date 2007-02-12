@@ -9,6 +9,13 @@
     use BBCode::Parser;
 </%once>
 %# ----------------------------------------------------------------------------
+<%init>
+    my $phliky;
+    if ( $t_name eq 'phliky' ) {
+        $phliky = Text::Phliky->new({ mode => 'basic' });
+    }
+</%init>
+%# ----------------------------------------------------------------------------
 % if ( $t_name eq 'text' ) {
 %     my @paras = split /\n\n+/, $content;
 %     foreach my $para ( @paras ) {
@@ -21,7 +28,7 @@
 <% $content %>
 </pre>
 % } elsif ( $t_name eq 'phliky' ) {
-    <% Text::Phliky->text2html( $content ) %>
+    <% $phliky->text2html( $content ) %>
 % } elsif ( $t_name eq 'bbcode' ) {
 %     my $tree = BBCode::Parser->DEFAULT->parse( $content );
     <% $tree->toHTML() %>
