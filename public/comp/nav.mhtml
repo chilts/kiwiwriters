@@ -6,11 +6,11 @@
             href => '/',
             text => 'Home',
         },
-#        {
-#            section => 'info',
-#            href => '/info/',
-#            text => 'Info',
-#        },
+        {
+            section => 'resources',
+            href => '/resources/',
+            text => 'Resource',
+        },
         {
             section => 'news',
             href => '/news/site/',
