@@ -9,7 +9,7 @@
         {
             section => 'resources',
             href => '/resources/',
-            text => 'Resource',
+            text => 'Resources',
         },
         {
             section => 'news',
