@@ -7,14 +7,14 @@
             text => 'Home',
         },
         {
-            section => 'resources',
-            href => '/resources/',
-            text => 'Resources',
-        },
-        {
             section => 'news',
             href => '/news/site/',
             text => 'News',
+        },
+        {
+            section => 'resources',
+            href => '/resources/',
+            text => 'Resources',
         },
         {
             section => 'forum',
