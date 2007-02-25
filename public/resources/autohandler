@@ -6,10 +6,11 @@
             text => 'Resources',
             href => '/resources/',
             submenus => [
-                { text => 'New Zealand', href => 'new-zealand.html' },
-                { text => 'Writing', href => 'writing.html' },
-                { text => 'Writing in New Zealand', href => 'writing-in-new-zealand.html' },
-                { text => 'The Writing Process', href => 'the-writing-process.html' },
+                { text => '- New Zealand', href => 'new-zealand.html' },
+                { text => '- Writing', href => 'writing.html' },
+                { text => '- Writing in New Zealand', href => 'writing-in-new-zealand.html' },
+                { text => '- The Writing Process', href => 'the-writing-process.html' },
+                { text => '- Writing Challenges', href => 'writing-challenges.html' },
             ],
         },
     ];
