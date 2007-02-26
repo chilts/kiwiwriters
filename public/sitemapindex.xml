@@ -6,7 +6,9 @@
 <%init>
     my $sitemapindex = Zaapt::Utils::SiteMapIndex->new();
     $sitemapindex->add({ loc => "http://$CFG->{domain_name}/urlset.xml" });
+    $sitemapindex->add({ loc => "http://$CFG->{domain_name}/my/forum/urlset.xml" });
     $sitemapindex->add({ loc => "http://$CFG->{domain_name}/resources/urlset.xml" });
+    $sitemapindex->add({ loc => "http://$CFG->{domain_name}/faq/urlset.xml" });
 
     print $sitemapindex->as_xml();
     return;

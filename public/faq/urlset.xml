@@ -1,0 +1,19 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    use Zaapt::Utils::UrlSet;
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $urlset = Zaapt::Utils::UrlSet->new();
+    $urlset->add({ loc => "http://$CFG->{domain_name}/faq/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/faq/faq.html" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/faq/all.html" });
+
+    print $urlset->as_xml();
+    return;
+</%init>
+%# ----------------------------------------------------------------------------
+<%flags>
+    inherit => '/syshandler'
+</%flags>
+%# ----------------------------------------------------------------------------
