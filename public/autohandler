@@ -15,6 +15,14 @@
             ], 
         },
         {
+            text => 'News',
+            href => '/news/',
+            submenus => [
+                { text => 'Site Info', href => '/news/site/' },
+                { text => 'Interviews', href => '/news/interviews/' },
+            ], 
+        },
+        {
             text => 'My Pages',
             href => '/my/',
             submenus => [
