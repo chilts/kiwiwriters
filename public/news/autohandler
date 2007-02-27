@@ -6,16 +6,9 @@
             text => 'All News',
             href => '/news/',
             submenus => [
-                { text => 'Site News', href => '/news/site/' },
+                { text => 'Site Info', href => '/news/site/' },
+                { text => 'Interviews', href => '/news/interviews/' },
             ],
-        },
-        {
-            text => 'My Pages',
-            href => '/my/',
-            submenus => [
-                { text => 'Join Us!', href => '/my/sign-up.html' },
-                { text => 'Sign In', href => '/my/sign-in.html' },
-            ], 
         },
     ];
 </%once>
