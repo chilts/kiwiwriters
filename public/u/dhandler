@@ -9,8 +9,7 @@
     # do all the different info
     $m->comp('/zaapt/model/account/view.mhtml', zaapt => $ZAAPT, a_id => $account->{a_id}, page => 'index');
     $m->comp('/zaapt/model/profile/view.mhtml', zaapt => $ZAAPT, a_id => $account->{a_id}, page => 'index');
+    $m->comp('/zaapt/model/forum/view.mhtml', zaapt => $ZAAPT, a_id => $account->{a_id}, page => 'info', t_name => 'bbcode');
     return;
 </%init>
 %# ----------------------------------------------------------------------------
-<h1></h1>
-

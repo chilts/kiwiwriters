@@ -4,29 +4,15 @@
 </%init>
 %# ----------------------------------------------------------------------------
 
-<& /zaapt/model/account/view.mhtml,
-    zaapt => $ZAAPT,
-    a_id => $SESS->{id},
-    page => 'index'
-&>
-
-%# the user can't edit anything about the account
-
-<& /zaapt/model/profile/view.mhtml,
-    zaapt => $ZAAPT,
-    a_id => $SESS->{id},
-    page => 'index',
-&>
-
-<p><a href="user-edit.html">Edit this Profile &raquo;</a></p>
+<p><a href="../">&laquo; Back to your Profile</a></p>
 
 <& /zaapt/model/forum/view.mhtml,
-    zaapt => $ZAAPT,
     a_id => $SESS->{id},
+    zaapt => $ZAAPT,
     page => 'info',
     t_name => 'bbcode',
 &>
 
-<p><a href="forum/user-edit.html">Edit your Forum Settings &raquo;</a></p>
+<p><a href="user-edit.html">Edit your Forum Profile &raquo;</a></p>
 
 %# ----------------------------------------------------------------------------
