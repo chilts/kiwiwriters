@@ -2,7 +2,7 @@ BEGIN;
 
 -- ----------------------------------------------------------------------------
 
--- create the Forum tables
+-- create the Profile tables
 \i /usr/share/kiwiwriters/db/zaapt/create_profile.sql
 
 INSERT INTO profile.profile(account_id)
