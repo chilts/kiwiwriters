@@ -2,10 +2,8 @@
 <%init>
     # return if $m->cache_self( key => $name, expire_in => '10s' );
 
-    $m->comp('/zaapt/model/content/view.mhtml', zaapt => $ZAAPT, c_name => 'faq', page => 'all');
     $m->comp('/zaapt/model/faq/view.mhtml', zaapt => $ZAAPT, f_name => 'faq', page => 'index');
-    $m->comp('/zaapt/model/faq/view.mhtml', zaapt => $ZAAPT, f_name => 'about', page => 'index');
-    $m->comp('/zaapt/model/faq/view.mhtml', zaapt => $ZAAPT, f_name => 'basics', page => 'index');
+    $m->comp('/zaapt/model/faq/view.mhtml', zaapt => $ZAAPT, f_name => 'forum', page => 'index');
     return;
 </%init>
 %# ----------------------------------------------------------------------------

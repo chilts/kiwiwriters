@@ -9,7 +9,6 @@
                 { text => 'About', href => '/about.html' },
                 { text => 'Staff', href => '/staff.html' },
                 { text => 'Credits', href => '/credits.html' },
-                { text => 'FAQ', href => '/faq/faq.html' },
                 { text => 'Contact', href => '/contact.html' },
                 { text => 'Link to Us', href => '/link-to-us.html' },
             ], 
@@ -20,6 +19,14 @@
             submenus => [
                 { text => 'Site Info', href => '/news/site/' },
                 { text => 'Interviews', href => '/news/interviews/' },
+            ], 
+        },
+        {
+            text => 'FAQs',
+            href => '/faq/',
+            submenus => [
+                { text => 'Main FAQ', href => '/faq/faq.html' },
+                { text => 'Forum FAQ', href => '/faq/forum.html' },
             ], 
         },
         {

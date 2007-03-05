@@ -7,6 +7,7 @@
     my $urlset = Zaapt::Utils::UrlSet->new();
     $urlset->add({ loc => "http://$CFG->{domain_name}/faq/" });
     $urlset->add({ loc => "http://$CFG->{domain_name}/faq/faq.html" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/faq/forum.html" });
     $urlset->add({ loc => "http://$CFG->{domain_name}/faq/all.html" });
 
     print $urlset->as_xml();
