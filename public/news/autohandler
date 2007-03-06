@@ -3,11 +3,13 @@
     my $intro = 'Welcome to the general site news.';
     my $menus = [
         {
-            text => 'All News',
+            text => 'News',
             href => '/news/',
             submenus => [
                 { text => 'Site Info', href => '/news/site/' },
+                { text => 'Site Info Feed', href => '/news/site/rss20.xml' },
                 { text => 'Interviews', href => '/news/interviews/' },
+                { text => 'Interview Feed', href => '/news/interviews/rss20.xml' },
             ],
         },
     ];
