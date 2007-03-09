@@ -24,6 +24,8 @@
     PerlModule Config::Simple
     PerlModule WebApp::Session
     PerlModule Zaapt
+    PerlModule Zaapt::Utils::Valid
+    PerlModule Zaapt::Utils::Conv
     PerlModule HTML::Entities
     PerlModule URI::Escape
 

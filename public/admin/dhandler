@@ -6,6 +6,7 @@
         content => 1,
         faq     => 1,
         forum   => 1,
+        menu    => 1,
         news    => 1,
     };
 </%once>
