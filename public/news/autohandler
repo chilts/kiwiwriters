@@ -1,20 +1,4 @@
 %# ----------------------------------------------------------------------------
-<%once>
-    my $intro = 'Welcome to the general site news.';
-    my $menus = [
-        {
-            text => 'News',
-            href => '/news/',
-            submenus => [
-                { text => 'Site Info', href => '/news/site/' },
-                { text => 'Site Info Feed', href => '/news/site/rss20.xml' },
-                { text => 'Interviews', href => '/news/interviews/' },
-                { text => 'Interview Feed', href => '/news/interviews/rss20.xml' },
-            ],
-        },
-    ];
-</%once>
-%# ----------------------------------------------------------------------------
 <%init>
     $m->call_next();
 </%init>
@@ -24,6 +8,6 @@
 </%attr>
 %# ----------------------------------------------------------------------------
 <%method .menu>
-<& /comp/menu.mhtml, intro => $intro, menus => $menus &>
+<& /zaapt/model/menu/widget-list.mhtml, zaapt => $ZAAPT, m_name => 'news' &>
 </%method>
 %# ----------------------------------------------------------------------------

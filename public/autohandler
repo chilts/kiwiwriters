@@ -1,45 +1,4 @@
 %# ----------------------------------------------------------------------------
-<%once>
-    my $intro = 'Use the navigation tabs for the main sections of the site.';
-    my $menus = [
-        {
-            text => 'Home',
-            href => '/',
-            submenus => [
-                { text => 'About', href => '/about.html' },
-                { text => 'Staff', href => '/staff.html' },
-                { text => 'Credits', href => '/credits.html' },
-                { text => 'Contact', href => '/contact.html' },
-                { text => 'Link to Us', href => '/link-to-us.html' },
-            ], 
-        },
-        {
-            text => 'News',
-            href => '/news/',
-            submenus => [
-                { text => 'Site Info', href => '/news/site/' },
-                { text => 'Interviews', href => '/news/interviews/' },
-            ], 
-        },
-        {
-            text => 'FAQs',
-            href => '/faq/',
-            submenus => [
-                { text => 'Main FAQ', href => '/faq/faq.html' },
-                { text => 'Forum FAQ', href => '/faq/forum.html' },
-            ], 
-        },
-        {
-            text => 'My Pages',
-            href => '/my/',
-            submenus => [
-                { text => 'Join Us!', href => '/my/sign-up.html' },
-                { text => 'Sign In', href => '/my/sign-in.html' },
-            ], 
-        },
-    ];
-</%once>
-%# ----------------------------------------------------------------------------
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
@@ -106,7 +65,7 @@ urchinTracker();
 </html>
 %# ----------------------------------------------------------------------------
 <%method .menu>
-<& /comp/menu.mhtml, intro => $intro, menus => $menus &>
+<& /zaapt/model/menu/widget-list.mhtml, zaapt => $ZAAPT, m_name => 'home' &>
 </%method>
 %# ----------------------------------------------------------------------------
 <%attr>

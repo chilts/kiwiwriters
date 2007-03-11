@@ -1,80 +1,4 @@
 %# ----------------------------------------------------------------------------
-<%once>
-    my $intro = 'Click on the name of the content you which to edit.';
-    my $menus = [
-        {
-            text => 'Forums',
-            href => "/my/forum/",
-            submenus => [
-                {
-                    text => 'Announcements',
-                    href => '/my/forum/announcements/',
-                },
-                {
-                    text => 'Achievements',
-                    href => '/my/forum/achievements/',
-                },
-                {
-                    text => 'Contests',
-                    href => '/my/forum/contests/',
-                },
-                {
-                    text => 'General',
-                    href => '/my/forum/general/',
-                },
-                {
-                    text => 'Introductions',
-                    href => '/my/forum/introductions/',
-                },
-                {
-                    text => 'How Do I?',
-                    href => '/my/forum/how-do-i/',
-                },
-                {
-                    text => 'Help! Help!',
-                    href => '/my/forum/help-help/',
-                },
-                {
-                    text => 'Resources',
-                    href => '/my/forum/resources/',
-                },
-                {
-                    text => 'Challenges',
-                    href => '/my/forum/challenges/',
-                },
-                {
-                    text => 'wwwW',
-                    href => '/my/forum/wwww/',
-                },
-                {
-                    text => 'SoCNoC',
-                    href => '/my/forum/socnoc/',
-                },
-                {
-                    text => 'Preparation',
-                    href => '/my/forum/preparation/',
-                },
-                {
-                    text => 'Write It',
-                    href => '/my/forum/write-it/',
-                },
-                {
-                    text => 'Editing',
-                    href => '/my/forum/editing/',
-                },
-                {
-                    text => 'Critique and Review',
-                    href => '/my/forum/critique-and-review/',
-                },
-                {
-                    text => 'Submission',
-                    href => '/my/forum/submission/',
-                },
-            ],
-        },
-    ];
-</%once>
-%# ----------------------------------------------------------------------------
 <%init>
     WebApp::Session::begin( $SESS, $r, $DBH, 'session', ".$CFG->{domain_name}" );
 
@@ -101,7 +25,7 @@
 </%perl>
 %# ----------------------------------------------------------------------------
 <%method .menu>
-<& /comp/menu.mhtml, intro => $intro, menus => $menus &>
+<& /zaapt/model/menu/widget-list.mhtml, zaapt => $ZAAPT, m_name => 'my' &>
 </%method>
 %# ----------------------------------------------------------------------------
 <%attr>
