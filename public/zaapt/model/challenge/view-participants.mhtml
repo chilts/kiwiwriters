@@ -1,0 +1,24 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $unit
+    $units
+    $participants
+    $goal
+</%args>
+%# ----------------------------------------------------------------------------
+<h2>Participants</h2>
+
+% if ( @$participants ) {
+<ul>
+%     foreach my $p ( @$participants ) {
+    <li>
+%         if ( $p->{p_progress} >= $goal ) {
+    <& /zaapt/common/icon.mhtml, name => 'star', title => "Winner!" &>
+%         }
+    <& /zaapt/common/a_username.mhtml, a_username => $p->{a_username} &> - <& render-quantity.mhtml, amount => $p->{p_progress}, unit => $unit, units => $units &></li>
+%     }
+</ul>
+% } else {
+<p>This event has no participants yet.</p>
+% }
+%# ----------------------------------------------------------------------------

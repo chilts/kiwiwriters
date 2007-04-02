@@ -1,0 +1,79 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    use Zaapt::Utils::Valid;
+</%once>
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $my_roles
+    $c_name        => undef
+    $c_title       => undef
+    $c_description => undef
+    $_admin        => undef
+    $_view         => undef
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+
+    # to insert this page, the user needs the 'super' role
+    $m->redirect('edit-c-list.html') unless exists $my_roles->{super};
+
+    my $err = [];
+
+    unless ( Zaapt::Utils::Valid::is_valid_name($c_name) ) {
+        push @$err, Zaapt::Utils::Valid::err();
+    }
+
+    unless ( Zaapt::Utils::Valid::contains_something($c_title) ) {
+        push @$err, Zaapt::Utils::Valid::err();
+    }
+
+    unless ( Zaapt::Utils::Valid::contains_something($c_description) ) {
+        push @$err, Zaapt::Utils::Valid::err();
+    }
+
+    # no Challenge of this name should exist
+    unless ( @$err ) {
+        my $challenge = $model->sel_challenge_using_name({ c_name => $c_name });
+        push @$err, "Challenge '$c_name' already exists." if defined $challenge;
+    }
+
+    $c_description =~ s{\r}{}gxms;
+
+    unless ( @$err ) {
+        $model->ins_challenge({
+            c_name        => $c_name,
+            c_title       => $c_title,
+            c_description => $c_description,
+            _admin        => $_admin,
+            _view         => $_view,
+        });
+        $m->redirect("edit-c-list.html");
+        return;
+    }
+
+    my $roles = $zaapt->get_model('Account')->sel_all_roles();
+    my @options = map { { value => $_->{r_id}, text => $_->{r_name} } } @$roles;
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Add a Challenge</h1>
+
+<p><a href="edit-c-list.html">&laquo; Back to Challenge List</a></p>
+
+<h2>Challenge: ?</h2>
+
+<& /zaapt/common/err.mhtml, err => $err &>
+
+<& /zaapt/common/form.mhtml, action => 'edit-c-ins.html', elements => [
+        { type => 'text', field => 'Name', name => 'c_name', size => 40, value => $c_name },
+        { type => 'text', field => 'Title', name => 'c_title', size => 40, value => $c_title },
+        { type => 'textarea', field => 'Description', name => 'c_description', rows => 10, cols => 40, value => $c_description },
+        { type => 'note', value => "Note: Description is in 'Phliky' format." },
+        { type => 'select', field => 'Admin Role', name => '_admin', options => \@options, selected => $_admin },
+        { type => 'select', field => 'View Role', name => '_view', options => \@options, selected => $_view },
+        { type => 'submit', field => 'Actions', value => 'Add Challenge Area', cancel => 'edit-c-list.html' },
+    ]
+&>
+
+%# ----------------------------------------------------------------------------

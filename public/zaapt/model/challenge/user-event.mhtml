@@ -1,0 +1,135 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    use Zaapt::Utils::Valid;
+</%once>
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $model
+    $challenge
+    $name
+    $a_id
+    $act => undef
+    $p_progress => undef
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $event = $model->sel_event_using_name({ e_name => $name });
+
+    unless ( defined $event ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+
+    if ( $event->{c_id} != $challenge->{c_id} ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+
+    my $participants = $model->sel_participants_all_for({ e_id => $event->{e_id} });
+
+    # see if this person is already in this challenge
+    my $status = $model->sel_participant_status({ e_id => $event->{e_id}, a_id => $a_id });
+    my $progress;
+    if ( defined $status ) {
+        # $progress = <something>;
+    }
+
+    my $err = [];
+    if ( $act eq 'join' ) {
+        unless ( defined $status ) {
+            $model->join_event({ e_id => $event->{e_id}, a_id => $a_id });
+            $m->redirect('?');
+        }
+    }
+    elsif ( $act eq 'update' ) {
+        # update progress
+        unless ( Zaapt::Utils::Valid::is_non_negative_integer($p_progress) ) {
+            push @$err, "Please enter a valid number (0 or more)";
+        }
+        unless ( @$err ) {
+            $model->upd_participant({ p_id => $status->{p_id}, p_progress => $p_progress });
+            $m->redirect('?');
+        }
+    }
+</%init>
+%# ----------------------------------------------------------------------------
+<& render-event.mhtml, event => $event, participants => scalar @$participants &>
+
+% if ( 0 ) {
+<p class="info">
+    This challenge is now closed.
+</p>
+% }
+
+<h2>Your Current Status</h2>
+
+<& /zaapt/common/err.mhtml, err => $err &>
+
+% if ( defined $status ) {
+
+<p>
+    You have completed:
+    <strong><& render-quantity.mhtml, amount => $status->{p_progress}, unit => $event->{ca_unit}, units => $event->{ca_units} &></strong>
+</p>
+
+<p id="update-show">
+    <a href="#" onclick="removeElementClass('update-form', 'hide'); addElementClass('update-show', 'hide'); return false;">
+        <& /zaapt/common/icon.mhtml, name => 'arrow_up', title => "Update Progress" &> Update Progress &raquo;&raquo;
+    </a>
+</p>
+
+<div id="update-form" class="hide">
+<& /zaapt/common/form.mhtml, action => '?', elements => [
+        { type => 'hidden', name => 'act', value => 'update' },
+        { type => 'text', field => 'Progress', name => 'p_progress', value => $status->{p_progress} },
+        { type => 'submit', field => 'Actions', value => 'Update Progress', cancel_js => "removeElementClass('update-show', 'hide'); addElementClass('update-form', 'hide');" },
+    ]
+&>
+</div>
+
+%     if ( $status->{p_progress} < $event->{e_goal} ) {
+<p>
+    Here is your participant icon:
+</p>
+
+<p class="center">
+    <img src="" title="Participant Icon" />
+</p>
+%     } else {
+<p>
+    <strong>Well done!</strong> You have completed this challenge. Here, have a winner's icon:
+</p>
+
+<p class="center">
+    <img src="" title="Winners Icon" />
+</p>
+%     }
+
+%     if ( 0 ) {
+<h2>Your Progress</h2>
+
+<p><strong>ToDo</strong>: A table with dates/days and progress...</p>
+%     }
+% } else {
+
+<p>You are not yet participating in this challenge. What are yer? Chicken? <& /zaapt/common/icon.mhtml, name => 'emoticon_tongue' &></p>
+
+<p>
+     <a href="?act=join">
+         <& /zaapt/common/icon.mhtml, name => 'accept', title => "Accept" &>
+         Accept this challenge!
+     </a>
+</p>
+% }
+
+<& view-participants.mhtml,
+    participants => $participants,
+    unit         => $event->{ca_unit},
+    units        => $event->{ca_units},
+    goal         => $event->{e_goal},
+&>
+
+%# ----------------------------------------------------------------------------

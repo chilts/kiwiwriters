@@ -1,23 +1,24 @@
 %# ----------------------------------------------------------------------------
 <%once>
     my $models = {
-        account => 1,
-        blog    => 1,
-        content => 1,
-        faq     => 1,
-        forum   => 1,
-        menu    => 1,
-        news    => 1,
+        account   => 1,
+        blog      => 1,
+        challenge => 1,
+        content   => 1,
+        faq       => 1,
+        forum     => 1,
+        menu      => 1,
+        news      => 1,
     };
 </%once>
 %# ----------------------------------------------------------------------------
 <%init>
     $r->content_type('text/html');
-    my ($model, $a) = $m->dhandler_arg() =~ m{ \A (\w*) \/ (\w*) \.html \z }xms;
+    my ($model, $a) = $m->dhandler_arg() =~ m{ \A (\w*) \/ ([\w-]+) \.html \z }xms;
 
     # see if this model can be edited
     if ( exists $models->{$model} ) {
-        $m->comp( "/zaapt/model/$model/$a.mhtml", %ARGS, zaapt => $ZAAPT, roles => $SESS->{roles}, my_roles => $SESS->{roles} );
+        $m->comp( "/zaapt/model/$model/$a.mhtml", %ARGS, zaapt => $ZAAPT, roles => $SESS->{roles}, my_roles => $SESS->{roles}, id => $SESS->{id} );
     }
     else {
         $m->clear_buffer();

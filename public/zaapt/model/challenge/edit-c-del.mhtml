@@ -1,0 +1,21 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $my_roles
+    $c_id
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $challenge = $model->sel_challenge({ c_id => $c_id });
+
+    $m->redirect('edit-c-list.html') unless defined $challenge;
+
+    $m->redirect('edit-c-list.html') unless exists $my_roles->{$challenge->{_admin}};
+
+    $model->del_challenge({ c_id => $c_id });
+
+    $m->redirect("edit-c-list.html");
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

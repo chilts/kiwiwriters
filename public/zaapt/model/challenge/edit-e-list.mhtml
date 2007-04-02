@@ -1,0 +1,69 @@
+%# --- ARGS -------------------------------------------------------------------
+<%args>
+    $zaapt
+    $my_roles
+    $c_id
+</%args>
+%# --- INIT -------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $challenge = $model->sel_challenge({ c_id => $c_id });
+    unless ( defined $challenge ) {
+        $m->redirect('edit-c-list.html');
+        return;
+    }
+    $m->redirect('edit-c-list.html') unless exists $my_roles->{$challenge->{_view}};
+
+    my $events = $model->sel_event_all_for({ c_id => $c_id });
+</%init>
+%# --- HTML -------------------------------------------------------------------
+<h1>Event List</h1>
+
+<p><a href="edit-c-list.html">&laquo; Back to Challenge List</a></p>
+
+<h2>Challenge: <% $challenge->{c_name} | h %> - '<% $challenge->{c_title} | h %>'</h2>
+
+% if ( exists $my_roles->{$challenge->{_admin}} ) {
+<p>
+    * <a href="edit-e-add.html?c_id=<% $c_id | u %>">Add Event &raquo;</a>
+</p>
+% }
+
+<table class="edit">
+    <thead>
+        <tr>
+            <th class="list">Event</th>
+            <th class="action">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+% my $row = 1;
+% foreach my $event ( @$events ) {
+        <tr class="r<% $row=1-$row %>">
+            <td>
+                <strong>(<% $event->{e_id} | h %>)</strong> <% $event->{e_name} | h %></strong><br />
+                [<% $event->{e_goal} | h %>] <% $event->{e_title} | h %><br />
+                <% $event->{e_startts} | h %> - <% $event->{e_endts} | h %><br />
+            </td>
+            <td>
+%         if ( exists $my_roles->{$challenge->{_admin}} ) {
+                * <a href="edit-e-edit.html?e_id=<% $event->{e_id} | u %>">Edit Event</a><br />
+                * <a href="edit-e-del.html?e_id=<% $event->{e_id} | u %>">Delete</a><br />
+%         } else {
+                -
+%         }
+            </td>
+        </tr>
+% }
+% unless ( @$events ) {
+        <tr class="r0">
+            <td>No Events here!</td>
+            <td>
+                * <a href="edit-e-add.html?c_id=<% $challenge->{c_id} | u %>">Add Event</a>
+            </td>
+        </tr>
+% }
+    </tbody>
+</table>
+
+%# --- END --------------------------------------------------------------------

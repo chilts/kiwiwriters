@@ -1,0 +1,45 @@
+%# --- ARGS -------------------------------------------------------------------
+<%args>
+    $zaapt
+    $my_roles
+</%args>
+%# --- INIT -------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $challenges = $model->sel_challenge_all();
+</%init>
+%# --- HTML -------------------------------------------------------------------
+<h1>Challenge List</h1>
+
+<p>
+% if ( exists $my_roles->{super} ) {
+    * <a href="edit-ca-list.html">View Categories &raquo;</a><br />
+    * <a href="edit-c-add.html">Add Challenge &raquo;</a><br />
+% }
+</p>
+
+<&| /zaapt/common/admin/table-edit.mhtml, title => 'Challenge' &>
+
+% my $row = 1;
+% foreach my $challenge ( @$challenges ) {
+%     next unless exists $my_roles->{$challenge->{_view}};
+        <tr class="r<% $row=1-$row %>">
+            <td>
+                <% $challenge->{c_name} | h %>
+            </td>
+            <td>
+%         if ( exists $my_roles->{$challenge->{_admin}} ) {
+                * <a href="edit-c-edit.html?c_id=<% $challenge->{c_id} | u %>">Edit Details</a><br />
+                * <a href="edit-e-add.html?c_id=<% $challenge->{c_id} | u %>">Add Event</a><br />
+%         }
+                * <a href="edit-e-list.html?c_id=<% $challenge->{c_id} | u %>">List/Edit</a><br />
+%         if ( exists $my_roles->{$challenge->{_admin}} ) {
+                * <a href="edit-c-del.html?c_id=<% $challenge->{c_id} | u %>">Delete</a><br />
+%         }
+            </td>
+        </tr>
+% }
+
+</&>
+
+%# --- END --------------------------------------------------------------------

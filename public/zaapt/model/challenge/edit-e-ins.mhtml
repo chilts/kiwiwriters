@@ -1,0 +1,129 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $my_roles
+    $id
+    $c_id
+    $ca_id
+    $e_name
+    $e_title
+    $e_description
+    $e_rules
+    $e_goal
+    $e_startts
+    $e_endts
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    use HTML::Entities;
+    use URI::Escape;
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $challenge = $model->sel_challenge({ c_id => $c_id });
+
+    $m->redirect('edit-c-list.html') unless defined $challenge;
+
+    # need admin
+    $m->redirect('edit-c-list.html') unless exists $my_roles->{$challenge->{_admin}};
+
+    my $err = [];
+
+    # -> ca_id
+    # ToDo: check that ca_id exists in the category table
+
+    # -> e_name
+    unless ( Zaapt::Utils::Valid::contains_something($e_name, 'Name') ) {
+        push @$err, Zaapt::Utils::Valid::err();
+    }
+
+    # -> e_title
+    # ToDo: check that Title is 3 lines long and has less than x chars per line
+    $e_title = Zaapt::Utils::Conv::remove_cr( $e_title );
+    unless ( Zaapt::Utils::Valid::contains_something($e_title, 'Title') ) {
+        push @$err, Zaapt::Utils::Valid::err();
+    }
+
+    # -> e_description
+    $e_description = Zaapt::Utils::Conv::remove_cr( $e_description );
+
+    # -> e_rules
+    $e_rules = Zaapt::Utils::Conv::remove_cr( $e_rules );
+
+    # -> e_goal
+    unless ( Zaapt::Utils::Valid::is_positive_integer($e_goal, 'Goal') ) {
+        push @$err, Zaapt::Utils::Valid::err();
+    }
+
+    # -> e_startts
+    unless ( Zaapt::Utils::Valid::is_datetime($e_startts, 'Start Time') ) {
+        push @$err, Zaapt::Utils::Valid::err();
+    }
+
+    # -> e_endts
+    unless ( Zaapt::Utils::Valid::is_datetime($e_endts, 'End Time') ) {
+        push @$err, Zaapt::Utils::Valid::err();
+    }
+
+    if ( $e_startts >= $e_endts ) {
+        push @$err, "End Time '$e_endts' must be after the Start Time '$e_startts'";
+    }
+
+    # -> other
+    unless ( @$err ) {
+        # see if this event name already exists (name is unique across ALL challenges)
+        my $event = $model->sel_event_using_name({ e_name => $e_name });
+        push @$err, "Event name '$e_name' already exists" if defined $event;
+    }
+
+    unless ( @$err ) {
+        $model->ins_event({
+            e_challenge_id => $c_id,
+            e_category_id  => $ca_id,
+            e_account_id   => $id,
+            e_name         => $e_name,
+            e_title        => $e_title,
+            e_description  => $e_description,
+            e_rules        => $e_rules,
+            e_goal         => $e_goal,
+            e_startts      => $e_startts,
+            e_endts        => $e_endts,
+        });
+        $m->redirect("edit-e-list.html?c_id=$c_id");
+        return;
+    }
+
+    my $categories = $model->sel_category_isstandard_all();
+    my @ca_options = map { { value => $_->{ca_id}, text => "$_->{ca_title} ($_->{ca_units})" } } @$categories;
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Add an Event</h1>
+
+<p><a href="edit-c-list.html?c_id=<% $c_id | u %>">&laquo; Back to Challenge List</a></p>
+
+<h2>Challenge: <% $challenge->{c_name} | h %> - '<% $challenge->{c_title} | h %>'</h2>
+
+<& /zaapt/common/err.mhtml, err => $err &>
+
+<& /zaapt/common/form.mhtml, action => 'edit-e-ins.html', elements => [
+        { type => 'hidden', name => 'c_id', value => $c_id },
+        { type => 'select', field => 'Category', name => 'ca_id', options => \@ca_options, selected => $ca_id },
+        { type => 'text', field => 'Name', name => 'e_name', size => 40, value => $e_name },
+        { type => 'textarea', field => 'Title', name => 'e_title', rows => 3, cols => 40, value => $e_title },
+        { type => 'note', value => 'Note: Please use 3 lines of no more than 11 chars' },
+        { type => 'textarea', field => 'Description', name => 'e_description', rows => 10, cols => 40, value => $e_description },
+        { type => 'note', value => 'Note: Description is text only' },
+        { type => 'textarea', field => 'Rules', name => 'e_rules', rows => 10, cols => 40, value => $e_rules },
+        { type => 'note', value => 'Note: Rules is BBCode' },
+        { type => 'text', field => 'Goal', name => 'e_goal', value => $e_goal },
+        { type => 'note', value => 'Note: enter a number, e.g. 50000, 7500' },
+        { type => 'text', field => 'Start Time', name => 'e_startts', value => $e_startts },
+        { type => 'note', value => 'Note: enter a date and time, \'yyyy-mm-dd hh:mm:ss\'' },
+        { type => 'text', field => 'End Time', name => 'e_endts', value => $e_endts },
+        { type => 'note', value => 'Note: enter a date and time, \'yyyy-mm-dd hh:mm:ss\'' },
+        { type => 'submit', field => 'Actions', value => 'Add Event', cancel => 'edit-e-list.html' },
+    ]
+&>
+
+%# ----------------------------------------------------------------------------

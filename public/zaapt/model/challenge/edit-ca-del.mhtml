@@ -1,0 +1,24 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $my_roles
+    $ca_id
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    $m->redirect('edit-ca-list.html') unless exists $my_roles->{super};
+
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $category = $model->sel_category({ ca_id => $ca_id });
+
+    $m->redirect('edit-ca-list.html') unless defined $category;
+
+    # ToDo: we should check here to see if any events are using this category
+    # otherwise the database won't let us do it and we'll get a horrible error
+
+    $model->del_category({ ca_id => $ca_id });
+
+    $m->redirect("edit-ca-list.html");
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

@@ -1,0 +1,44 @@
+%# --- ARGS -------------------------------------------------------------------
+<%args>
+    $zaapt
+    $my_roles
+</%args>
+%# --- INIT -------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $categories = $model->sel_category_all();
+</%init>
+%# --- HTML -------------------------------------------------------------------
+<h1>Category List</h1>
+
+<p><a href="edit-c-list.html">&laquo; Back to Challenge List</a></p>
+
+<h2>All Categories</h2>
+
+% if ( exists $my_roles->{super} ) {
+<p>
+    * <a href="edit-ca-add.html">Add Category &raquo;</a><br />
+</p>
+% }
+
+<&| /zaapt/common/admin/table-edit.mhtml, title => 'Category' &>
+
+% my $row = 1;
+% foreach my $category ( @$categories ) {
+        <tr class="r<% $row=1-$row %>">
+            <td>
+                (<% $category->{ca_id} | h %>) <strong><% $category->{ca_title} | h %></strong> (<% $category->{ca_unit} | h %>, <% $category->{ca_units} | h %>)<br />
+                <% $category->{ca_isstandard} ? 'Standard' : 'User-Defined' | h %> Type<br />
+            </td>
+            <td>
+%         if ( exists $my_roles->{super} ) {
+                * <a href="edit-ca-edit.html?ca_id=<% $category->{ca_id} | u %>">Edit Details</a><br />
+                * <a href="edit-ca-del.html?ca_id=<% $category->{ca_id} | u %>">Delete</a><br />
+%         }
+            </td>
+        </tr>
+% }
+
+</&>
+
+%# --- END --------------------------------------------------------------------

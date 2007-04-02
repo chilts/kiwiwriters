@@ -1,0 +1,54 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $c_name
+    $page       => ''
+    $a_id
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    my $known_pages = {
+        index   => 1,
+        future  => 1,
+        archive => 1,
+        current => 1,
+    };
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    if ( $page eq '' ) {
+        die "No page name given.";
+        return;
+    }
+
+    # might as well do these here since we have to do them everywhere anyway
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $challenge = $model->sel_challenge_using_name({ c_name => $c_name });
+
+    unless ( $challenge ) {
+        die "Challenge section '$c_name' does not exist.";
+        return;
+    }
+
+    if ( exists $known_pages->{$page} ) {
+        # main index page
+        $m->comp("/zaapt/model/challenge/view-$page.mhtml",
+            %ARGS,
+            zaapt      => $zaapt,
+            model      => $model,
+            challenge  => $challenge,
+        );
+    }
+    else {
+        $m->comp( '/zaapt/model/challenge/user-event.mhtml',
+            %ARGS,
+            zaapt      => $zaapt,
+            model      => $model,
+            challenge  => $challenge,
+            name       => $page,
+            a_id       => $a_id,
+        );
+    }
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

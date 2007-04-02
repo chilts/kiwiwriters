@@ -1,0 +1,62 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $model
+    $challenge
+    $name
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $event = $model->sel_event_using_name({ e_name => $name });
+
+    unless ( defined $event ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+
+    if ( $event->{c_id} != $challenge->{c_id} ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+
+    my $participants = $model->sel_participants_all_for({ e_id => $event->{e_id} });
+</%init>
+%# ----------------------------------------------------------------------------
+<h1><% $event->{e_title} | h %></h1>
+
+<p><strong><% $event->{e_description} | h %></strong></p>
+
+<h2>The Rules</h2>
+
+<& /zaapt/common/render.mhtml,
+    content => $event->{e_rules},
+    t_name => 'bbcode',
+&>
+
+<h2>Details</h2>
+
+<p>
+    Start: <strong><% $event->{e_startts} | h %></strong><br />
+    End: <strong><% $event->{e_endts} | h %></strong><br />
+    Type: <strong> <% $event->{ca_title} | h %></strong><br />
+    Goal: <strong> <% $event->{e_goal} | h %> <% $event->{ca_units} | h %></strong><br />
+    Participants: <strong><% scalar @$participants | h %></strong><br />
+</p>
+
+<h2>Join this Challenge</h2>
+
+<p>
+    Please <a href="/my/sign-in.html">sign in</a> first if you wish to join
+    this challenge.
+</p>
+
+<& view-participants.mhtml,
+    participants => $participants,
+    unit         => $event->{ca_unit},
+    units        => $event->{ca_units},
+    goal         => $event->{e_goal},
+&>
+
+%# ----------------------------------------------------------------------------

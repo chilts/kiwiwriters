@@ -1,0 +1,20 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $model
+    $challenge
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+</%init>
+%# ----------------------------------------------------------------------------
+<& render-challenge.mhtml, challenge => $challenge &>
+
+<h2>List of Challenges</h2>
+
+<ul>
+    <li><a href="current.html">Current</a> - all challenges currently in progress</li>
+    <li><a href="future.html">Future</a> - those challenges coming up fast</li>
+    <li><a href="archive.html">Archive</a> - past challenges</li>
+</ul>
+%# ----------------------------------------------------------------------------

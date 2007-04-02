@@ -1,0 +1,52 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $my_roles
+    $id
+    $c_id
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    use URI::Escape;
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $challenge = $model->sel_challenge({ c_id => $c_id });
+
+    $m->redirect('edit-c-list.html') unless defined $challenge;
+
+    # need admin
+    $m->redirect('edit-c-list.html') unless exists $my_roles->{$challenge->{_admin}};
+
+    my $categories = $model->sel_category_isstandard_all();
+    my @ca_options = map { { value => $_->{ca_id}, text => "$_->{ca_title} ($_->{ca_units})" } } @$categories;
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Add an Event</h1>
+
+<p><a href="edit-c-list.html?c_id=<% $c_id | u %>">&laquo; Back to Challenge List</a></p>
+
+<h2>Challenge: <% $challenge->{c_name} | h %> - '<% $challenge->{c_title} | h %>'</h2>
+
+<& /zaapt/common/form.mhtml, action => 'edit-e-ins.html', elements => [
+        { type => 'hidden', name => 'c_id', value => $c_id },
+        { type => 'select', field => 'Category', name => 'ca_id', options => \@ca_options },
+        { type => 'text', field => 'Name', name => 'e_name', size => 40 },
+        { type => 'textarea', field => 'Title', name => 'e_title', rows => 3, cols => 40 },
+        { type => 'note', value => 'Note: Please use 3 lines of no more than 11 chars' },
+        { type => 'textarea', field => 'Description', name => 'e_description', rows => 10, cols => 40 },
+        { type => 'note', value => 'Note: Description is text only' },
+        { type => 'textarea', field => 'Rules', name => 'e_rules', rows => 10, cols => 40 },
+        { type => 'note', value => 'Note: Rules is BBCode' },
+        { type => 'text', field => 'Goal', name => 'e_goal' },
+        { type => 'note', value => 'Note: enter a number, e.g. 50000, 7500' },
+        { type => 'text', field => 'Start Time', name => 'e_startts' },
+        { type => 'note', value => 'Note: enter a date and time, \'yyyy-mm-dd hh:mm:ss\'' },
+        { type => 'text', field => 'End Time', name => 'e_endts' },
+        { type => 'note', value => 'Note: enter a date and time, \'yyyy-mm-dd hh:mm:ss\'' },
+        { type => 'submit', field => 'Actions', value => 'Add Event', cancel => 'edit-e-list.html' },
+    ]
+&>
+
+%# ----------------------------------------------------------------------------

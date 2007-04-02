@@ -12,7 +12,6 @@ use warnings;
 
 my $profile_tablename = "profile.profile p";
 
-
 # helper
 my $profile_cols = __PACKAGE__->_mk_cols( 'p', qw(account_id age location website favauthors favbooks ts:inserted ts:updated) );
 

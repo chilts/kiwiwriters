@@ -1,0 +1,6 @@
+<%args>
+    $amount
+    $unit
+    $units
+</%args>
+<% $amount | h %> <% ( $amount == 1 ? $unit : $units ) | h %>\

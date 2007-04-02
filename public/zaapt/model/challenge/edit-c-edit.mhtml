@@ -1,0 +1,42 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    use Zaapt::Utils::Valid;
+</%once>
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $my_roles
+    $c_id => undef
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $challenge = $model->sel_challenge({ c_id => $c_id });
+
+    # check the error conditions first - we need to recover
+    $m->redirect('edit-c-list.html') unless defined $challenge;
+    $m->redirect('edit-c-list.html?c_id=$challenge->{c_id}') unless exists $my_roles->{$challenge->{_admin}};
+
+    my $roles = $zaapt->get_model('Account')->sel_all_roles();
+    my @options = map { { value => $_->{r_id}, text => $_->{r_name} } } @$roles;
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Edit a Challenge</h1>
+
+<p><a href="edit-c-list.html">&laquo; Back to Challenge List</a></p>
+
+<h2>Challenge: <% $challenge->{c_name} | h %> - '<% $challenge->{c_title} | h %>'</h2>
+
+<& /zaapt/common/form.mhtml, action => 'edit-c-upd.html', elements => [
+        { type => 'hidden', name => 'c_id', value => $c_id },
+        { type => 'text', field => 'Name', name => 'c_name', size => 40, value => $challenge->{c_name} },
+        { type => 'text', field => 'Title', name => 'c_title', size => 40, value => $challenge->{c_title} },
+        { type => 'textarea', field => 'Description', name => 'c_description', rows => 10, cols => 40, value => $challenge->{c_description} },
+        { type => 'note', value => "Note: Description is in 'Phliky' format." },
+        { type => 'select', field => 'Admin Role', name => '_admin', options => \@options, selected => $challenge->{_admin} },
+        { type => 'select', field => 'View Role', name => '_view', options => \@options, selected => $challenge->{_view} },
+        { type => 'submit', field => 'Actions', value => 'Save', cancel => 'edit-c-list.html' },
+    ]
+&>
+
+%# ----------------------------------------------------------------------------
