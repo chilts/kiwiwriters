@@ -53,6 +53,7 @@ CREATE TABLE challenge.event (
     name            TEXT NOT NULL,
     title           TEXT NOT NULL,
     description     TEXT NOT NULL,
+    rules           TEXT NOT NULL,
     goal            INTEGER NOT NULL,
     startts         TIMESTAMP WITH TIME ZONE NOT NULL,
     endts           TIMESTAMP WITH TIME ZONE NOT NULL,
