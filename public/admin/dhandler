@@ -18,7 +18,7 @@
 
     # see if this model can be edited
     if ( exists $models->{$model} ) {
-        $m->comp( "/zaapt/model/$model/$a.mhtml", %ARGS, zaapt => $ZAAPT, roles => $SESS->{roles}, my_roles => $SESS->{roles}, id => $SESS->{id} );
+        $m->comp( "/zaapt/model/$model/$a.mhtml", %ARGS, zaapt => $ZAAPT, roles => $SESS->{roles}, my_roles => $SESS->{roles}, a_id => $SESS->{id} );
     }
     else {
         $m->clear_buffer();

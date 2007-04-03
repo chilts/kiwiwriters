@@ -38,9 +38,9 @@
     }
 
     my $err = [];
-    if ( $act eq 'join' ) {
+    if ( $act eq 'accept' ) {
         unless ( defined $status ) {
-            $model->join_event({ e_id => $event->{e_id}, a_id => $a_id });
+            $model->accept_challenge({ e_id => $event->{e_id}, a_id => $a_id });
             $m->redirect('?');
         }
     }
@@ -66,12 +66,60 @@
 
 <h2>Your Current Status</h2>
 
-<& /zaapt/common/err.mhtml, err => $err &>
+<pre>
+status=<% $event->{e_status} | h %>
+</pre>
 
-% if ( defined $status ) {
+% if ( $event->{e_status} eq 'future' ) {
 
 <p>
-    You have completed:
+    This challenge has not yet started.
+</p>
+
+% } elsif ( $event->{e_status} eq 'archive' ) {
+
+<p>
+    This challenge has finished.
+</p>
+
+%     if ( defined $status ) {
+<p>
+    You completed:
+    <strong><& render-quantity.mhtml, amount => $status->{p_progress}, unit => $event->{ca_unit}, units => $event->{ca_units} &></strong>
+</p>
+
+<p>
+    Here is your participant icon:
+</p>
+
+%         if ( $status->{p_progress} >= $event->{e_goal} ) {
+<p>
+    <strong>Well done!</strong> You have completed this challenge. Here is your winner's icon:
+</p>
+
+<p class="center">
+    <img src="" title="Winners Icon" />
+</p>
+%         }
+%         if ( 0 ) {
+<h2>Your Progress</h2>
+
+<p><strong>ToDo</strong>: A table with dates/days and progress...</p>
+%         }
+%     } else {
+<p>
+    You did not participate in this challenge.
+</p>
+%     }
+
+% } else {
+
+<& /zaapt/common/err.mhtml, err => $err &>
+
+%     if ( defined $status ) {
+
+<p>
+    You have already completed:
     <strong><& render-quantity.mhtml, amount => $status->{p_progress}, unit => $event->{ca_unit}, units => $event->{ca_units} &></strong>
 </p>
 
@@ -90,7 +138,6 @@
 &>
 </div>
 
-%     if ( $status->{p_progress} < $event->{e_goal} ) {
 <p>
     Here is your participant icon:
 </p>
@@ -98,31 +145,32 @@
 <p class="center">
     <img src="" title="Participant Icon" />
 </p>
-%     } else {
+
+%         if ( $status->{p_progress} >= $event->{e_goal} ) {
 <p>
-    <strong>Well done!</strong> You have completed this challenge. Here, have a winner's icon:
+    <strong>Well done!</strong> You have completed this challenge. Here is your winner's icon:
 </p>
 
 <p class="center">
     <img src="" title="Winners Icon" />
 </p>
-%     }
-
-%     if ( 0 ) {
+%         }
+%         if ( 0 ) {
 <h2>Your Progress</h2>
 
 <p><strong>ToDo</strong>: A table with dates/days and progress...</p>
-%     }
-% } else {
+%         }
+%     } else {
 
 <p>You are not yet participating in this challenge. What are yer? Chicken? <& /zaapt/common/icon.mhtml, name => 'emoticon_tongue' &></p>
 
 <p>
-     <a href="?act=join">
+     <a href="?act=accept">
          <& /zaapt/common/icon.mhtml, name => 'accept', title => "Accept" &>
          Accept this challenge!
      </a>
 </p>
+%     }
 % }
 
 <& view-participants.mhtml,

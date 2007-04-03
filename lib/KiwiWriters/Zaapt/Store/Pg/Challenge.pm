@@ -25,7 +25,14 @@ my $table = {
     event => {
         name => 'event',
         prefix => 'e',
-        cols => [ qw(id challenge_id category_id account_id name title description rules goal dt:startts dt:endts ts:inserted ts:updated) ],
+        cols => [
+            'id',
+            [ 'challenge_id', 'fk', 'c_id' ],
+            [ 'category_id', 'fk', 'ca_id' ],
+            [ 'account_id', 'fk', 'a_id' ],
+            qw(name title description rules goal dt:startts dt:endts ts:inserted ts:updated),
+            [ 'status', 'virtual', "CASE WHEN startts > CURRENT_TIMESTAMP THEN 'future' WHEN endts < CURRENT_TIMESTAMP THEN 'archive' ELSE 'current' END" ]
+        ],
         alias => {
             challenge_id => 'c_id',
             category_id => 'ca_id',
@@ -35,12 +42,21 @@ my $table = {
     participant => {
         name => 'participant',
         prefix => 'p',
-        cols => [ qw(id event_id account_id progress ts:inserted ts:updated) ],
+        cols => [
+            'id',
+            [ 'event_id', 'fk', 'e_id' ],
+            [ 'account_id', 'fk', 'a_id' ],
+            qw(progress ts:inserted ts:updated)
+        ],
     },
     progress => {
         name => 'progress',
         prefix => 'pr',
-        cols => [ qw(id participant_id date progress ts:inserted ts:updated) ],
+        cols => [
+            'id',
+            [ 'participant_id', 'fk', 'p_id' ],
+            qw( date progress ts:inserted ts:updated )
+        ],
     },
 };
 
@@ -51,7 +67,7 @@ my $join = {
 
 ## ----------------------------------------------------------------------------
 
-# creates {sql_fqt} and {sql_cols}
+# creates {sql_fqt} and {sql_sel_cols}
 __PACKAGE__->_mk_sql( $schema, $table );
 
 # generate the SQL accessors
@@ -66,11 +82,18 @@ $table->{account} = {
     prefix => 'a',
     cols   => [ qw(id username) ],
 };
-$table->{account}{sql_fqt} = "$table->{account}{schema}.$table->{account}{name} $table->{account}{prefix}",
-$table->{account}{sql_cols} = __PACKAGE__->_mk_cols( $table->{account}{prefix}, @{$table->{account}{cols}} );
+$table->{account}{sql_fqt} = __PACKAGE__->_mk_sel_fqt($table->{account}{schema}, $table->{account}{name}, $table->{account}{prefix});
+$table->{account}{sql_sel_cols} = __PACKAGE__->_mk_cols( $table->{account}{prefix}, @{$table->{account}{cols}} );
 $join->{p_a} = "JOIN account.account a ON (p.account_id = a.id)";
 
 ## ----------------------------------------------------------------------------
+
+$join->{e_p} = "JOIN $schema.participant p ON (e.id = p.event_id)";
+
+# create the standard selecters
+__PACKAGE__->mk_selecter( $schema, $table->{challenge}{name}, $table->{challenge}{prefix}, @{$table->{challenge}{cols}} );
+__PACKAGE__->mk_selecter( $schema, $table->{category}{name}, $table->{category}{prefix}, @{$table->{category}{cols}} );
+__PACKAGE__->mk_select_row( 'sel_event', "SELECT $table->{challenge}{sql_sel_cols}, $table->{event}{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} WHERE e.id = ?", [ 'e_id' ] );
 
 # create sel_challenge_using_name
 __PACKAGE__->mk_selecter_using( $schema, 'challenge', 'c', 'name', @{$table->{challenge}{cols}} );
@@ -78,41 +101,43 @@ __PACKAGE__->mk_selecter_using( $schema, 'challenge', 'c', 'name', @{$table->{ch
 sub sel_event_using_name {
     my ($self, $hr) = @_;
     my $t = $table->{event};
-    return $self->_row( "SELECT $table->{challenge}{sql_cols}, $t->{sql_cols}, $table->{category}{sql_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} $join->{e_ca} WHERE $t->{prefix}.name = ?", $hr->{e_name} );
+    return $self->_row( "SELECT $table->{challenge}{sql_sel_cols}, $t->{sql_sel_cols}, $table->{category}{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} $join->{e_ca} WHERE $t->{prefix}.name = ?", $hr->{e_name} );
 }
 
 sub sel_challenge_all {
     my ($self) = @_;
     my $t = $table->{challenge};
-    return $self->_rows( "SELECT $t->{sql_cols} FROM $t->{sql_fqt} ORDER BY $t->{prefix}.id" );
+    return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} ORDER BY $t->{prefix}.id" );
 }
 
 sub sel_category_all {
     my ($self) = @_;
     my $t = $table->{category};
-    return $self->_rows( "SELECT $t->{sql_cols} FROM $t->{sql_fqt} ORDER BY $t->{prefix}.id" );
+    return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} ORDER BY $t->{prefix}.id" );
 }
 
 sub sel_category_isstandard_all {
     my ($self) = @_;
     my $t = $table->{category};
-    return $self->_rows( "SELECT $t->{sql_cols} FROM $t->{sql_fqt} WHERE $t->{prefix}.isstandard ORDER BY $t->{prefix}.id" );
+    return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} WHERE $t->{prefix}.isstandard ORDER BY $t->{prefix}.id" );
 }
 
 sub sel_event_all_for {
     my ($self, $hr) = @_;
     my $t = $table->{event};
-    return $self->_rows( "SELECT $t->{sql_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} WHERE $table->{challenge}{prefix}.id = ? ORDER BY $t->{prefix}.id", $hr->{c_id} );
+    return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} WHERE $table->{challenge}{prefix}.id = ? ORDER BY $t->{prefix}.id", $hr->{c_id} );
 }
 
 sub sel_event_all_current_for {
     my ($self, $hr) = @_;
     my $t = $table->{event};
+    my $p = $table->{event}{prefix};
+
     return $self->_rows(
         "SELECT
-            $table->{challenge}{sql_cols},
-            $t->{sql_cols},
-            $table->{category}{sql_cols}
+            $table->{challenge}{sql_sel_cols},
+            $t->{sql_sel_cols},
+            $table->{category}{sql_sel_cols}
         FROM
             $table->{challenge}{sql_fqt}
             $join->{c_e}
@@ -120,11 +145,11 @@ sub sel_event_all_current_for {
         WHERE
             $table->{challenge}{prefix}.id = ?
         AND
-            $t->{prefix}.startts < CURRENT_TIMESTAMP
+            $p.startts < CURRENT_TIMESTAMP
         AND
-            $t->{prefix}.endts > CURRENT_TIMESTAMP
+            $p.endts > CURRENT_TIMESTAMP
         ORDER BY
-            $t->{prefix}.startts, $t->{prefix}.endts",
+            $p.startts, $p.endts",
         $hr->{c_id}
     );
 }
@@ -134,9 +159,9 @@ sub sel_event_all_archive_for {
     my $t = $table->{event};
     return $self->_rows(
         "SELECT
-            $table->{challenge}{sql_cols},
-            $t->{sql_cols},
-            $table->{category}{sql_cols}
+            $table->{challenge}{sql_sel_cols},
+            $t->{sql_sel_cols},
+            $table->{category}{sql_sel_cols}
         FROM
             $table->{challenge}{sql_fqt}
             $join->{c_e}
@@ -156,9 +181,9 @@ sub sel_event_all_future_for {
     my $t = $table->{event};
     return $self->_rows(
         "SELECT
-            $table->{challenge}{sql_cols},
-            $t->{sql_cols},
-            $table->{category}{sql_cols}
+            $table->{challenge}{sql_sel_cols},
+            $t->{sql_sel_cols},
+            $table->{category}{sql_sel_cols}
         FROM
             $table->{challenge}{sql_fqt}
             $join->{c_e}
@@ -176,16 +201,16 @@ sub sel_event_all_future_for {
 sub sel_participants_all_for {
     my ($self, $hr) = @_;
     my $t = $table->{participant};
-    return $self->_rows( "SELECT $t->{sql_cols}, $table->{account}{sql_cols} FROM $t->{sql_fqt} $join->{p_a} ORDER BY $t->{prefix}.progress DESC, $table->{account}{prefix}.username" );
+    return $self->_rows( "SELECT $t->{sql_sel_cols}, $table->{account}{sql_sel_cols} FROM $table->{event}{sql_fqt} $join->{e_p} $join->{p_a} WHERE e.id = ? ORDER BY $t->{prefix}.progress DESC, $table->{account}{prefix}.username", $hr->{e_id} );
 }
 
 sub sel_participant_status {
     my ($self, $hr) = @_;
     my $t = $table->{participant};
-    return $self->_row( "SELECT $t->{sql_cols} FROM $t->{sql_fqt} WHERE $t->{prefix}.event_id = ? AND $t->{prefix}.account_id = ?", $hr->{e_id}, $hr->{a_id} );
+    return $self->_row( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} WHERE $t->{prefix}.event_id = ? AND $t->{prefix}.account_id = ?", $hr->{e_id}, $hr->{a_id} );
 }
 
-sub join_event {
+sub accept_challenge {
     my ($self, $hr) = @_;
     my $t = $table->{participant};
     return $self->_do( "INSERT INTO $schema.$t->{name}(event_id, account_id) VALUES(?, ?)", $hr->{e_id}, $hr->{a_id} );

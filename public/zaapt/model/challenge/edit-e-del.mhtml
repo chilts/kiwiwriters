@@ -18,7 +18,7 @@
 
     $model->del_event({ e_id => $e_id });
 
-    $m->redirect("edit-e-list.html?" . $event->{e_challenge_id} );
+    $m->redirect("edit-e-list.html?c_id=" . $event->{c_id} );
     return;
 </%init>
 %# ----------------------------------------------------------------------------

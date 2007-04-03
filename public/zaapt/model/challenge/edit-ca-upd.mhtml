@@ -2,21 +2,20 @@
 <%args>
     $zaapt
     $my_roles
+    $ca_id
     $ca_title
     $ca_description
+    $ca_isstandard
     $ca_unit
     $ca_units
-    $ca_isstandard => 0
 </%args>
-%# ----------------------------------------------------------------------------
-<%once>
-    use URI::Escape;
-</%once>
 %# ----------------------------------------------------------------------------
 <%init>
     $m->redirect('edit-c-list.html') unless exists $my_roles->{super};
 
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $category = $model->sel_category({ ca_id => $ca_id });
+    $m->redirect('edit-ca-list.html') unless defined $category;
 
     # check these values are valid
     my $err = [];
@@ -36,30 +35,32 @@
     $ca_description =~ s{\r}{}gxms;
 
     unless ( @$err ) {
-        $model->ins_category({
+        $model->upd_category({
             ca_title       => $ca_title,
             ca_description => $ca_description,
             ca_isstandard  => $ca_isstandard,
             ca_unit        => $ca_unit,
             ca_units       => $ca_units,
+            ca_id          => $ca_id,
         });
         $m->redirect("edit-ca-list.html");
         return;
     }
 </%init>
 %# ----------------------------------------------------------------------------
-<h1>Add a Category</h1>
+<h1>Edit a Category</h1>
 
 <p><a href="edit-ca-list.html">&laquo; Back to Category List</a></p>
 
-<h2>Category: ?</h2>
+<h2>Category: '<% $category->{ca_name} | h %>'</h2>
 
-<& /zaapt/common/form.mhtml, action => 'edit-ca-ins.html', elements => [
-        { type => 'text', field => 'Title', name => 'ca_title', size => 40, value => $ca_title },
-        { type => 'textarea', field => 'Description', name => 'ca_description', rows => 10, cols => 40, value => $ca_description },
-        { type => 'check', field => 'Is a Standard?', name => 'ca_isstandard', checked => $ca_isstandard },
-        { type => 'text', field => 'Unit', name => 'ca_unit', value => $ca_unit },
-        { type => 'text', field => 'Units', name => 'ca_units', value => $ca_units },
+<& /zaapt/common/form.mhtml, action => 'edit-ca-upd.html', elements => [
+        { type => 'hidden', name => 'ca_id', value => $category->{ca_id} },
+        { type => 'text', field => 'Title', name => 'ca_title', size => 40, value => $category->{ca_title} },
+        { type => 'textarea', field => 'Description', name => 'ca_description', rows => 10, cols => 40, value => $category->{ca_description} },
+        { type => 'check', field => 'Is a Standard?', name => 'ca_isstandard', checked => $category->{ca_isstandard} },
+        { type => 'text', field => 'Unit', name => 'ca_unit', value => $category->{ca_unit} },
+        { type => 'text', field => 'Units', name => 'ca_units', value => $category->{ca_units} },
         { type => 'submit', field => 'Actions', value => 'Add Category', cancel => 'edit-ca-list.html' },
     ]
 &>

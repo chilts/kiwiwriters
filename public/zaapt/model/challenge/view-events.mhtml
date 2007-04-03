@@ -12,7 +12,7 @@
 <p><% $event->{e_description} | h %></p>
 
 <p>
-    From <strong><% $event->{e_startts} | h %></strong> until <strong><% $event->{e_endts} | h %></strong>
+    From <strong><& /zaapt/common/date.mhtml, date => $event->{e_startts} &></strong> until <strong><& /zaapt/common/date.mhtml, date => $event->{e_endts} &></strong>
 </p>
 
 <p><a href="<% $event->{e_name} | u %>.html">Read more...</a></p>

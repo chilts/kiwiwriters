@@ -2,8 +2,7 @@
 <%args>
     $zaapt
     $my_roles
-    $a_id
-    $c_id
+    $e_id
     $ca_id
     $e_name
     $e_title
@@ -21,12 +20,12 @@
 %# ----------------------------------------------------------------------------
 <%init>
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
-    my $challenge = $model->sel_challenge({ c_id => $c_id });
 
-    $m->redirect('edit-c-list.html') unless defined $challenge;
+    my $event = $model->sel_event({ e_id => $e_id });
+    $m->redirect('edit-c-list.html') unless defined $event;
 
     # need admin
-    $m->redirect('edit-c-list.html') unless exists $my_roles->{$challenge->{_admin}};
+    $m->redirect('edit-c-list.html') unless exists $my_roles->{$event->{_admin}};
 
     my $err = [];
 
@@ -74,14 +73,14 @@
     unless ( @$err ) {
         # see if this event name already exists (name is unique across ALL challenges)
         my $event = $model->sel_event_using_name({ e_name => $e_name });
-        push @$err, "Event name '$e_name' already exists" if defined $event;
+        if ( defined $event and $event->{e_id} != $e_id ) {
+            push @$err, "Event name '$e_name' already exists";
+        }
     }
 
     unless ( @$err ) {
-        $model->ins_event({
-            c_id          => $c_id,
+        $model->upd_event({
             ca_id         => $ca_id,
-            a_id          => $a_id,
             e_name        => $e_name,
             e_title       => $e_title,
             e_description => $e_description,
@@ -89,8 +88,9 @@
             e_goal        => $e_goal,
             e_startts     => $e_startts,
             e_endts       => $e_endts,
+            e_id          => $e_id,
         });
-        $m->redirect("edit-e-list.html?c_id=$c_id");
+        $m->redirect("edit-e-list.html?c_id=$event->{c_id}");
         return;
     }
 
@@ -98,16 +98,16 @@
     my @ca_options = map { { value => $_->{ca_id}, text => "$_->{ca_title} ($_->{ca_units})" } } @$categories;
 </%init>
 %# ----------------------------------------------------------------------------
-<h1>Add an Event</h1>
+<h1>Edit an Event</h1>
 
-<p><a href="edit-c-list.html?c_id=<% $c_id | u %>">&laquo; Back to Challenge List</a></p>
+<p><a href="edit-e-list.html?c_id=<% $event->{c_id} | u %>">&laquo; Back to Event List</a></p>
 
-<h2>Challenge: <% $challenge->{c_name} | h %> - '<% $challenge->{c_title} | h %>'</h2>
+<h2>Challenge: <% $event->{c_name} | h %> - '<% $event->{c_title} | h %>'</h2>
 
 <& /zaapt/common/err.mhtml, err => $err &>
 
-<& /zaapt/common/form.mhtml, action => 'edit-e-ins.html', elements => [
-        { type => 'hidden', name => 'c_id', value => $c_id },
+<& /zaapt/common/form.mhtml, action => 'edit-e-upd.html', elements => [
+        { type => 'hidden', name => 'e_id', value => $e_id },
         { type => 'select', field => 'Category', name => 'ca_id', options => \@ca_options, selected => $ca_id },
         { type => 'text', field => 'Name', name => 'e_name', size => 40, value => $e_name },
         { type => 'textarea', field => 'Title', name => 'e_title', rows => 3, cols => 40, value => $e_title },
