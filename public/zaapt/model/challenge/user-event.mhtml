@@ -66,10 +66,6 @@
 
 <h2>Your Current Status</h2>
 
-<pre>
-status=<% $event->{e_status} | h %>
-</pre>
-
 % if ( $event->{e_status} eq 'future' ) {
 
 <p>
