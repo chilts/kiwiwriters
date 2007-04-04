@@ -122,7 +122,7 @@
         { type => 'note', value => 'Note: enter a date and time, \'yyyy-mm-dd hh:mm:ss\'' },
         { type => 'text', field => 'End Time', name => 'e_endts', value => $e_endts },
         { type => 'note', value => 'Note: enter a date and time, \'yyyy-mm-dd hh:mm:ss\'' },
-        { type => 'submit', field => 'Actions', value => 'Add Event', cancel => 'edit-e-list.html' },
+        { type => 'submit', field => 'Actions', value => 'Save', cancel => 'edit-e-list.html' },
     ]
 &>
 
