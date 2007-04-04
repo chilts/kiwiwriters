@@ -1,0 +1,38 @@
+<%once>
+    use GD;
+</%once>
+<%init>
+    my ($e_name, $type) = $m->dhandler_arg() =~ m{ \A ([\w-]+)-(winner|participant) \. png \z }xms;
+
+    unless ( $type ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+
+    # make sure this event exists
+    my $model = $ZAAPT->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $event = $model->sel_event_using_name({ e_name => $e_name });
+
+    unless ( defined $event ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+
+    $r->content_type('image/png');
+
+    # get the three lines of text
+    my @lines = split m{\n}xms, $event->{e_title};
+
+    my $image = GD::Image->new("/usr/share/kiwiwriters/banners/member-$type-120x90.png");
+
+    warn "$lines[0]";
+    warn "$lines[1]";
+    warn "$lines[2]";
+
+    binmode STDOUT;
+    print $image->png();
+
+    return;
+</%init>
