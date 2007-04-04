@@ -1,5 +1,9 @@
 <%once>
     use GD;
+    my $winner = GD::Image->new("/usr/share/kiwiwriters/banners/member-winner-120x90.png");
+    my $participant = GD::Image->new("/usr/share/kiwiwriters/banners/member-participant-120x90.png");
+    my $black_w = $winner->colorAllocate(0,0,0);
+    my $black_p = $participant->colorAllocate(0,0,0);
 </%once>
 <%init>
     my ($e_name, $type) = $m->dhandler_arg() =~ m{ \A ([\w-]+)-(winner|participant) \. png \z }xms;
@@ -25,11 +29,12 @@
     # get the three lines of text
     my @lines = split m{\n}xms, $event->{e_title};
 
-    my $image = GD::Image->new("/usr/share/kiwiwriters/banners/member-$type-120x90.png");
+    my $image = ($type eq 'winner') ? $winner->clone() : $participant->clone();
+    my $color = ($type eq 'winner') ? $black_w : $black_p;
 
-    warn "$lines[0]";
-    warn "$lines[1]";
-    warn "$lines[2]";
+    for (my $i = 0; $i < @lines; $i++ ) {
+        $image->string(gdSmallFont, 60 - ((length $lines[$i])/2*6), 16+$i*12, $lines[$i], $color);
+    }
 
     binmode STDOUT;
     print $image->png();
