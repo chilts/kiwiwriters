@@ -58,18 +58,24 @@
 %# ----------------------------------------------------------------------------
 <& render-event.mhtml, event => $event, participants => scalar @$participants &>
 
-% if ( 0 ) {
-<p class="info">
-    This challenge is now closed.
+% if ( defined $status ) {
+<p class="center">
+    Here is your participant icon:
 </p>
+
+<p class="center">
+    <img src="/d/challenge/<% $event->{c_name} | u %>/<% $event->{e_name} | u %>-participant.png" title="Participant Icon" />
+</p>
+
 % }
 
-<h2>Your Current Status</h2>
+<h2>Your Status</h2>
 
 % if ( $event->{e_status} eq 'future' ) {
 
 <p>
-    This challenge has not yet started.
+    You have:
+    <strong><& render-quantity.mhtml, amount => $status->{p_progress}, unit => $event->{ca_unit}, units => $event->{ca_units} &></strong>
 </p>
 
 % } elsif ( $event->{e_status} eq 'archive' ) {
@@ -84,17 +90,13 @@
     <strong><& render-quantity.mhtml, amount => $status->{p_progress}, unit => $event->{ca_unit}, units => $event->{ca_units} &></strong>
 </p>
 
-<p>
-    Here is your participant icon:
-</p>
-
 %         if ( $status->{p_progress} >= $event->{e_goal} ) {
-<p>
+<p class="center">
     <strong>Well done!</strong> You have completed this challenge. Here is your winner's icon:
 </p>
 
 <p class="center">
-    <img src="" title="Winners Icon" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/<% $event->{e_name} | u %>-winner.png" title="Winners Icon" />
 </p>
 %         }
 %         if ( 0 ) {
@@ -134,21 +136,13 @@
 &>
 </div>
 
-<p>
-    Here is your participant icon:
-</p>
-
-<p class="center">
-    <img src="" title="Participant Icon" />
-</p>
-
 %         if ( $status->{p_progress} >= $event->{e_goal} ) {
-<p>
+<p class="center">
     <strong>Well done!</strong> You have completed this challenge. Here is your winner's icon:
 </p>
 
 <p class="center">
-    <img src="" title="Winners Icon" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/<% $event->{e_name} | u %>-winner.png" title="Winners Icon" />
 </p>
 %         }
 %         if ( 0 ) {
