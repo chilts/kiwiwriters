@@ -21,6 +21,11 @@
             href => '/my/forum/',
             text => 'Forums',
         },
+        {
+            section => 'challenge',
+            href => '/my/challenge/site/',
+            text => 'Challenges',
+        },
     ];
     my $right = [
         {
