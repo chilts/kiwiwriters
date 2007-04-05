@@ -73,10 +73,23 @@
 
 % if ( $event->{e_status} eq 'future' ) {
 
+%     if ( defined $status ) {
 <p>
     You have:
     <strong><& render-quantity.mhtml, amount => $status->{p_progress}, unit => $event->{ca_unit}, units => $event->{ca_units} &></strong>
 </p>
+
+%     } else {
+
+<p>You are not yet participating in this challenge. What are yer? Chicken? <& /zaapt/common/icon.mhtml, name => 'emoticon_tongue' &></p>
+
+<p>
+     <a href="?act=accept">
+         <& /zaapt/common/icon.mhtml, name => 'accept', title => "Accept" &>
+         Accept this challenge!
+     </a>
+</p>
+%     }
 
 % } elsif ( $event->{e_status} eq 'archive' ) {
 
