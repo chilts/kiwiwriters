@@ -1,15 +1,33 @@
 %# ----------------------------------------------------------------------------
 <h1>My Pages</h1>
 
-<p>
-    This is your area. Here you can create challenges, join challenges and
-    annual events as well as participate in forums and many other things to get
-    the creative juices flowing.
+<p class="info">
+    Welcome back! You are signed in as
+    <& /zaapt/common/a_username.mhtml,
+        a_username => $SESS->{username}
+    &>.
 </p>
 
+% if ( $SESS->{admin} ) {
 <p>
-    You can also find fun stuff as well as more serious utilities which can
-    help you to write and write well.
+    You are an administrator: <a href="/admin/">Admin Area 51</a>.
+</p>
+% }
+
+<p>
+    Quick links:
+</p>
+
+<ul>
+    <li><a href="/my/forum/">Forums</a></li>
+    <li><a href="/my/challenge/">Challenges</a> - <a href="/my/challenge/current.html">Current</a> and <a href="/my/challenge/future.html">Future</a></li>
+    <li><a href="/news/site/">Latest News</a></li>
+</ul>
+
+<p>
+    Welcome to your area. Here you can create challenges, join member and
+    site-wide as well as participate in forums. There are many other things to
+    get the creative juices flowing too.
 </p>
 
 <h2>Tell someone about this site</h2>
