@@ -58,6 +58,8 @@
 %# ----------------------------------------------------------------------------
 <& render-event.mhtml, event => $event, participants => scalar @$participants &>
 
+<h2>Your Status</h2>
+
 % if ( defined $status ) {
 <p class="center">
     Here is your participant icon:
@@ -68,8 +70,6 @@
 </p>
 
 % }
-
-<h2>Your Status</h2>
 
 % if ( $event->{e_status} eq 'future' ) {
 
