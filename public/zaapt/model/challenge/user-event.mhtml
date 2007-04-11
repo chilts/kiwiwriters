@@ -93,10 +93,6 @@
 
 % } elsif ( $event->{e_status} eq 'archive' ) {
 
-<p>
-    This challenge has finished.
-</p>
-
 %     if ( defined $status ) {
 <p>
     You completed:
