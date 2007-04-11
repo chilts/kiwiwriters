@@ -87,8 +87,10 @@ COMMENT ON COLUMN challenge.participant.progress IS
     'The progress in terms of words, hours, pages, scenes, whatever...';
 
 -- table: progress
+CREATE SEQUENCE challenge.progress_id_seq;
 CREATE TABLE challenge.progress (
-    participant_id  INTEGER NOT NULL REFERENCES challenge.participant PRIMARY KEY,
+    id              INTEGER NOT NULL DEFAULT nextval('challenge.progress_id_seq'::TEXT) PRIMARY KEY,
+    participant_id  INTEGER NOT NULL REFERENCES challenge.participant,
     date            DATE NOT NULL,
     progress        INTEGER NOT NULL,
 
