@@ -6,24 +6,24 @@
 
 <& /zaapt/model/account/view.mhtml,
     zaapt => $ZAAPT,
-    a_id => $SESS->{id},
-    page => 'index'
+    id    => $SESS->{id},
+    page  => 'index'
 &>
 
 %# the user can't edit anything about the account
 
 <& /zaapt/model/profile/view.mhtml,
     zaapt => $ZAAPT,
-    a_id => $SESS->{id},
-    page => 'index',
+    id    => $SESS->{id},
+    page  => 'index',
 &>
 
 <p><a href="user-edit.html">Edit this Profile &raquo;</a></p>
 
 <& /zaapt/model/forum/view.mhtml,
     zaapt => $ZAAPT,
-    a_id => $SESS->{id},
-    page => 'info',
+    id    => $SESS->{id},
+    page  => 'info',
     t_name => 'bbcode',
 &>
 
