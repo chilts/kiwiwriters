@@ -2,7 +2,7 @@
 <%args>
     $zaapt
     $my_roles
-    $a_id
+    $id
     $c_id
     $ca_id
     $e_name
@@ -81,7 +81,7 @@
         $model->ins_event({
             c_id          => $c_id,
             ca_id         => $ca_id,
-            a_id          => $a_id,
+            a_id          => $id,
             e_name        => $e_name,
             e_title       => $e_title,
             e_description => $e_description,

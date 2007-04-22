@@ -6,12 +6,12 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $a_id => undef
+    $id => undef
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Profile");
-    my $profile = $model->sel_profile({ a_id => $a_id });
+    my $profile = $model->sel_profile({ a_id => $id });
 
     # check the error conditions first - we need to recover
     unless ( defined $profile ) {

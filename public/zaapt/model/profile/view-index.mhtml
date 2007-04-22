@@ -1,12 +1,12 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $a_id
+    $id
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Profile");
-    my $profile = $model->sel_profile({ a_id => $a_id });
+    my $profile = $model->sel_profile({ a_id => $id });
 
     unless ( defined $profile ) {
         $m->clear_buffer();

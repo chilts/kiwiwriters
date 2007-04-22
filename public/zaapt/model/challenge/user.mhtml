@@ -3,7 +3,7 @@
     $zaapt
     $c_name
     $page       => ''
-    $a_id
+    $id
 </%args>
 %# ----------------------------------------------------------------------------
 <%once>
@@ -46,7 +46,7 @@
             model      => $model,
             challenge  => $challenge,
             name       => $page,
-            a_id       => $a_id,
+            a_id       => $id,
         );
     }
     return;

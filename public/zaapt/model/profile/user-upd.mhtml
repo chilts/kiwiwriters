@@ -10,7 +10,7 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $a_id         => undef
+    $id           => undef
     $p_age        => undef
     $p_location   => undef
     $p_website    => undef
@@ -20,7 +20,7 @@
 %# ----------------------------------------------------------------------------
 <%init>
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Profile");
-    my $profile = $model->sel_profile({ a_id => $a_id });
+    my $profile = $model->sel_profile({ a_id => $id });
 
     $m->redirect('./') unless defined $profile;
 
@@ -39,7 +39,7 @@
             p_website => $p_website,
             p_favauthors => $p_favauthors,
             p_favbooks => $p_favbooks,
-            a_id => $a_id,
+            a_id => $id,
         });
         $m->redirect(".");
         return;
