@@ -23,7 +23,7 @@
             my_roles => $SESS->{roles},
             f_name => 'resources',
             page => $name,
-            a_id => $SESS->{id},
+            id => $SESS->{id},
             t_id => $t_id,
             last => $SESS->{last},
         );
