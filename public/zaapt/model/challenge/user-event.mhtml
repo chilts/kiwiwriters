@@ -62,11 +62,13 @@
 
 % if ( defined $status ) {
 <p class="center">
-    Here is your participant icon:
+    Here is your participant icon and your progress:
 </p>
 
 <p class="center">
-    <img src="/d/challenge/<% $event->{c_name} | u %>/<% $event->{e_name} | u %>-participant.png" title="Participant Icon" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/participant:<% $event->{e_name} | u %>.png" title="Participant Icon" />
+    &nbsp;&nbsp;&nbsp;
+    <img src="/d/challenge/<% $event->{c_name} | u %>/progkiwi:<% $event->{e_name} | u %>:<% $status->{a_username} | u %>.png" title="Participant Icon" />
 </p>
 
 % }
@@ -105,7 +107,7 @@
 </p>
 
 <p class="center">
-    <img src="/d/challenge/<% $event->{c_name} | u %>/<% $event->{e_name} | u %>-winner.png" title="Winners Icon" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/winner:<% $event->{e_name} | u %>.png" title="Winners Icon" />
 </p>
 %         }
 %         if ( 0 ) {
@@ -151,7 +153,7 @@
 </p>
 
 <p class="center">
-    <img src="/d/challenge/<% $event->{c_name} | u %>/<% $event->{e_name} | u %>-winner.png" title="Winners Icon" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/winner:<% $event->{e_name} | u %>.png" title="Winners Icon" />
 </p>
 %         }
 %         if ( 0 ) {

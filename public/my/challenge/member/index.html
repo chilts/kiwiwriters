@@ -4,23 +4,20 @@
 
     # see if this person is logged in
     if ( $SESS->{_signed_in} ) {
-        $m->comp('/zaapt/model/forum/user.mhtml',
+        $m->comp('/zaapt/model/challenge/user.mhtml',
             %ARGS,
             zaapt => $ZAAPT,
-            my_roles => $SESS->{roles},
             c_name => 'member',
             page => 'index',
-            a_id => $SESS->{id},
+            id => $SESS->{id},
         );
     }
     else {
-        $m->comp('/zaapt/model/forum/view.mhtml',
+        $m->comp('/zaapt/model/challenge/view.mhtml',
             %ARGS,
             zaapt => $ZAAPT,
             c_name => 'member',
             page => 'index',
-            t_id => $t_id,
-            t_name => $t_name,
         );
     }
 

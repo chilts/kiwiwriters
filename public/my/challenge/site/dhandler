@@ -10,7 +10,7 @@
             zaapt => $ZAAPT,
             c_name => 'site',
             page => $name,
-            a_id => $SESS->{id},
+            id => $SESS->{id},
         );
     }
     else {
