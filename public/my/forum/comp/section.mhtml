@@ -31,7 +31,7 @@
 %     if ( defined $forum->{po_username} ) {
             <& /zaapt/common/a_username.mhtml, a_username => $forum->{po_username} &>
             <br style="clear: both;" />
-            <span class="footnote"><& /zaapt/common/date.mhtml, date => $forum->{f_updated} &></span>
+            <span class="footnote"><& /zaapt/common/datetime.mhtml, datetime => $forum->{f_updated} &></span>
 %     } else {
             No Posts
 %     }
