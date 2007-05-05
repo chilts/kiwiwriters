@@ -16,7 +16,7 @@
         # main index page
         $m->comp('/zaapt/model/profile/view-index.mhtml',
             zaapt      => $zaapt,
-            a_id       => $id,
+            id         => $id,
         );
     }
     else {
