@@ -33,11 +33,6 @@ my $table = {
             qw(name title description rules goal dt:startts dt:endts ts:inserted ts:updated),
             [ 'status', 'virtual', "CASE WHEN startts > CURRENT_TIMESTAMP THEN 'future' WHEN endts < CURRENT_TIMESTAMP THEN 'archive' ELSE 'current' END" ]
         ],
-        alias => {
-            challenge_id => 'c_id',
-            category_id => 'ca_id',
-            account_id => 'a_id',
-        },
     },
     participant => {
         name => 'participant',
@@ -207,7 +202,7 @@ sub sel_participants_all_for {
 sub sel_participant_status {
     my ($self, $hr) = @_;
     my $t = $table->{participant};
-    return $self->_row( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} WHERE $t->{prefix}.event_id = ? AND $t->{prefix}.account_id = ?", $hr->{e_id}, $hr->{a_id} );
+    return $self->_row( "SELECT $t->{sql_sel_cols}, $table->{account}{sql_sel_cols} FROM $t->{sql_fqt} $join->{p_a} WHERE $t->{prefix}.event_id = ? AND $t->{prefix}.account_id = ?", $hr->{e_id}, $hr->{a_id} );
 }
 
 sub accept_challenge {
@@ -215,6 +210,20 @@ sub accept_challenge {
     my $t = $table->{participant};
     return $self->_do( "INSERT INTO $schema.$t->{name}(event_id, account_id) VALUES(?, ?)", $hr->{e_id}, $hr->{a_id} );
 }
+
+my $sel_progress_all_for = "
+    SELECT
+        $table->{participant}{sql_sel_cols}, $table->{progress}{sql_sel_cols}
+    FROM
+        $table->{participant}{sql_fqt}, $join->{p_pr}
+    WHERE
+        p.event_id = ? AND p.account_id = ?
+";
+
+__PACKAGE__->mk_select_rows( 'sel_progress_all_for', $sel_progress_all_for, [ 'e_id', 'a_id' ] );
+
+# for the sub to get the current progress of the current events
+# insert into challenge.progress(participant_id, date, progress) select id, current_date-1, progress from challenge.participant where event_id = 1
 
 sub _nuke {
     my ($self) = @_;
