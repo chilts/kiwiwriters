@@ -68,7 +68,9 @@
 <p class="center">
     <img src="/d/challenge/<% $event->{c_name} | u %>/participant:<% $event->{e_name} | u %>.png" title="Participant Icon" />
     &nbsp;&nbsp;&nbsp;
-    <img src="/d/challenge/<% $event->{c_name} | u %>/progkiwi:<% $event->{e_name} | u %>:<% $status->{a_username} | u %>.png" title="Participant Icon" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/progkiwi:<% $event->{e_name} | u %>:<% $status->{a_username} | u %>.png" title="Progress Percentage" />
+    &nbsp;&nbsp;&nbsp;
+    <img src="/d/challenge/<% $event->{c_name} | u %>/progworm:<% $event->{e_name} | u %>:<% $status->{a_username} | u %>.png" title="Progress Word Count" />
 </p>
 
 % }
