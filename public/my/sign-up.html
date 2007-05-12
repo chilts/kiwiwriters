@@ -26,9 +26,8 @@
         $notify = ( $notify eq '1' ? 1 : 0 );
 
         # check that the username consists only of lowercase letters, numbers and the dash
-        $username = lc $username;
         unless ( $username =~ m{ \A [a-z0-9][a-z0-9\-]+[a-z0-9] \z }xms ) {
-            push @$err, "Username must consist only of letters, numbers or the dash (-) and be at least 3 characters long.";
+            push @$err, "Username must consist only of lowercase letters, numbers or the dash (-) and be at least 3 characters long.";
         }
 
         my $empty = 0;
