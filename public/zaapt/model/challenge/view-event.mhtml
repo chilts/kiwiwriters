@@ -38,8 +38,8 @@
 <h2>Details</h2>
 
 <p>
-    Start: <strong><& /zaapt/common/date.mhtml, date => $event->{e_startts} &></strong><br />
-    End: <strong><& /zaapt/common/date.mhtml, date => $event->{e_endts} &></strong><br />
+    Start: <strong><& /zaapt/common/datetime.mhtml, datetime => $event->{e_startts} &></strong><br />
+    End: <strong><& /zaapt/common/datetime.mhtml, datetime => $event->{e_endts} &></strong><br />
     Type: <strong> <% $event->{ca_title} | h %></strong><br />
     Goal: <strong> <% $event->{e_goal} | h %> <% $event->{ca_units} | h %></strong><br />
     Participants: <strong><% scalar @$participants | h %></strong><br />
