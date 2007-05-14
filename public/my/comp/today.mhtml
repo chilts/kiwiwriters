@@ -6,5 +6,7 @@
     -
     <a href="/my/profile/">Profile</a>
     -
+    <a href="/my/friend/">Friends</a>
+    -
     <a href="/my/sign-out.html">Sign Out</a>
 </div>
