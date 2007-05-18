@@ -1,0 +1,23 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    my ($username) = $m->dhandler_arg() =~ m{ \A (.+) \. html \z }xms;
+    # return if $m->cache_self( key => $username, expire_in => '10s' );
+
+    my $model = $ZAAPT->get_model('Account');
+    my $account = $model->sel_account_using_username({ a_username => $username });
+
+    unless ( defined $account ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Member: <& /zaapt/common/a_username.mhtml, a_username => $username &></h1>
+
+<& /zaapt/model/forum/view.mhtml,
+    zaapt => $ZAAPT,
+    id => $account->{a_id},
+    page => 'user-posts'
+&>
+%# ----------------------------------------------------------------------------
