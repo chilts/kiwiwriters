@@ -1,0 +1,21 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    my ($m_id) = $m->dhandler_arg() =~ m{ \A msg:(\w+) \. html \z }xms;
+    # return if $m->cache_self( key => $name, expire_in => '10s' );
+
+    unless ( defined $m_id ) {
+        $m->abort(404);
+        return;
+    }
+
+    $m->comp(
+        '/zaapt/model/message/user.mhtml',
+        %ARGS,
+        zaapt => $ZAAPT,
+        id    => $SESS->{id},
+        page  => 'message',
+        m_id  => $m_id,
+    );
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

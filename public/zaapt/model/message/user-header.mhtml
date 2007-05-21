@@ -1,0 +1,35 @@
+%# ----------------------------------------------------------------------------
+<h1>KiwiMail</h1>
+
+<p>
+    <& /zaapt/common/icon.mhtml, name => 'email_edit', title => 'New Message' &>
+    <a href="compose.html">Compose &raquo;</a>
+</p>
+
+<table class="data" style="table-layout: fixed;">
+    <thead>
+    <tr>
+        <th>
+            <& /zaapt/common/icon.mhtml, name => 'application_view_list', title => 'Summary' &>
+            <a href=".">Summary</a>
+        </th>
+        <th>
+            <& /zaapt/common/icon.mhtml, name => 'email', title => 'New Messages' &>
+            <a href="new.html">New</a>
+        </th>
+        <th>
+            <& /zaapt/common/icon.mhtml, name => 'email_open', title => 'Read' &>
+            <a href="read.html">Read</a>
+        </th>
+        <th>
+            <& /zaapt/common/icon.mhtml, name => 'email_go', title => 'Sent' &>
+            <a href="sent.html">Sent</a>
+        </th>
+        <th>
+            <& /zaapt/common/icon.mhtml, name => 'email_open_image', title => 'All' &>
+            <a href="all.html">All</a>
+        </th>
+    </tr>
+    </thead>
+</table>
+%# ----------------------------------------------------------------------------
