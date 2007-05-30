@@ -1,0 +1,9 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    my ($name) = $m->dhandler_arg() =~ m{ \A (.+) \. html \z }xms;
+    # return if $m->cache_self( key => $name, expire_in => '10s' );
+
+    $m->comp('/zaapt/model/blog/view.mhtml', %ARGS, zaapt => $ZAAPT, b_name => 'klog', page => 'index');
+    return;
+</%init>
+%# ----------------------------------------------------------------------------
