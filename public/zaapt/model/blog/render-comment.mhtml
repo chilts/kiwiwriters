@@ -4,7 +4,7 @@
 </%args>
 %# ----------------------------------------------------------------------------
 <p>
-    <a href="http://<% $comment->{c_homepage} | u %>" class="z-comments"><% $comment->{c_name} | h %></a> said:
+    <a href="http://<% $comment->{c_homepage} | h %>" class="z-comments"><% $comment->{c_name} | h %></a> said:
 </p>
 
 <& /zaapt/common/render.mhtml, t_name => 'text', content => $comment->{c_comment} &>
