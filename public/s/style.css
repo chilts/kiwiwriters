@@ -434,3 +434,10 @@ font-size:0.85em;
 .bbcode-u{
 text-decoration: underline;
 }
+
+.z-comments{ 
+background-image: url('/s/i/comment.png');
+background-repeat: no-repeat;
+background-position: left;
+padding-left: 20px;
+}
