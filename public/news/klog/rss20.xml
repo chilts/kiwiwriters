@@ -8,7 +8,7 @@
         zaapt  => $ZAAPT,
         b_name => 'klog',
         domain => 'kiwiwriters.org',
-        path   => 'klog'
+        path   => 'news/klog'
     );
 
     return;
