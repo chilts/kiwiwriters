@@ -1,0 +1,14 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    $m->comp('/zaapt/model/content/urlset.xml',
+        zaapt => $ZAAPT,
+        c_name => 'press-clippings',
+        location => "http://$CFG->{domain_name}/news/press-clippings",
+    );
+    return;
+</%init>
+%# ----------------------------------------------------------------------------
+<%flags>
+    inherit => '/syshandler'
+</%flags>
+%# ----------------------------------------------------------------------------
