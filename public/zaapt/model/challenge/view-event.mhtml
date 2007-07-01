@@ -48,8 +48,8 @@
 <h2>Join this Challenge</h2>
 
 <p>
-    Please <a href="/my/sign-in.html">sign in</a> first if you wish to join
-    this challenge.
+    Please <& /zaapt/common/sign-in-url.mhtml, text => 'sign in' &> first if
+    you wish to join this challenge.
 </p>
 
 <& view-participants.mhtml,
