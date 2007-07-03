@@ -1,0 +1,147 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $c_name
+    $id
+    $_act          => undef
+    $ca_id         => undef
+    $e_title1      => undef
+    $e_title2      => undef
+    $e_title3      => undef
+    $e_description => undef
+    $e_rules       => undef
+    $e_goal        => undef
+    $e_start_date  => undef
+    $e_start_time  => undef
+    $e_end_date    => undef
+    $e_end_time    => undef
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    use URI::Escape;
+
+    sub convert_titles_to_name {
+        my ($title1, $title2, $title3) = @_;
+
+        # try and do some funky things - though we can't have everything :-)
+        my $name = Zaapt::Utils::Conv::crunch("$title1 $title2 $title3");
+        $name =~ s{\b&\b}{and}gxms;
+        $name =~ s{[\'\"]}{}gxms; # "
+        $name =~ s{[^A-Za-z0-9]}{-}gxms;
+        $name =~ s{\A-+}{}gxms;
+        $name =~ s{-+\z}{}gxms;
+        $name =~ s{-+}{-}gxms;
+        return $name;
+    }
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $challenge = $model->sel_challenge_using_name({ c_name => $c_name });
+
+    $m->redirect('edit-c-list.html') unless defined $challenge;
+
+    my $err = [];
+
+    # check all the information and redirect to the event if it is inserted correctly
+    if ( defined $_act ) {
+        my $e_name = Zaapt::Utils::Conv::namify("$e_title1 $e_title2 $e_title3");
+        unless ( Zaapt::Utils::Valid::is_valid_name($e_name, 'Name') ) {
+            push @$err, 'At least one Title field should contain something';
+        }
+
+        # check each title is 11 chars or less
+        unless ( length $e_title1 <= 11 ) {
+            push @$err, 'Title1 should be 11 chars or less';
+        }
+        unless ( length $e_title2 <= 11 ) {
+            push @$err, 'Title2 should be 11 chars or less';
+        }
+        unless ( length $e_title3 <= 11 ) {
+            push @$err, 'Title3 should be 11 chars or less';
+        }
+        my $e_title = Zaapt::Utils::Conv::crunch("$e_title1 $e_title2 $e_title3");
+
+        $e_description = Zaapt::Utils::Conv::remove_cr( $e_description );
+        $e_rules = Zaapt::Utils::Conv::remove_cr( $e_rules );
+
+        unless ( Zaapt::Utils::Valid::is_positive_integer($e_goal, 'Goal') ) {
+            push @$err, Zaapt::Utils::Valid::err();
+        }
+
+        my $e_startts;
+        $e_startts = join('-', reverse split('\/', $e_start_date));
+        $e_startts .= ' ' . $e_start_time;
+        unless ( Zaapt::Utils::Valid::is_datetime($e_startts, 'Start Time') ) {
+            push @$err, "Start Time must have a valid date 'dd/mm/yyyy' and a time 'hh:mm:ss'";
+        }
+
+        my $e_endts;
+        $e_endts = join('-', reverse split('\/', $e_end_date));
+        $e_endts .= ' ' . $e_start_time;
+        unless ( Zaapt::Utils::Valid::is_datetime($e_endts, 'End Time') ) {
+            push @$err, "End Time must have a valid date 'dd/mm/yyyy' and a time 'hh:mm:ss'";
+        }
+
+        if ( $e_startts ge $e_endts ) {
+            push @$err, "End Time '$e_endts' must be after the Start Time '$e_startts'";
+        }
+
+        unless ( @$err ) {
+            # see if this event name already exists (name is unique across ALL challenges)
+            my $event = $model->sel_event_using_name({ e_name => $e_name });
+            push @$err, "Challenge name '$e_name' already exists, please change your title" if defined $event;
+        }
+
+        unless ( @$err ) {
+            $model->ins_event({
+                c_id          => $challenge->{c_id},
+                ca_id         => $ca_id,
+                a_id          => $id,
+                e_name        => $e_name,
+                e_title       => $e_title,
+                e_description => $e_description,
+                e_rules       => $e_rules,
+                e_goal        => $e_goal,
+                e_startts     => $e_startts,
+                e_endts       => $e_endts,
+            });
+            $m->redirect(uri_escape($e_name) . '.html');
+            return;
+        }
+    }
+
+    # alright, so we might
+
+    my $categories = $model->sel_category_isstandard_all();
+    my @ca_options = map { { value => $_->{ca_id}, text => "$_->{ca_title} ($_->{ca_units})" } } @$categories;
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Add an Event</h1>
+
+<p><a href=".">&laquo; Back to Member Challenges</a></p>
+
+<h2>Challenge: <% $challenge->{c_name} | h %> - '<% $challenge->{c_title} | h %>'</h2>
+
+<& /zaapt/common/err.mhtml, err => $err &>
+
+<& /zaapt/common/form.mhtml, action => '?', elements => [
+        { type => 'hidden', name => '_act', value => 'ins' },
+        { type => 'select', field => 'Category', name => 'ca_id', options => \@ca_options, selected => $ca_id },
+        { type => 'text', field => 'Name', name => 'e_name', size => 40 },
+        { type => 'note', value => 'Note: The name will appear in the URL. Therefore, you should use only lower-case letters, no spaces and a hyphen to separate words.' },
+        { type => 'text', field => 'Title (line 1)', name => 'e_title1', size => 11, maxlength => 11, note => '(max 11 chars)', value => $e_title1 },
+        { type => 'text', field => 'Title (line 2)', name => 'e_title2', size => 11, maxlength => 11, note => '(max 11 chars)', value => $e_title2 },
+        { type => 'text', field => 'Title (line 3)', name => 'e_title3', size => 11, maxlength => 11, note => '(max 11 chars)', value => $e_title3 },
+        { type => 'note', value => 'Note: Your full title will be made up of the above three lines, each of 11 characters or less. This enables us to draw a nice Participant and Winner icon. Spread your title over 1, 2 or 3 rows.' },
+        { type => 'textarea', field => 'Description', name => 'e_description', rows => 5, cols => 40, value => $e_description },
+        { type => 'textarea', field => 'Rules', name => 'e_rules', rows => 10, cols => 40, value => $e_rules },
+        { type => 'note', value => 'Note: You can use BBCode in the Rules section.' },
+        { type => 'text', field => 'Goal', name => 'e_goal', note => 'e.g. 50000, 7500', value => $e_goal },
+        { type => 'datetime', id => 'start', name => 'e_start', field => 'Start Time', date => $e_start_date, time => $e_start_time },
+        { type => 'datetime', id => 'end', name => 'e_end', field => 'End Time', date => $e_end_date, time => $e_end_time },
+        { type => 'submit', field => 'Actions', value => 'Add Event', cancel => '.' },
+    ]
+&>
+
+%# ----------------------------------------------------------------------------

@@ -1,0 +1,20 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    # return if $m->cache_self( key => $name, expire_in => '10s' );
+
+    # see if this person is logged in
+    if ( $SESS->{_signed_in} ) {
+        $m->comp( "/zaapt/model/challenge/user-create.mhtml",
+            %ARGS,
+            zaapt  => $ZAAPT,
+            c_name => 'member',
+            id   => $SESS->{id},
+         );
+    }
+    else {
+        $m->comp( '/zaapt/model/challenge/view-create.mhtml' );
+    }
+
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

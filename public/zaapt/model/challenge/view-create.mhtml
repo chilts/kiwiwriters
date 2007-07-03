@@ -1,0 +1,13 @@
+%# ----------------------------------------------------------------------------
+<h1>Member Challenges</h1>
+
+<p>
+    Member challanges can only be created by members! <& /zaapt/common/icon.mhtml, name => 'emoticon_tongue' &>
+    If you are not a member, please <a href="/my/sign-up.html">Join Us!</a>
+</p>
+
+<p>
+    If you are a member, please <& /zaapt/common/sign-in-url.mhtml, text =>
+    'sign in' &> first if you wish to create a challenge.
+</p>
+%# ----------------------------------------------------------------------------
