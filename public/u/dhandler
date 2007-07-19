@@ -7,7 +7,7 @@
     my $account = $model->sel_account_using_username({ a_username => $name });
 
     # do all the different info
-    $m->comp('/zaapt/model/account/view.mhtml', zaapt => $ZAAPT, id => $account->{a_id}, page => 'index');
+    $m->comp('/zaapt/model/account/view.mhtml', zaapt => $ZAAPT, id => $account->{a_id}, page => 'info');
     $m->comp('/zaapt/model/profile/view.mhtml', zaapt => $ZAAPT, id => $account->{a_id}, page => 'index');
     $m->comp('/zaapt/model/forum/view.mhtml', zaapt => $ZAAPT, id => $account->{a_id}, page => 'info', t_name => 'bbcode');
     $m->comp('/zaapt/model/friend/view.mhtml', zaapt => $ZAAPT, id => $account->{a_id}, page => 'info');
