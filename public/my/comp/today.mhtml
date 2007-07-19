@@ -2,9 +2,7 @@
     Username:
     <a href="/u/<% $SESS->{username} | h %>.html"><% $SESS->{username} | h %></a>
     -
-    <a href="/my/account.html">Account</a>
-    -
-    <a href="/my/profile/">Profile</a>
+    <a href="/my/settings/">Settings</a>
     -
     <a href="/my/kiwimail/">KiwiMail</a>
     -

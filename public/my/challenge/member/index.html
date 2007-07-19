@@ -20,7 +20,31 @@
             page => 'index',
         );
     }
-
-    return;
 </%init>
+%# ----------------------------------------------------------------------------
+<h1>Create a Challenge</h1>
+
+% if ( $SESS->{_signed_in} ) {
+
+<p>
+    As a member of the KiwiWriters site, you are allowed to <a
+    href="create.html">create a member challenge</a> so that other member may
+    join you in your adventure.
+</p>
+
+<p>
+    Remember to advertise it on the <a href="/my/forum/challenges/">challenges
+    forum</a> if you want othes to join you.
+</p>
+
+
+% } else {
+
+<p>
+    Please <& /zaapt/common/sign-in-url.mhtml, text => 'sign in' &> first if
+    you wish to create a member challenge.
+</p>
+
+% }
+
 %# ----------------------------------------------------------------------------

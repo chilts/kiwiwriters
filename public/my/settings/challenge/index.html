@@ -1,0 +1,17 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    # return if $m->cache_self( key => 'index', expire_in => '10s' );
+</%init>
+%# ----------------------------------------------------------------------------
+
+<p><a href="../">&laquo; Back to your Settings</a></p>
+
+<& /zaapt/model/challenge/view.mhtml,
+    id => $SESS->{id},
+    zaapt => $ZAAPT,
+    page => 'info',
+&>
+
+<p><a href="user-edit.html">Edit your Challenge info&raquo;</a></p>
+
+%# ----------------------------------------------------------------------------

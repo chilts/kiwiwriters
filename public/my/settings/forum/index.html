@@ -1,0 +1,18 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    # return if $m->cache_self( key => 'index', expire_in => '10s' );
+</%init>
+%# ----------------------------------------------------------------------------
+
+<p><a href="../">&laquo; Back to your Settings</a></p>
+
+<& /zaapt/model/forum/view.mhtml,
+    id => $SESS->{id},
+    zaapt => $ZAAPT,
+    page => 'info',
+    t_name => 'bbcode',
+&>
+
+<p><a href="user-edit.html">Edit your Forum Profile &raquo;</a></p>
+
+%# ----------------------------------------------------------------------------

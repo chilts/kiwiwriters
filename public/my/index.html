@@ -8,9 +8,17 @@
     &>.
 </p>
 
-<h2>KiwiMail</h2>
+<div style="float: right; width: 50%;">
+    <h2>Your Challenges</h2>
+    <& /zaapt/model/challenge/widget-user-summary.mhtml, zaapt => $ZAAPT, id => $SESS->{id} &>
+</div>
 
-<& /zaapt/model/message/widget-user-summary.mhtml, zaapt => $ZAAPT, id => $SESS->{id} &>
+<div style="float: left; width: 50%;">
+
+    <h2>KiwiMail</h2>
+    <& /zaapt/model/message/widget-user-summary.mhtml, zaapt => $ZAAPT, id => $SESS->{id} &>
+</div>
+<div class="clear"></div>
 
 % if ( $SESS->{admin} ) {
 <h2>Admin</h2>
