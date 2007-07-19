@@ -1,0 +1,66 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $id
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    my $map = {
+        site => 'yellow',
+        member => 'orange',
+    };
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+
+    my $site = $model->sel_challenge_using_name({ c_name => 'site' });
+    # my $member = $model->sel_challenge_using_name({ c_name => 'member' });
+
+    warn "here1";
+    my $site_list_current = $model->sel_event_all_current_for_account({ c_id => $site->{c_id}, a_id => $id });
+    warn "here2";
+    my $site_list_future = $model->sel_event_all_future_for_account({ c_id => $site->{c_id}, a_id => $id });
+</%init>
+%# ----------------------------------------------------------------------------
+<h3>Current Challenges</h3>
+
+% if ( @$site_list_current ) {
+%     foreach my $c ( @$site_list_current ) {
+<p>
+    <& /zaapt/common/icon.mhtml, name => 'asterisk_' . $map->{$c->{c_name}}, title => 'Challenge' &>
+    <a href="/my/challenge/<% $c->{c_name} | h %>/<% $c->{e_name} | h %>.html"><% $c->{e_title} | h %></a>
+    <br />
+    <strong>Progress</strong>: <% $c->{p_progress} | h %> of <% $c->{e_goal} | h %> <% $c->{ca_units} | h %>
+</p>
+%     }
+% } else {
+<p>
+    You are not participating in any <a href="/my/challenge/site/current.html">current challenges</a>.
+</p>
+% }
+
+<h3>Future Challenges</h3>
+
+% if ( @$site_list_future ) {
+%     foreach my $c ( @$site_list_future ) {
+<p>
+    <& /zaapt/common/icon.mhtml, name => 'asterisk_' . $map->{$c->{c_name}}, title => 'Challenge' &>
+    <a href="/my/challenge/<% $c->{c_name} | h %>/<% $c->{e_name} | h %>.html"><% $c->{e_title} | h %></a>
+    <br />
+    <strong>Progress</strong>: <% $c->{p_progress} | h %> of <% $c->{e_goal} | h %> <% $c->{ca_units} | h %>
+</p>
+%     }
+% } else {
+<p>
+    You have not signed up for any <a href="/my/challenge/site/future.html">future challenges</a>.
+</p>
+% }
+
+% if ( 0 ) {
+<h3>Key</h3>
+    <& /zaapt/common/icon.mhtml, name => 'asterisk_yellow', title => 'Site Challenge' &> Site Challenge
+    <br />
+    <& /zaapt/common/icon.mhtml, name => 'asterisk_orange', title => 'Member Challenge' &> Member Challenge
+% }
+%# ----------------------------------------------------------------------------
