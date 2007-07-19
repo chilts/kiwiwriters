@@ -4,6 +4,7 @@ use base qw( Zaapt::Store::Pg KiwiWriters::Zaapt::Model::Challenge );
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 ## ----------------------------------------------------------------------------
 # constants
@@ -53,11 +54,30 @@ my $table = {
             qw( date progress ts:inserted ts:updated )
         ],
     },
+    timezone => {
+        name => 'timezone',
+        prefix => 't',
+        cols => [
+            qw( id name extra ts:inserted ts:updated )
+        ],
+    },
+    info => {
+        name => 'info',
+        prefix => 'i',
+        cols => [
+            [ 'account_id', 'fk', 'a_id' ],
+            [ 'timezone_id', 'fk', 't_id' ],
+            qw( ts:inserted ts:updated )
+        ],
+        no_id => 1,
+        pk => [ 'account_id', 'fk', 'a_id' ],
+    },
 };
 
 my $join = {
     c_e => "JOIN $schema.event e ON (c.id = e.challenge_id)",
     e_ca => "JOIN $schema.category ca ON (e.category_id = ca.id)",
+    p_pr => "JOIN $schema.progress pr ON (p.id = pr.participant_id) ",
 };
 
 ## ----------------------------------------------------------------------------
@@ -65,7 +85,7 @@ my $join = {
 # creates {sql_fqt} and {sql_sel_cols}
 __PACKAGE__->_mk_sql( $schema, $table );
 
-# generate the SQL accessors
+# generate the Perl method accessors
 __PACKAGE__->_mk_sql_accessors( $schema, $table );
 
 ## ----------------------------------------------------------------------------
@@ -89,6 +109,8 @@ $join->{e_p} = "JOIN $schema.participant p ON (e.id = p.event_id)";
 __PACKAGE__->mk_selecter( $schema, $table->{challenge}{name}, $table->{challenge}{prefix}, @{$table->{challenge}{cols}} );
 __PACKAGE__->mk_selecter( $schema, $table->{category}{name}, $table->{category}{prefix}, @{$table->{category}{cols}} );
 __PACKAGE__->mk_select_row( 'sel_event', "SELECT $table->{challenge}{sql_sel_cols}, $table->{event}{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} WHERE e.id = ?", [ 'e_id' ] );
+__PACKAGE__->mk_selecter( $schema, $table->{info}{name}, $table->{info}{prefix}, @{$table->{info}{cols}} );
+__PACKAGE__->mk_selecter( $schema, $table->{timezone}{name}, $table->{timezone}{prefix}, @{$table->{timezone}{cols}} );
 
 # create sel_challenge_using_name
 __PACKAGE__->mk_selecter_using( $schema, 'challenge', 'c', 'name', @{$table->{challenge}{cols}} );
@@ -219,11 +241,78 @@ my $sel_progress_all_for = "
     WHERE
         p.event_id = ? AND p.account_id = ?
 ";
+# warn $sel_progress_all_for;
 
 __PACKAGE__->mk_select_rows( 'sel_progress_all_for', $sel_progress_all_for, [ 'e_id', 'a_id' ] );
 
+# timezones
+__PACKAGE__->mk_select_rows( 'sel_timezone_all', "SELECT $table->{timezone}{sql_sel_cols} FROM $table->{timezone}{sql_fqt} ORDER BY t.id", [] );
+
+sub sel_timezone_all {
+    my ($self) = @_;
+    my $t = $table->{timezone};
+    return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} ORDER BY $t->{prefix}.id" );
+}
+
 # for the sub to get the current progress of the current events
 # insert into challenge.progress(participant_id, date, progress) select id, current_date-1, progress from challenge.participant where event_id = 1
+
+# users
+sub sel_event_all_current_for_account {
+    my ($self, $hr) = @_;
+    my $e = $table->{event};
+    my $p = $table->{participant};
+
+    my $sql = "SELECT
+            $table->{challenge}{sql_sel_cols},
+            $e->{sql_sel_cols},
+            $table->{category}{sql_sel_cols},
+            $p->{sql_sel_cols}
+        FROM
+            $table->{challenge}{sql_fqt}
+            $join->{c_e}
+            $join->{e_ca}
+            $join->{e_p}
+        WHERE
+            $e->{prefix}.startts < CURRENT_TIMESTAMP
+        AND
+            $e->{prefix}.endts > CURRENT_TIMESTAMP
+        AND
+            $p->{prefix}.account_id = ?
+        ORDER BY
+            $e->{prefix}.startts, $e->{prefix}.endts";
+
+    warn "sql=$sql";
+
+    return $self->_rows( $sql, $hr->{a_id} );
+}
+
+sub sel_event_all_future_for_account {
+    my ($self, $hr) = @_;
+    my $e = $table->{event};
+    my $p = $table->{participant};
+
+    my $sql = "SELECT
+            $table->{challenge}{sql_sel_cols},
+            $e->{sql_sel_cols},
+            $table->{category}{sql_sel_cols},
+            $p->{sql_sel_cols}
+        FROM
+            $table->{challenge}{sql_fqt}
+            $join->{c_e}
+            $join->{e_ca}
+            $join->{e_p}
+        WHERE
+            $e->{prefix}.startts > CURRENT_TIMESTAMP
+        AND
+            $p->{prefix}.account_id = ?
+        ORDER BY
+            $e->{prefix}.startts, $e->{prefix}.endts";
+
+    warn "sql=$sql";
+
+    return $self->_rows( $sql, $hr->{a_id} );
+}
 
 sub _nuke {
     my ($self) = @_;

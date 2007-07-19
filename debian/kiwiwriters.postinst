@@ -80,7 +80,7 @@ case "$1" in
         su - postgres -c 'createuser -A -D kiwiwriters' || true
         su - postgres -c 'createdb -O kiwiwriters -E UTF-8 -T template0 kiwiwriters' || true
         su - postgres -c 'createlang plpgsql kiwiwriters' || true
-        pgpatcher -U kiwiwriters -d kiwiwriters -s /usr/share/kiwiwriters/db/patch -l 15 || true
+        pgpatcher -U kiwiwriters -d kiwiwriters -s /usr/share/kiwiwriters/db/patch -l 16 || true
 
         # reload apache
         /etc/init.d/apache-perl restart

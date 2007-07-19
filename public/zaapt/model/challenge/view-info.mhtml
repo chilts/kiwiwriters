@@ -1,0 +1,26 @@
+%# ----------------------------------------------------------------------------
+<%once>
+    use Data::Dumper;
+</%once>
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $id
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $info = $model->sel_info({ a_id => $id });
+    my $tz = $model->sel_timezone({ t_id => $info->{i_timezone_id} });
+</%init>
+%# ----------------------------------------------------------------------------
+%#<pre>
+%# print Data::Dumper->Dump([$id, $info, $tz, $tzs], ['id', 'info', 'tz', 'tzs']);
+%#</pre>
+<h1>Challenge Info</h1>
+
+<&  /zaapt/common/table.mhtml, rows => [
+        { field => 'Time Zone', value => "'$tz->{t_name}'" . ( " $tz->{t_extra}" || '' ) },
+    ]
+&>
+%# ----------------------------------------------------------------------------

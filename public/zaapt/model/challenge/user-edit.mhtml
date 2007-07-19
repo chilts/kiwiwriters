@@ -1,0 +1,54 @@
+%# ----------------------------------------------------------------------------
+<%doc>
+    Note: $my_roles is not a required arg, so make sure the person editing this
+    is allowed to.
+</%doc>
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $id => undef
+</%args>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+    my $info = $model->sel_info({ a_id => $id });
+
+    # check the error conditions first - we need to recover
+    unless ( defined $info ) {
+        $m->clear_buffer();
+        $m->abort(404);
+        return;
+    }
+
+    use Data::Dumper;
+    warn Dumper($info);
+
+    # get all the Timezones from the database
+    my $timezones = $model->sel_timezone_all();
+    use Data::Dumper;
+    warn Dumper($timezones->[0]);
+    warn Dumper($timezones->[1]);
+    warn Dumper($timezones->[2]);
+    warn Dumper($timezones->[3]);
+    warn Dumper($timezones->[357]);
+    my @options = map { { value => $_->{t_id}, text => $_->{t_name} } } @$timezones;
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Edit your Challenge Info</h1>
+
+<a href="./">&laquo; Back to Profile</a>
+
+<& /zaapt/common/form.mhtml, action => 'user-upd.html', elements => [
+        { type => 'hidden', name => '_act', value => 'update' },
+        { type => 'select', field => 'Timezone', name => 't_id', options => \@options, selected => $info->{i_timezone_id} },
+        { type => 'submit', field => '', value => 'Save Changes' },
+    ]
+&>
+
+% if ( 0 ) {
+<pre>
+% print Data::Dumper->Dump([$info], ['info']);
+</pre>
+% }
+
+%# ----------------------------------------------------------------------------

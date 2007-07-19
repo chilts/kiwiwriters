@@ -23,12 +23,13 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $c_name
+    $c_name     => undef
     $page       => ''
+    $id         => undef
 </%args>
 %# ----------------------------------------------------------------------------
 <%once>
-    my $known_pages = {
+    my $main_pages = {
         index   => 1,
         future  => 1,
         archive => 1,
@@ -42,16 +43,16 @@
         return;
     }
 
-    # might as well do these here since we have to do them everywhere anyway
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
-    my $challenge = $model->sel_challenge_using_name({ c_name => $c_name });
 
-    unless ( $challenge ) {
-        die "Challenge section '$c_name' does not exist.";
-        return;
-    }
+    if ( exists $main_pages->{$page} ) {
+        # check that this challenge exists
+        my $challenge = $model->sel_challenge_using_name({ c_name => $c_name });
+        unless ( $challenge ) {
+            die "Challenge section '$c_name' does not exist.";
+            return;
+        }
 
-    if ( exists $known_pages->{$page} ) {
         # main index page
         $m->comp("/zaapt/model/challenge/view-$page.mhtml",
             zaapt      => $zaapt,
@@ -59,7 +60,21 @@
             challenge  => $challenge,
         );
     }
+    elsif ( $page eq 'info' ) {
+        # main index page
+        $m->comp('/zaapt/model/challenge/view-info.mhtml',
+            zaapt      => $zaapt,
+            id         => $id,
+        );
+    }
     else {
+        # check that this challenge exists
+        my $challenge = $model->sel_challenge_using_name({ c_name => $c_name });
+        unless ( $challenge ) {
+            die "Challenge section '$c_name' does not exist.";
+            return;
+        }
+
         $m->comp( '/zaapt/model/challenge/view-event.mhtml',
             zaapt      => $zaapt,
             model      => $model,
@@ -70,4 +85,3 @@
     return;
 </%init>
 %# ----------------------------------------------------------------------------
-
