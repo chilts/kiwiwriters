@@ -441,3 +441,7 @@ background-repeat: no-repeat;
 background-position: left;
 padding-left: 20px;
 }
+
+.clear{
+clear:both;
+}
