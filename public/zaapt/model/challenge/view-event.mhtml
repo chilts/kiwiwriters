@@ -28,13 +28,6 @@
 
 <p><strong><% $event->{e_description} | h %></strong></p>
 
-<h2>The Rules</h2>
-
-<& /zaapt/common/render.mhtml,
-    content => $event->{e_rules},
-    t_name => 'bbcode',
-&>
-
 <h2>Details</h2>
 
 <p>
@@ -44,6 +37,13 @@
     Goal: <strong> <% $event->{e_goal} | h %> <% $event->{e_goal} == 1 ? $event->{ca_unit} : $event->{ca_units} | h %></strong><br />
     Participants: <strong><% scalar @$participants | h %></strong><br />
 </p>
+
+<h2>The Rules</h2>
+
+<& /zaapt/common/render.mhtml,
+    content => $event->{e_rules},
+    t_name => 'bbcode',
+&>
 
 <h2>Join this Challenge</h2>
 
