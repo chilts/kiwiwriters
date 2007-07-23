@@ -11,6 +11,7 @@
     <link rel="icon" href="http://kiwiwriters.org/favicon.png" type="image/png" />
 % if ( $m->request_comp->attr('use_mochikit') ) {
     <script type="text/javascript" src="/s/MochiKit.js"></script>
+    <script type="text/javascript" src="/s/kw.js"></script>
 % }
 % if ( $m->request_comp->attr('use_zaapt') ) {
     <script type="text/javascript" src="/s/zaapt.js"></script>
