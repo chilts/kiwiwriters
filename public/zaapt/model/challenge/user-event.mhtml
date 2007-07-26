@@ -37,6 +37,12 @@
         # $progress = <something>;
     }
 
+    # get this person's timezone
+    my $info = $model->sel_info({ a_id => $id });
+
+    my $passed_start = $model->has_time_passed_for({ _tzname => $info->{t_name}, _time => $event->{e_startts} });
+    my $passed_end = $model->has_time_passed_for({ _tzname => $info->{t_name}, _time => $event->{e_endts} });
+
     my $err = [];
     if ( $act eq 'accept' ) {
         unless ( defined $status ) {
@@ -56,7 +62,22 @@
     }
 </%init>
 %# ----------------------------------------------------------------------------
-<& render-event.mhtml, event => $event, participants => scalar @$participants &>
+<& render-event.mhtml,
+    event => $event,
+    participants => scalar @$participants,
+&>
+
+<h2>Challenge Status</h2>
+
+<p>
+% if ( $passed_start->{passed} == 0 ) {
+    This challenge has not yet started.
+% } elsif ( $passed_end->{passed} == 1 ) {
+    This challenge has finished.
+% } else {
+    This challenge is NOW ON!
+% }
+</p>
 
 <h2>Your Status</h2>
 
@@ -75,7 +96,7 @@
 
 % }
 
-% if ( $event->{e_status} eq 'future' ) {
+% if ( $passed_start->{passed} == 0 ) {
 
 %     if ( defined $status ) {
 <p>
@@ -95,7 +116,7 @@
 </p>
 %     }
 
-% } elsif ( $event->{e_status} eq 'archive' ) {
+% } elsif ( $passed_end->{passed} == 1 ) {
 
 %     if ( defined $status ) {
 <p>
@@ -123,7 +144,7 @@
 </p>
 %     }
 
-% } else {
+% } else { # else current
 
 <& /zaapt/common/err.mhtml, err => $err &>
 
@@ -174,6 +195,15 @@
      </a>
 </p>
 %     }
+% }
+
+% if ( 0 ) {
+<pre>
+% print Dumper($event);
+% print Dumper($info);
+% print Dumper($passed_start);
+% print Dumper($passed_end);
+</pre>
 % }
 
 <& view-participants.mhtml,

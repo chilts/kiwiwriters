@@ -25,16 +25,4 @@
     t_name => 'bbcode',
 &>
 
-<h2>Challenge Status</h2>
-
-<p>
-% if ( $event->{e_status} eq 'future' ) {
-    This challenge has not yet started.
-% } elsif ( $event->{e_status} eq 'archive' ) {
-    This challenge has finished.
-% } else {
-    This challenge is NOW ON!
-% }
-</p>
-
 %# ----------------------------------------------------------------------------

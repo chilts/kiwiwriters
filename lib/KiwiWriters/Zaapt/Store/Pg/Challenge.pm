@@ -77,7 +77,8 @@ my $table = {
 my $join = {
     c_e => "JOIN $schema.event e ON (c.id = e.challenge_id)",
     e_ca => "JOIN $schema.category ca ON (e.category_id = ca.id)",
-    p_pr => "JOIN $schema.progress pr ON (p.id = pr.participant_id) ",
+    p_pr => "JOIN $schema.progress pr ON (p.id = pr.participant_id)",
+    i_t => "JOIN $schema.timezone t ON (i.timezone_id = t.id)",
 };
 
 ## ----------------------------------------------------------------------------
@@ -109,7 +110,7 @@ $join->{e_p} = "JOIN $schema.participant p ON (e.id = p.event_id)";
 __PACKAGE__->mk_selecter( $schema, $table->{challenge}{name}, $table->{challenge}{prefix}, @{$table->{challenge}{cols}} );
 __PACKAGE__->mk_selecter( $schema, $table->{category}{name}, $table->{category}{prefix}, @{$table->{category}{cols}} );
 __PACKAGE__->mk_select_row( 'sel_event', "SELECT $table->{challenge}{sql_sel_cols}, $table->{event}{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} WHERE e.id = ?", [ 'e_id' ] );
-__PACKAGE__->mk_selecter( $schema, $table->{info}{name}, $table->{info}{prefix}, @{$table->{info}{cols}} );
+__PACKAGE__->mk_select_row( 'sel_info', "SELECT $table->{info}{sql_sel_cols}, $table->{timezone}{sql_sel_cols} FROM $table->{info}{sql_fqt} $join->{i_t} WHERE i.account_id = ?", [ 'a_id' ] );
 __PACKAGE__->mk_selecter( $schema, $table->{timezone}{name}, $table->{timezone}{prefix}, @{$table->{timezone}{cols}} );
 
 # create sel_challenge_using_name
@@ -241,7 +242,6 @@ my $sel_progress_all_for = "
     WHERE
         p.event_id = ? AND p.account_id = ?
 ";
-# warn $sel_progress_all_for;
 
 __PACKAGE__->mk_select_rows( 'sel_progress_all_for', $sel_progress_all_for, [ 'e_id', 'a_id' ] );
 
@@ -282,8 +282,6 @@ sub sel_event_all_current_for_account {
         ORDER BY
             $e->{prefix}.startts, $e->{prefix}.endts";
 
-    warn "sql=$sql";
-
     return $self->_rows( $sql, $hr->{a_id} );
 }
 
@@ -309,9 +307,21 @@ sub sel_event_all_future_for_account {
         ORDER BY
             $e->{prefix}.startts, $e->{prefix}.endts";
 
-    warn "sql=$sql";
-
     return $self->_rows( $sql, $hr->{a_id} );
+}
+
+sub has_time_passed_for {
+    my ($self, $hr) = @_;
+
+    my $sql1 = "SET TIME ZONE '$hr->{_tzname}'";
+    my $sql2 = "SELECT CASE WHEN CURRENT_TIMESTAMP > ? THEN 1 else 0 END AS passed";
+    my $sql3 = "SET TIME ZONE 'Pacific/Auckland'";
+
+    $self->dbh()->do($sql1);
+    my $res = $self->dbh()->selectrow_hashref($sql2, undef, $hr->{_time});
+    $self->dbh()->do($sql3);
+
+    return $res;
 }
 
 sub _nuke {

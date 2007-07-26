@@ -78,7 +78,7 @@
 
         my $e_endts;
         $e_endts = join('-', reverse split('\/', $e_end_date));
-        $e_endts .= ' ' . $e_start_time;
+        $e_endts .= ' ' . $e_end_time;
         unless ( Zaapt::Utils::Valid::is_datetime($e_endts, 'End Time') ) {
             push @$err, "End Time must have a valid date 'dd/mm/yyyy' and a time 'hh:mm:ss'";
         }
@@ -128,8 +128,8 @@
 <& /zaapt/common/form.mhtml, action => '?', elements => [
         { type => 'hidden', name => '_act', value => 'ins' },
         { type => 'select', field => 'Category', name => 'ca_id', options => \@ca_options, selected => $ca_id },
-        { type => 'text', field => 'Name', name => 'e_name', size => 40 },
-        { type => 'note', value => 'Note: The name will appear in the URL. Therefore, you should use only lower-case letters, no spaces and a hyphen to separate words.' },
+#        { type => 'text', field => 'Name', name => 'e_name', size => 40, value => $e_name },
+#        { type => 'note', value => 'Note: The name will appear in the URL. Therefore, you should use only lower-case letters, no spaces and a hyphen to separate words.' },
         { type => 'text', field => 'Title (line 1)', name => 'e_title1', size => 11, maxlength => 11, note => '(max 11 chars)', value => $e_title1 },
         { type => 'text', field => 'Title (line 2)', name => 'e_title2', size => 11, maxlength => 11, note => '(max 11 chars)', value => $e_title2 },
         { type => 'text', field => 'Title (line 3)', name => 'e_title3', size => 11, maxlength => 11, note => '(max 11 chars)', value => $e_title3 },
