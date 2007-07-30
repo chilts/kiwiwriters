@@ -85,6 +85,7 @@ urchinTracker();
     use_zaapt => 0
     use_calendar => 0
     done_today => 0
+    cache => 1
 </%attr>
 %# ----------------------------------------------------------------------------
 <%flags>

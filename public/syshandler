@@ -22,6 +22,31 @@
     # create the Zaapt model
     $ZAAPT = Zaapt->new({ store => 'Pg', dbh => $DBH });
 
+    # decide which set of headers to put on this page
+    # (info from http://www.httpwatch.com/httpgallery/caching/
+    # and http://www.httpwatch.com/httpgallery/headers/)
+    if ( $m->request_comp()->attr('cache') ) {
+        # Expires ???
+        # 
+    }
+    else {
+        # for HTTP 1.0 proxies/caches, add "Pragma: no-cache"
+
+        # if the client allowed show a temporary page before requesting a new one, use
+        # "Expires: -1"
+
+        # if the client should _never_ even cache a page, let alone show one, use
+        # "Cache-Control: no-cache"
+
+        # $r->header_out('Expires', '-1');
+        $r->no_cache(1); # sets "Pragma: no-cache" and "Cache-control: no-cache"
+
+        # Note: Don't set Expires with $r->header_out if you use $r->no_cache,
+        # because header_out() takes precedence.
+    }
+
+ 	$r->header_out("X-Powered-By", "zaapt.org.nz");
+
     $m->call_next();
 </%init>
 %# --- FLAGS ------------------------------------------------------------------
