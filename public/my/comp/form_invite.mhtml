@@ -9,13 +9,15 @@
 </%args>
 %# ----------------------------------------------------------------------------
 <div class="box center">
-<form action="/my/invite.html" method="post">
-    Name<br />
-    <input type="text" name="name" value="<% $name | h %>" /><br />
-    Email Address<br />
-    <input type="text" name="email" value="<% $email | h %>" /><br />
-    <br />
-    <input type="submit" value="Send Invitation :-)" /><br />
-</form>
+    <form action="/my/invite.html" method="post">
+        <p>
+            Name<br />
+            <input type="text" name="name" value="<% $name | h %>" /><br />
+            Email Address<br />
+            <input type="text" name="email" value="<% $email | h %>" /><br />
+            <br />
+            <input type="submit" value="Send Invitation :-)" /><br />
+        </p>
+    </form>
 </div>
 %# ----------------------------------------------------------------------------

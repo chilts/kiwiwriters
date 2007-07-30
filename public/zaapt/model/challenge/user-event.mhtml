@@ -87,11 +87,11 @@
 </p>
 
 <p class="center">
-    <img src="/d/challenge/<% $event->{c_name} | u %>/participant:<% $event->{e_name} | u %>.png" title="Participant Icon" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/participant:<% $event->{e_name} | u %>.png" title="Participant Icon" alt="Participant Icon" />
     &nbsp;&nbsp;&nbsp;
-    <img src="/d/challenge/<% $event->{c_name} | u %>/progkiwi:<% $event->{e_name} | u %>:<% $status->{a_username} | u %>.png" title="Progress Percentage" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/progkiwi:<% $event->{e_name} | u %>:<% $status->{a_username} | u %>.png" title="Progress Percentage" alt="Progress Percentage" />
     &nbsp;&nbsp;&nbsp;
-    <img src="/d/challenge/<% $event->{c_name} | u %>/progworm:<% $event->{e_name} | u %>:<% $status->{a_username} | u %>.png" title="Progress Word Count" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/progworm:<% $event->{e_name} | u %>:<% $status->{a_username} | u %>.png" title="Progress Word Count" alt="Progress Word Count" />
 </p>
 
 % }
@@ -130,7 +130,7 @@
 </p>
 
 <p class="center">
-    <img src="/d/challenge/<% $event->{c_name} | u %>/winner:<% $event->{e_name} | u %>.png" title="Winners Icon" />
+    <img src="/d/challenge/<% $event->{c_name} | u %>/winner:<% $event->{e_name} | u %>.png" title="Winners Icon" alt="Winners Icon" />
 </p>
 %         }
 %         if ( 0 ) {

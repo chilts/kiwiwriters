@@ -1,11 +1,6 @@
 %# ----------------------------------------------------------------------------
 <h1>KiwiMail</h1>
 
-<p>
-    <& /zaapt/common/icon.mhtml, name => 'email_edit', title => 'New Message' &>
-    <a href="compose.html">Compose &raquo;</a>
-</p>
-
 <table class="data" style="table-layout: fixed;">
     <thead>
     <tr>
@@ -31,5 +26,13 @@
         </th>
     </tr>
     </thead>
+    <tbody>
+    <tr>
+        <td colspan="5">
+            <& /zaapt/common/icon.mhtml, name => 'email_edit', title => 'New Message' &>
+            <a href="compose.html">Compose &raquo;</a>
+        </td>
+    </tr>
+    </tbody>
 </table>
 %# ----------------------------------------------------------------------------

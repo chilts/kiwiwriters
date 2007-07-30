@@ -53,15 +53,18 @@
 <h1>Please sign in...</h1>
 
 <p class="err"><% $err | h %></p>
+
 <div class="box center">
-<form action="sign-in.html" method="post">
-    Username<br />
-    <input type="text" name="username" value="<% $username || '' | h %>" /><br />
-    Password<br />
-    <input type="password" name="password" /><br />
-    <br />
-    <input type="submit" value="Sign In" /><br />
-</form>
+    <form action="sign-in.html" method="post">
+        <p>
+            Username<br />
+            <input type="text" name="username" value="<% $username || '' | h %>" /><br />
+            Password<br />
+            <input type="password" name="password" /><br />
+            <br />
+            <input type="submit" value="Sign In" /><br />
+        </p>
+    </form>
 </div>
 
 % if ( 0 ) {
@@ -75,12 +78,12 @@
 </p>
 
 <div class="box center">
-<form action="password-reset.html" method="post">
-    Username<br />
-    <input type="text" name="username" value="<% $username || '' | h %>" /><br />
-    <br />
-    <input type="submit" value="Password Reset" /><br />
-</form>
+    <form action="password-reset.html" method="post">
+        Username<br />
+        <input type="text" name="username" value="<% $username || '' | h %>" /><br />
+        <br />
+        <input type="submit" value="Password Reset" /><br />
+    </form>
 </div>
 
 <p class="center soft">
