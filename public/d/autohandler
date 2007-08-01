@@ -1,6 +1,9 @@
 <%init>
     $m->call_next();
 </%init>
+<%attr>
+    cache => 1
+</%attr>
 <%flags>
     inherit => '/syshandler'
 </%flags>
