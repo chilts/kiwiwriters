@@ -19,6 +19,6 @@
 %     }
 </ul>
 % } else {
-<p>This event has no participants yet.</p>
+<p>No participants.</p>
 % }
 %# ----------------------------------------------------------------------------
