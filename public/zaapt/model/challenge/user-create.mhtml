@@ -39,7 +39,7 @@
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
     my $challenge = $model->sel_challenge_using_name({ c_name => $c_name });
 
-    $m->redirect('edit-c-list.html') unless defined $challenge;
+    $m->redirect('.') unless defined $challenge;
 
     my $err = [];
 
@@ -60,7 +60,6 @@
         unless ( length $e_title3 <= 11 ) {
             push @$err, 'Title3 should be 11 chars or less';
         }
-        my $e_title = Zaapt::Utils::Conv::crunch("$e_title1 $e_title2 $e_title3");
 
         my $e_title = Zaapt::Utils::Conv::crunch($e_title1)
             . "\n"
@@ -74,6 +73,8 @@
         unless ( Zaapt::Utils::Valid::is_positive_integer($e_goal, 'Goal') ) {
             push @$err, Zaapt::Utils::Valid::err();
         }
+
+        # check that the start time is in the future
 
         my $e_startts;
         $e_startts = join('-', reverse split('\/', $e_start_date));
@@ -89,7 +90,10 @@
             push @$err, "End Time must have a valid date 'dd/mm/yyyy' and a time 'hh:mm:ss'";
         }
 
-        if ( $e_startts ge $e_endts ) {
+        # only complain about the time diff if both are valid times (otherwise, already done that check)
+        if ( Zaapt::Utils::Valid::is_datetime($e_startts, 'Start Time')
+            and Zaapt::Utils::Valid::is_datetime($e_endts, 'End Time')
+            and $e_startts ge $e_endts ) {
             push @$err, "End Time '$e_endts' must be after the Start Time '$e_startts'";
         }
 
