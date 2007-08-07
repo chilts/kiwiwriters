@@ -9,6 +9,10 @@
         site => 'yellow',
         member => 'orange',
     };
+    my $map2name = {
+        site => 'Site',
+        member => 'Member',
+    };
 </%once>
 %# ----------------------------------------------------------------------------
 <%init>
@@ -28,7 +32,7 @@
 % if ( @$site_list_current ) {
 %     foreach my $c ( @$site_list_current ) {
 <p>
-    <& /zaapt/common/icon.mhtml, name => 'asterisk_' . $map->{$c->{c_name}}, title => 'Challenge' &>
+    <& /zaapt/common/icon.mhtml, name => 'asterisk_' . $map->{$c->{c_name}}, title => "$map2name->{$c->{c_name}} Challenge" &>
     <a href="/my/challenge/<% $c->{c_name} | h %>/<% $c->{e_name} | h %>.html"><% $c->{e_title} | h %></a>
     <br />
     <strong>Progress</strong>: <% $c->{p_progress} | h %> of <% $c->{e_goal} | h %> <% $c->{ca_units} | h %>
@@ -45,7 +49,7 @@
 % if ( @$site_list_future ) {
 %     foreach my $c ( @$site_list_future ) {
 <p>
-    <& /zaapt/common/icon.mhtml, name => 'asterisk_' . $map->{$c->{c_name}}, title => 'Challenge' &>
+    <& /zaapt/common/icon.mhtml, name => 'asterisk_' . $map->{$c->{c_name}}, title => "$map2name->{$c->{c_name}} Challenge" &>
     <a href="/my/challenge/<% $c->{c_name} | h %>/<% $c->{e_name} | h %>.html"><% $c->{e_title} | h %></a>
     <br />
     <strong>Progress</strong>: <% $c->{p_progress} | h %> of <% $c->{e_goal} | h %> <% $c->{ca_units} | h %>
