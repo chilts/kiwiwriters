@@ -62,6 +62,12 @@
         }
         my $e_title = Zaapt::Utils::Conv::crunch("$e_title1 $e_title2 $e_title3");
 
+        my $e_title = Zaapt::Utils::Conv::crunch($e_title1)
+            . "\n"
+            . Zaapt::Utils::Conv::crunch($e_title2)
+            . "\n"
+            . Zaapt::Utils::Conv::crunch($e_title3);
+
         $e_description = Zaapt::Utils::Conv::remove_cr( $e_description );
         $e_rules = Zaapt::Utils::Conv::remove_cr( $e_rules );
 
