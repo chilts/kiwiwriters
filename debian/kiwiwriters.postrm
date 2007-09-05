@@ -3,6 +3,9 @@ set -e
 
 case "$1" in
     remove)
+        # remove the kiwiwriters system account
+        userdel kiwiwriters
+
         # remove the m4 file
         rm -f /etc/kiwiwriters/config.m4
         rm -f /etc/kiwiwriters/kiwiwriters.cfg
@@ -24,6 +27,9 @@ case "$1" in
         # remove the database
         su - postgres -c 'dropdb kiwiwriters' || true
         su - postgres -c 'dropuser kiwiwriters' || true
+
+        # remove all log files
+        rm -rf /var/log/kiwiwriters/*
         ;;
 
     upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)

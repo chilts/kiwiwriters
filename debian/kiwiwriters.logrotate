@@ -1,0 +1,8 @@
+/var/log/kiwiwriters/kw-progress.log {
+    weekly
+    rotate 52
+    compress
+    missingok
+    delaycompress
+    notifempty
+}

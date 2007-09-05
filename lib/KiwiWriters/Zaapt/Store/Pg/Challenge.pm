@@ -113,14 +113,8 @@ __PACKAGE__->mk_select_row( 'sel_event', "SELECT $table->{challenge}{sql_sel_col
 __PACKAGE__->mk_select_row( 'sel_info', "SELECT $table->{info}{sql_sel_cols}, $table->{timezone}{sql_sel_cols} FROM $table->{info}{sql_fqt} $join->{i_t} WHERE i.account_id = ?", [ 'a_id' ] );
 __PACKAGE__->mk_selecter( $schema, $table->{timezone}{name}, $table->{timezone}{prefix}, @{$table->{timezone}{cols}} );
 
-# create sel_challenge_using_name
+# challenge
 __PACKAGE__->mk_selecter_using( $schema, 'challenge', 'c', 'name', @{$table->{challenge}{cols}} );
-
-sub sel_event_using_name {
-    my ($self, $hr) = @_;
-    my $t = $table->{event};
-    return $self->_row( "SELECT $table->{challenge}{sql_sel_cols}, $t->{sql_sel_cols}, $table->{category}{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} $join->{e_ca} WHERE $t->{prefix}.name = ?", $hr->{e_name} );
-}
 
 sub sel_challenge_all {
     my ($self) = @_;
@@ -128,6 +122,7 @@ sub sel_challenge_all {
     return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} ORDER BY $t->{prefix}.id" );
 }
 
+# category
 sub sel_category_all {
     my ($self) = @_;
     my $t = $table->{category};
@@ -138,6 +133,13 @@ sub sel_category_isstandard_all {
     my ($self) = @_;
     my $t = $table->{category};
     return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} WHERE $t->{prefix}.isstandard ORDER BY $t->{prefix}.id" );
+}
+
+# event
+sub sel_event_using_name {
+    my ($self, $hr) = @_;
+    my $t = $table->{event};
+    return $self->_row( "SELECT $table->{challenge}{sql_sel_cols}, $t->{sql_sel_cols}, $table->{category}{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} $join->{e_ca} WHERE $t->{prefix}.name = ?", $hr->{e_name} );
 }
 
 sub sel_event_all_for {
@@ -228,6 +230,17 @@ sub sel_participant_status {
     return $self->_row( "SELECT $t->{sql_sel_cols}, $table->{account}{sql_sel_cols} FROM $t->{sql_fqt} $join->{p_a} WHERE $t->{prefix}.event_id = ? AND $t->{prefix}.account_id = ?", $hr->{e_id}, $hr->{a_id} );
 }
 
+# find which events were running at some stage yesterday
+# Note: this method assumes that 'TIME ZONE' has been set correctly
+sub sel_event_all_running_yesterday {
+    my ($self) = @_;
+    my $t = $table->{event};
+    # SELECT id, name, startts, endts FROM challenge.event WHERE startts::DATE <= '2007-09-03'::DATE AND endts::DATE >= '2007-09-02'::DATE ORDER BY id;
+    my $sql = "SELECT $table->{challenge}{sql_sel_cols}, $t->{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} WHERE $t->{prefix}.startts::DATE <= CURRENT_DATE-1 AND $t->{prefix}.endts::DATE >= CURRENT_DATE-2 ORDER BY $t->{prefix}.id";
+    return $self->_rows( $sql );
+}
+
+# participant
 sub accept_challenge {
     my ($self, $hr) = @_;
     my $t = $table->{participant};
@@ -246,13 +259,9 @@ my $sel_progress_all_for = "
 __PACKAGE__->mk_select_rows( 'sel_progress_all_for', $sel_progress_all_for, [ 'e_id', 'a_id' ] );
 
 # timezones
+# Note: for some information regarding timezones, see:
+# - http://kapiti.geek.nz/random/timezones-freak-me-out.html
 __PACKAGE__->mk_select_rows( 'sel_timezone_all', "SELECT $table->{timezone}{sql_sel_cols} FROM $table->{timezone}{sql_fqt} ORDER BY t.id", [] );
-
-sub sel_timezone_all {
-    my ($self) = @_;
-    my $t = $table->{timezone};
-    return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} ORDER BY $t->{prefix}.id" );
-}
 
 # for the sub to get the current progress of the current events
 # insert into challenge.progress(participant_id, date, progress) select id, current_date-1, progress from challenge.participant where event_id = 1
@@ -323,6 +332,30 @@ sub has_time_passed_for {
 
     return $res;
 }
+
+# progress
+# expects $hr->{e_id} and $hr->{t_id}
+sub ins_progress_for {
+    my ($self, $hr) = @_;
+
+    my $e = $table->{event};
+    my $pr = $table->{progress};
+
+    my $sql = "
+        INSERT INTO
+            $schema.$pr->{name}(participant_id, date, progress)
+        SELECT
+            p.id, current_date-1, progress
+        FROM
+            challenge.event e
+            JOIN challenge.participant p ON (e.id = p.event_id)
+            JOIN challenge.info i ON (p.account_id = i.account_id)
+        WHERE
+            e.id = ? AND i.timezone_id = ?
+    ";
+    return $self->_do( $sql, $hr->{e_id}, $hr->{t_id} );
+}
+
 
 sub _nuke {
     my ($self) = @_;

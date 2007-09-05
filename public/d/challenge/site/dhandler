@@ -14,8 +14,8 @@
 
     my $allowed = {
         type => {
-            winner      => GD::Image->new("/usr/share/kiwiwriters/banners/member-winner-120x90.png"),
-            participant => GD::Image->new("/usr/share/kiwiwriters/banners/member-participant-120x90.png"),
+            winner      => GD::Image->new("/usr/share/kiwiwriters/banners/site-winner-120x90.png"),
+            participant => GD::Image->new("/usr/share/kiwiwriters/banners/site-participant-120x90.png"),
             progkiwi    => GD::Image->new("/usr/share/kiwiwriters/banners/progress-kiwi-120x60.png"),
             progworm    => GD::Image->new("/usr/share/kiwiwriters/banners/progress-worm-120x60.png"),
         },

@@ -82,6 +82,11 @@ case "$1" in
         su - postgres -c 'createlang plpgsql kiwiwriters' || true
         pgpatcher -U kiwiwriters -d kiwiwriters -s /usr/share/kiwiwriters/db/patch -l 16 || true
 
+        # make sure the kiwiwriters system account is there and the dirs it needs
+        id kiwiwriters || useradd -r kiwiwriters
+        chown -R kiwiwriters:kiwiwriters /var/log/kiwiwriters
+        chmod -R 0700 /var/log/kiwiwriters
+
         # reload apache
         /etc/init.d/apache-perl restart
         ;;
