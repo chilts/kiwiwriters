@@ -319,6 +319,29 @@ sub sel_event_all_future_for_account {
     return $self->_rows( $sql, $hr->{a_id} );
 }
 
+sub sel_event_all_for_account {
+    my ($self, $hr) = @_;
+    my $e = $table->{event};
+    my $p = $table->{participant};
+
+    my $sql = "SELECT
+            $table->{challenge}{sql_sel_cols},
+            $e->{sql_sel_cols},
+            $table->{category}{sql_sel_cols},
+            $p->{sql_sel_cols}
+        FROM
+            $table->{challenge}{sql_fqt}
+            $join->{c_e}
+            $join->{e_ca}
+            $join->{e_p}
+        WHERE
+            $p->{prefix}.account_id = ?
+        ORDER BY
+            $e->{prefix}.startts, $e->{prefix}.endts";
+
+    return $self->_rows( $sql, $hr->{a_id} );
+}
+
 sub has_time_passed_for {
     my ($self, $hr) = @_;
 

@@ -18,13 +18,8 @@
 <%init>
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
 
-    my $site = $model->sel_challenge_using_name({ c_name => 'site' });
-    # my $member = $model->sel_challenge_using_name({ c_name => 'member' });
-
-    warn "here1";
-    my $site_list_current = $model->sel_event_all_current_for_account({ c_id => $site->{c_id}, a_id => $id });
-    warn "here2";
-    my $site_list_future = $model->sel_event_all_future_for_account({ c_id => $site->{c_id}, a_id => $id });
+    my $site_list_current = $model->sel_event_all_current_for_account({ a_id => $id });
+    my $site_list_future = $model->sel_event_all_future_for_account({ a_id => $id });
 </%init>
 %# ----------------------------------------------------------------------------
 <h3>Current Challenges</h3>

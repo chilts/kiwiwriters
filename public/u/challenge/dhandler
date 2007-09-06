@@ -17,10 +17,10 @@
 
 <p><a href="/u/<% $username | u %>.html">&laquo; Back to <% $username | h %>'s Profile</a></p>
 
-<& /zaapt/model/forum/view-user-posts.mhtml,
+<h2>Challenges</h2>
+
+<& /zaapt/model/challenge/widget-user.mhtml,
     zaapt => $ZAAPT,
     id => $account->{a_id},
-    _limit => 25,
-    _offset => 0,
 &>
 %# ----------------------------------------------------------------------------

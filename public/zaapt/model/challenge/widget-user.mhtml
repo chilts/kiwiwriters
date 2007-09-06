@@ -1,0 +1,45 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $zaapt
+    $id
+</%args>
+%# ----------------------------------------------------------------------------
+<%once>
+    my $map = {
+        site => 'yellow',
+        member => 'orange',
+    };
+    my $map2name = {
+        site => 'Site',
+        member => 'Member',
+    };
+</%once>
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
+
+    my $events = $model->sel_event_all_for_account({ a_id => $id });
+</%init>
+%# ----------------------------------------------------------------------------
+% if ( @$events ) {
+%     foreach my $e ( @$events ) {
+<p>
+    <& /zaapt/common/icon.mhtml, name => 'asterisk_' . $map->{$e->{c_name}}, title => "$map2name->{$e->{c_name}} Challenge" &>
+    <a href="/my/challenge/<% $e->{c_name} | h %>/<% $e->{e_name} | h %>.html"><% $e->{e_title} | h %></a>
+    <br />
+    <strong>Progress</strong>: <% $e->{p_progress} | h %> of <& render-quantity.mhtml, amount => $e->{e_goal}, unit => $e->{ca_unit}, units => $e->{ca_units} &>
+%         if ( $e->{p_progress} >= $e->{e_goal} ) {
+    <br />
+    <& /zaapt/common/icon.mhtml, name => 'star', title => "Winner!" &> <strong>Winner!</strong>
+%         }
+</p>
+%     }
+% } else {
+<p>This member has not yet entered any challenges.</p>
+% }
+
+<h3>Key</h3>
+<& /zaapt/common/icon.mhtml, name => 'asterisk_yellow', title => 'Site Challenge' &> Site Challenge
+<br />
+<& /zaapt/common/icon.mhtml, name => 'asterisk_orange', title => 'Member Challenge' &> Member Challenge
+%# ----------------------------------------------------------------------------
