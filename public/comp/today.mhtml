@@ -1,1 +1,5 @@
-<div id="topbox">&nbsp;</div>
+<div id="topbox">
+    <a href="/my/sign-up.html">Join Us!</a>
+    -
+    <a href="/my/sign-in.html">Sign In</a>
+</div>
