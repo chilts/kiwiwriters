@@ -6,22 +6,22 @@
 <%init>
     my $urlset = Zaapt::Utils::UrlSet->new();
     $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/announcements.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/achievements.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/contests.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/general.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/introductions.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/how-do-i.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/help-help.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/resources.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/challenges.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/wwww.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/socnoc.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/preparation.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/write-it.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/editing.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/critique-and-review.html" });
-    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/submission.html" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/announcements/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/achievements/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/contests/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/general/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/introductions/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/how-do-i/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/help-help/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/resources/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/challenges/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/wwww/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/socnoc/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/preparation/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/write-it/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/editing/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/critique-and-review/" });
+    $urlset->add({ loc => "http://$CFG->{domain_name}/my/forum/submission/" });
 
     print $urlset->as_xml();
     return;
