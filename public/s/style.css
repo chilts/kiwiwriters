@@ -166,42 +166,15 @@ font-size:1.4em;
 font-weight:400;
 }
 
-#rightside{
-float:right;
-margin:40px 15px 20px 0;
-width:130px;
-}
-
-#rightside h1{
-font-size:1.4em;
-font-weight:400;
-margin:0 0 12px;
-}
-
-#rightside p{
-font-size:0.9em;
-margin:2px 0 12px 10px;
-}
-
-#rightside img{
-border:1px solid #fa9035;
-margin:10px 0 5px 5px;
-padding:2px;
-}
-
 #content{
-margin:0px 160px 0 180px;
-}
-
-#contentalt{
 margin:0px 15px 0 180px;
 }
 
-#content p,#contentalt p{
+#content p{
 margin:8px 0 0 10px;
 }
 
-#content h1,#contentalt h1{
+#content h1{
 color:#505050;
 font-size:2em;
 font-weight:400;
@@ -209,7 +182,7 @@ margin:15px 0 10px;
 padding:0;
 }
 
-#content h2,#contentalt h2{
+#content h2{
 color:#505050;
 font-size:1.5em;
 font-weight:400;
@@ -217,11 +190,11 @@ margin:20px 0 10px;
 padding:0;
 }
 
-#content img,#contentalt img{
+#content img{
 border:0;
 }
 
-#content img.logo,#contentalt img.logo{
+#content img.logo{
 border:1px solid #fa9035;
 float:left;
 margin:5px 15px 6px;

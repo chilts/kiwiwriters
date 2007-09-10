@@ -39,12 +39,9 @@
 
         <& SELF:.menu &>
 
-% if ( $m->request_comp->attr('right') ) {
-        <& /comp/rightside.mhtml &>
-% }
         <a id="main"></a>
 
-        <div id="content<% $m->request_comp->attr('right') ? '' : 'alt' %>">
+        <div id="content">
 
 % unless ( $m->request_comp->attr('done_today') ) {
             <& /comp/today.mhtml &>
@@ -79,7 +76,6 @@ urchinTracker();
 %# ----------------------------------------------------------------------------
 <%attr>
     section => 'home'
-    right => 0
     sign_in_req => 0
     use_mochikit => 1
     use_zaapt => 0
