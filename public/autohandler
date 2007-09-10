@@ -34,14 +34,16 @@
         <& /comp/header.mhtml &>
         <& /comp/nav.mhtml &>
 
-        <div id="wrap1">
-        <div id="wrap2">
+        <div id="wrap1" class="<% $m->request_comp->attr('layout') %>">
+        <div id="wrap2" class="<% $m->request_comp->attr('layout') %>">
 
+% if ( $m->request_comp->attr('layout') eq 'menu' ) {
         <& SELF:.menu &>
+% }
 
         <a id="main"></a>
 
-        <div id="content">
+        <div id="content" class="<% $m->request_comp->attr('layout') %>">
 
 % unless ( $m->request_comp->attr('done_today') ) {
             <& /comp/today.mhtml &>
@@ -76,6 +78,7 @@ urchinTracker();
 %# ----------------------------------------------------------------------------
 <%attr>
     section => 'home'
+    layout => 'menu'
     sign_in_req => 0
     use_mochikit => 1
     use_zaapt => 0
