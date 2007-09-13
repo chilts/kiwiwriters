@@ -9,9 +9,7 @@
     my $events = $model->sel_event_all_current_for({ c_id => $challenge->{c_id} });
 </%init>
 %# ----------------------------------------------------------------------------
-<& render-challenge.mhtml, challenge => $challenge &>
-
-<h1>List of Current Challenges</h1>
+<h2>Current Challenges</h2>
 
 <& view-events.mhtml, events => $events &>
 %# ----------------------------------------------------------------------------

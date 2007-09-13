@@ -9,9 +9,7 @@
     my $events = $model->sel_event_all_future_for({ c_id => $challenge->{c_id} });
 </%init>
 %# ----------------------------------------------------------------------------
-<& render-challenge.mhtml, challenge => $challenge &>
-
-<h1>List of Future Challenges</h1>
+<h2>Future Challenges</h2>
 
 <& view-events.mhtml, events => $events &>
 %# ----------------------------------------------------------------------------

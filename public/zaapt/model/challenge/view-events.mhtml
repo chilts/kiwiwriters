@@ -7,7 +7,7 @@
 % if ( @$events ) {
 %     foreach my $event ( @$events ) {
 
-<h2><% $event->{e_title} | h %></h2>
+<h3><% $event->{e_title} | h %></h3>
 
 <p><% $event->{e_description} | h %></p>
 

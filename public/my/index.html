@@ -8,13 +8,15 @@
     &>.
 </p>
 
-<table style="table-layout: fixed;"><tr><td valign="top">
+<&| /comp/table-split.mhtml &>
+<tr><td>
     <h2>KiwiMail</h2>
     <& /zaapt/model/message/widget-user-summary.mhtml, zaapt => $ZAAPT, id => $SESS->{id} &>
-</td><td valign="top">
+</td><td>
     <h2>Your Challenges</h2>
     <& /zaapt/model/challenge/widget-user-summary.mhtml, zaapt => $ZAAPT, id => $SESS->{id} &>
-</td></tr></table>
+</td></tr>
+</&>
 
 % if ( $SESS->{admin} ) {
 <h2>Admin</h2>

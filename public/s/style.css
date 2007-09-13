@@ -374,6 +374,19 @@ th.action{
 width:30%;
 }
 
+table.split{
+width:100%;
+}
+
+table.split th{
+width:50%;
+}
+
+table.split td{
+width:50%;
+vertical-align: top;
+}
+
 .r0{
 background-color:#e7e7e7;
 }

@@ -67,6 +67,10 @@
             id         => $id,
         );
     }
+    elsif ( $page eq 'desc' ) {
+        my $challenge = $model->sel_challenge_using_name({ c_name => $c_name });
+        $m->comp( 'render-challenge.mhtml', challenge => $challenge );
+    }
     else {
         # check that this challenge exists
         my $challenge = $model->sel_challenge_using_name({ c_name => $c_name });

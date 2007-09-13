@@ -34,10 +34,25 @@
     t_name => 'bbcode',
 &>
 
-<& /zaapt/model/friend/view.mhtml,
-    zaapt => $ZAAPT,
-    id    => $account->{a_id},
-    page  => 'info',
-&>
+<h1>Friends</h1>
+
+<&| /comp/table-split.mhtml &>
+    <tr>
+        <td>
+            <& /zaapt/model/friend/view.mhtml,
+                zaapt => $ZAAPT,
+                id    => $account->{a_id},
+                page  => 'info-friends',
+            &>
+        </td>
+        <td>
+            <& /zaapt/model/friend/view.mhtml,
+                zaapt => $ZAAPT,
+                id    => $account->{a_id},
+                page  => 'info-back',
+            &>
+        </td>
+    </tr>
+</&>
 
 %# ----------------------------------------------------------------------------
