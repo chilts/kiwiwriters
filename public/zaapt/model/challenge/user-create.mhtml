@@ -50,15 +50,15 @@
             push @$err, 'At least one Title field should contain something';
         }
 
-        # check each title is 11 chars or less
-        unless ( length $e_title1 <= 11 ) {
-            push @$err, 'Title1 should be 11 chars or less';
+        # check each title is 13 chars or less
+        unless ( length $e_title1 <= 13 ) {
+            push @$err, 'Title1 should be 13 chars or less';
         }
-        unless ( length $e_title2 <= 11 ) {
-            push @$err, 'Title2 should be 11 chars or less';
+        unless ( length $e_title2 <= 13 ) {
+            push @$err, 'Title2 should be 13 chars or less';
         }
-        unless ( length $e_title3 <= 11 ) {
-            push @$err, 'Title3 should be 11 chars or less';
+        unless ( length $e_title3 <= 13 ) {
+            push @$err, 'Title3 should be 13 chars or less';
         }
 
         my $e_title = Zaapt::Utils::Conv::crunch($e_title1)
@@ -140,10 +140,10 @@
         { type => 'select', field => 'Category', name => 'ca_id', options => \@ca_options, selected => $ca_id },
 #        { type => 'text', field => 'Name', name => 'e_name', size => 40, value => $e_name },
 #        { type => 'note', value => 'Note: The name will appear in the URL. Therefore, you should use only lower-case letters, no spaces and a hyphen to separate words.' },
-        { type => 'text', field => 'Title (line 1)', name => 'e_title1', size => 11, maxlength => 11, note => '(max 11 chars)', value => $e_title1 },
-        { type => 'text', field => 'Title (line 2)', name => 'e_title2', size => 11, maxlength => 11, note => '(max 11 chars)', value => $e_title2 },
-        { type => 'text', field => 'Title (line 3)', name => 'e_title3', size => 11, maxlength => 11, note => '(max 11 chars)', value => $e_title3 },
-        { type => 'note', value => 'Note: Your full title will be made up of the above three lines, each of 11 characters or less. This enables us to draw a nice Participant and Winner icon. Spread your title over 1, 2 or 3 rows.' },
+        { type => 'text', field => 'Title (line 1)', name => 'e_title1', size => 13, maxlength => 13, note => '(max 13 chars)', value => $e_title1 },
+        { type => 'text', field => 'Title (line 2)', name => 'e_title2', size => 13, maxlength => 13, note => '(max 13 chars)', value => $e_title2 },
+        { type => 'text', field => 'Title (line 3)', name => 'e_title3', size => 13, maxlength => 13, note => '(max 13 chars)', value => $e_title3 },
+        { type => 'note', value => 'Note: Your full title will be made up of the above three lines, each of 13 characters or less. This enables us to draw a nice Participant and Winner icon. Spread your title over 1, 2 or 3 rows.' },
         { type => 'textarea', field => 'Description', name => 'e_description', rows => 5, cols => 40, value => $e_description },
         { type => 'textarea', field => 'Rules', name => 'e_rules', rows => 10, cols => 40, value => $e_rules },
         { type => 'note', value => 'Note: You can use BBCode in the Rules section.' },
