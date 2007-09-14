@@ -147,6 +147,7 @@
         { type => 'textarea', field => 'Description', name => 'e_description', rows => 5, cols => 40, value => $e_description },
         { type => 'textarea', field => 'Rules', name => 'e_rules', rows => 10, cols => 40, value => $e_rules },
         { type => 'note', value => 'Note: You can use BBCode in the Rules section.' },
+        { type => 'html', field => 'Help', value => $m->scomp('/zaapt/model/forum/help-link.mhtml') },
         { type => 'text', field => 'Goal', name => 'e_goal', note => 'e.g. 50000, 7500', value => $e_goal },
         { type => 'datetime', id => 'start', name => 'e_start', field => 'Start Time', date => $e_start_date, time => $e_start_time },
         { type => 'datetime', id => 'end', name => 'e_end', field => 'End Time', date => $e_end_date, time => $e_end_time },

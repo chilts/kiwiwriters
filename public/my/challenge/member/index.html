@@ -1,57 +1,6 @@
 %# ----------------------------------------------------------------------------
 <%init>
     # return if $m->cache_self( key => $name, expire_in => '10s' );
-
-    print "<h1>Member Challenges</h2>";
-
-    # see if this person is logged in
-    if ( $SESS->{_signed_in} ) {
-        $m->comp('/zaapt/model/challenge/user.mhtml',
-            %ARGS,
-            zaapt => $ZAAPT,
-            c_name => 'member',
-            page => 'current',
-            id => $SESS->{id},
-        );
-
-        $m->comp('/zaapt/model/challenge/user.mhtml',
-            %ARGS,
-            zaapt => $ZAAPT,
-            c_name => 'member',
-            page => 'future',
-            id => $SESS->{id},
-        );
-
-        $m->comp('/zaapt/model/challenge/user.mhtml',
-            %ARGS,
-            zaapt => $ZAAPT,
-            c_name => 'member',
-            page => 'index',
-            id => $SESS->{id},
-        );
-    }
-    else {
-        $m->comp('/zaapt/model/challenge/view.mhtml',
-            %ARGS,
-            zaapt => $ZAAPT,
-            c_name => 'member',
-            page => 'current',
-        );
-
-        $m->comp('/zaapt/model/challenge/view.mhtml',
-            %ARGS,
-            zaapt => $ZAAPT,
-            c_name => 'member',
-            page => 'future',
-        );
-
-        $m->comp('/zaapt/model/challenge/view.mhtml',
-            %ARGS,
-            zaapt => $ZAAPT,
-            c_name => 'member',
-            page => 'index',
-        );
-    }
 </%init>
 %# ----------------------------------------------------------------------------
 <h1>Create a Challenge</h1>
@@ -66,9 +15,34 @@
 
 <p>
     Remember to advertise it on the <a href="/my/forum/challenges/">challenges
-    forum</a> if you want othes to join you.
+    forum</a> if you want others to join you.
 </p>
 
+<h1>Member Challenges</h1>
+
+<& /zaapt/model/challenge/user.mhtml,
+    %ARGS,
+    zaapt => $ZAAPT,
+    c_name => 'member',
+    page => 'current',
+    id => $SESS->{id},
+&>
+
+<& /zaapt/model/challenge/user.mhtml,
+    %ARGS,
+    zaapt => $ZAAPT,
+    c_name => 'member',
+    page => 'future',
+    id => $SESS->{id},
+&>
+
+<& /zaapt/model/challenge/user.mhtml,
+    %ARGS,
+    zaapt => $ZAAPT,
+    c_name => 'member',
+    page => 'index',
+    id => $SESS->{id},
+&>
 
 % } else {
 
@@ -77,6 +51,28 @@
     you wish to create a member challenge.
 </p>
 
-% }
+<h1>Member Challenges</h1>
 
+<& /zaapt/model/challenge/view.mhtml,
+    %ARGS,
+    zaapt => $ZAAPT,
+    c_name => 'member',
+    page => 'current',
+&>
+
+<& /zaapt/model/challenge/view.mhtml,
+    %ARGS,
+    zaapt => $ZAAPT,
+    c_name => 'member',
+    page => 'future',
+&>
+
+<& /zaapt/model/challenge/view.mhtml,
+    %ARGS,
+    zaapt => $ZAAPT,
+    c_name => 'member',
+    page => 'index',
+&>
+
+% }
 %# ----------------------------------------------------------------------------
