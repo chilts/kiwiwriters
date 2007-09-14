@@ -60,6 +60,7 @@
     # add expires headers to all static content
     <Location /s/>
         ExpiresDefault "access plus 24 hours"
+        Options -Indexes
     </Location>
 
     CustomLog /var/log/apache-perl/kiwiwriters-access.log common
