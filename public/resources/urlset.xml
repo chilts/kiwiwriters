@@ -1,9 +1,10 @@
 %# ----------------------------------------------------------------------------
 <%init>
-    $m->comp('/zaapt/model/content/urlset.xml',
+    $m->comp('/zaapt/model/content/urlset.mxml',
         zaapt => $ZAAPT,
         c_name => 'resources',
-        location => "http://$CFG->{domain_name}/resources",
+        domain => $CFG->{domain_name},
+        path   => 'resources',
     );
     return;
 </%init>

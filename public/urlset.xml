@@ -1,9 +1,9 @@
 %# ----------------------------------------------------------------------------
 <%init>
-    $m->comp('/zaapt/model/content/urlset.xml',
+    $m->comp('/zaapt/model/content/urlset.mxml',
         zaapt => $ZAAPT,
         c_name => 'home',
-        location => "http://$CFG->{domain_name}",
+        domain => $CFG->{domain_name},
     );
     return;
 </%init>

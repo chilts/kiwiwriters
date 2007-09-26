@@ -3,7 +3,8 @@
     $m->comp('/zaapt/model/content/urlset.xml',
         zaapt => $ZAAPT,
         c_name => 'press-release',
-        location => "http://$CFG->{domain_name}/news/press-release",
+        domain => $CFG->{domain_name},
+        path => 'news/press-release',
     );
     return;
 </%init>

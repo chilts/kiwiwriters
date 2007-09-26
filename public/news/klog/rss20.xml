@@ -7,7 +7,7 @@
     $m->comp('/zaapt/model/blog/rss20.xml',
         zaapt  => $ZAAPT,
         b_name => 'klog',
-        domain => 'kiwiwriters.org',
+        domain => $CFG->{domain_name},
         path   => 'news/klog'
     );
 
