@@ -20,7 +20,7 @@
         $m->comp('/zaapt/model/forum/user.mhtml',
             %ARGS,
             zaapt => $ZAAPT,
-            my_roles => $SESS->{roles},
+            perms => $SESS->{permissions},
             f_name => 'announcements',
             page => $name,
             id => $SESS->{id},
