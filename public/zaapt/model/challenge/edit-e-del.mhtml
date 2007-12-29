@@ -1,7 +1,7 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $my_roles
+    $perms
     $e_id
 </%args>
 %# ----------------------------------------------------------------------------
@@ -14,7 +14,7 @@
     my $challenge = $model->sel_challenge({ c_id => $event->{e_challenge_id} });
     $m->redirect('edit-c-list.html') unless defined $challenge;
 
-    $m->redirect('edit-c-list.html') unless exists $my_roles->{$challenge->{_admin}};
+    $m->redirect('edit-c-list.html') unless exists $perms->{$challenge->{_admin}};
 
     $model->del_event({ e_id => $e_id });
 

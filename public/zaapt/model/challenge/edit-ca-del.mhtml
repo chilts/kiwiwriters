@@ -1,12 +1,12 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $my_roles
+    $perms
     $ca_id
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
-    $m->redirect('edit-ca-list.html') unless exists $my_roles->{super};
+    $m->redirect('edit-ca-list.html') unless exists $perms->{super};
 
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
     my $category = $model->sel_category({ ca_id => $ca_id });

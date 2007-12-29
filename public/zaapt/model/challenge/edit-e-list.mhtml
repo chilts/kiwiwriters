@@ -1,7 +1,7 @@
 %# --- ARGS -------------------------------------------------------------------
 <%args>
     $zaapt
-    $my_roles
+    $perms
     $c_id
 </%args>
 %# --- INIT -------------------------------------------------------------------
@@ -12,7 +12,7 @@
         $m->redirect('edit-c-list.html');
         return;
     }
-    $m->redirect('edit-c-list.html') unless exists $my_roles->{$challenge->{_view}};
+    $m->redirect('edit-c-list.html') unless exists $perms->{$challenge->{_view}};
 
     my $events = $model->sel_event_all_for({ c_id => $c_id });
 </%init>
@@ -23,7 +23,7 @@
 
 <h2>Challenge: <% $challenge->{c_name} | h %> - '<% $challenge->{c_title} | h %>'</h2>
 
-% if ( exists $my_roles->{$challenge->{_admin}} ) {
+% if ( exists $perms->{$challenge->{_admin}} ) {
 <p>
     * <a href="edit-e-add.html?c_id=<% $c_id | u %>">Add Event &raquo;</a>
 </p>
@@ -46,7 +46,7 @@
                 <% $event->{e_startts} | h %> - <% $event->{e_endts} | h %><br />
             </td>
             <td>
-%         if ( exists $my_roles->{$challenge->{_admin}} ) {
+%         if ( exists $perms->{$challenge->{_admin}} ) {
                 * <a href="edit-e-edit.html?e_id=<% $event->{e_id} | u %>">Edit Event</a><br />
                 * <a href="edit-e-del.html?e_id=<% $event->{e_id} | u %>">Delete</a><br />
 %         } else {

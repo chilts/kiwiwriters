@@ -1,7 +1,7 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $my_roles
+    $perms
     $e_id
     $ca_id
     $e_name
@@ -25,7 +25,7 @@
     $m->redirect('edit-c-list.html') unless defined $event;
 
     # need admin
-    $m->redirect('edit-c-list.html') unless exists $my_roles->{$event->{_admin}};
+    $m->redirect('edit-c-list.html') unless exists $perms->{$event->{_admin}};
 
     my $err = [];
 

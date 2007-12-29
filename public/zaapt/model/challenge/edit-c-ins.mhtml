@@ -5,7 +5,7 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $my_roles
+    $perms
     $c_name        => undef
     $c_title       => undef
     $c_description => undef
@@ -17,7 +17,7 @@
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
 
     # to insert this page, the user needs the 'super' role
-    $m->redirect('edit-c-list.html') unless exists $my_roles->{super};
+    $m->redirect('edit-c-list.html') unless exists $perms->{super};
 
     my $err = [];
 

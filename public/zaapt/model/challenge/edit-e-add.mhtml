@@ -1,7 +1,7 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $my_roles
+    $perms
     $id
     $c_id
 </%args>
@@ -17,7 +17,7 @@
     $m->redirect('edit-c-list.html') unless defined $challenge;
 
     # need admin
-    $m->redirect('edit-c-list.html') unless exists $my_roles->{$challenge->{_admin}};
+    $m->redirect('edit-c-list.html') unless exists $perms->{$challenge->{_admin}};
 
     my $categories = $model->sel_category_isstandard_all();
     my @ca_options = map { { value => $_->{ca_id}, text => "$_->{ca_title} ($_->{ca_units})" } } @$categories;

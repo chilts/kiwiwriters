@@ -1,7 +1,7 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $my_roles
+    $perms
     $ca_title
     $ca_description
     $ca_unit
@@ -14,7 +14,7 @@
 </%once>
 %# ----------------------------------------------------------------------------
 <%init>
-    $m->redirect('edit-c-list.html') unless exists $my_roles->{super};
+    $m->redirect('edit-c-list.html') unless exists $perms->{super};
 
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
 

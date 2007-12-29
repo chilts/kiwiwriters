@@ -1,7 +1,7 @@
 %# --- ARGS -------------------------------------------------------------------
 <%args>
     $zaapt
-    $my_roles
+    $perms
 </%args>
 %# --- INIT -------------------------------------------------------------------
 <%init>
@@ -15,7 +15,7 @@
 
 <h2>All Categories</h2>
 
-% if ( exists $my_roles->{super} ) {
+% if ( exists $perms->{super} ) {
 <p>
     * <a href="edit-ca-add.html">Add Category &raquo;</a><br />
 </p>
@@ -31,7 +31,7 @@
                 <% $category->{ca_isstandard} ? 'Standard' : 'User-Defined' | h %> Type<br />
             </td>
             <td>
-%         if ( exists $my_roles->{super} ) {
+%         if ( exists $perms->{super} ) {
                 * <a href="edit-ca-edit.html?ca_id=<% $category->{ca_id} | u %>">Edit Details</a><br />
                 * <a href="edit-ca-del.html?ca_id=<% $category->{ca_id} | u %>">Delete</a><br />
 %         }

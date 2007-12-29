@@ -5,7 +5,7 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $my_roles
+    $perms
     $c_id => undef
 </%args>
 %# ----------------------------------------------------------------------------
@@ -15,7 +15,7 @@
 
     # check the error conditions first - we need to recover
     $m->redirect('edit-c-list.html') unless defined $challenge;
-    $m->redirect('edit-c-list.html?c_id=$challenge->{c_id}') unless exists $my_roles->{$challenge->{_admin}};
+    $m->redirect('edit-c-list.html?c_id=$challenge->{c_id}') unless exists $perms->{$challenge->{_admin}};
 
     my $roles = $zaapt->get_model('Account')->sel_role_all();
     my @options = map { { value => $_->{r_id}, text => $_->{r_name} } } @$roles;
