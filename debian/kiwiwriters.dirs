@@ -1,3 +1,2 @@
-var/www/kiwiwriters/htdocs
-var/www/kiwiwriters/mason
+var/cache/kiwiwriters/mason
 var/log/kiwiwriters

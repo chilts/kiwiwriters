@@ -61,19 +61,19 @@ case "$1" in
         fi
 
         echo "Installing configuration files..."
-        m4 -P $CFG /etc/kiwiwriters/kiwiwriters.conf.template > /etc/apache-perl/conf.d/40_kiwiwriters.conf
-        m4 -P $CFG /etc/kiwiwriters/kiwiwriters.cfg.template > /etc/kiwiwriters/kiwiwriters.cfg
+        m4 -P $CFG /usr/share/kiwiwriters/etc/kiwiwriters.conf.template > /etc/apache2/sites-available/kiwiwriters.conf
+        m4 -P $CFG /usr/share/kiwiwriters/etc/kiwiwriters.cfg.template > /etc/kiwiwriters/kiwiwriters.cfg
 
         # remove all mason information (cache and objects)
         echo "Remove Mason information..."
-        find /var/www/kiwiwriters/mason -type f -mindepth 1 -exec rm {} ';'
+        find /var/cache/kiwiwriters/mason -mindepth 1 -type f -exec rm {} ';'
 
         # make the site info owned by www-data, 
         WEBUSER=www-data
         WEBGROUP=www-data
         if [ "`getent passwd $WEBUSER`" -a "`getent group $WEBGROUP `" ]; then
-            chown -R $WEBUSER:$WEBGROUP /var/www/kiwiwriters/mason
-            chmod -R 0700 /var/www/kiwiwriters/mason
+            chown -R $WEBUSER:$WEBGROUP /var/cache/kiwiwriters/mason
+            chmod -R 0700 /var/cache/kiwiwriters/mason
         fi
 
         # create the database
@@ -87,8 +87,11 @@ case "$1" in
         chown -R kiwiwriters:kiwiwriters /var/log/kiwiwriters
         chmod -R 0700 /var/log/kiwiwriters
 
-        # reload apache
-        /etc/init.d/apache-perl restart
+        # make sure the site is enabled and reload apache
+        a2ensite kiwiwriters.conf
+        a2enmod expires
+        a2enmod apreq
+        /etc/init.d/apache2 restart
         ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

@@ -1,6 +1,6 @@
-public/*                            var/www/kiwiwriters/htdocs
-etc/kiwiwriters.conf.template       etc/kiwiwriters
-etc/kiwiwriters.cfg.template        etc/kiwiwriters
+public/*                            usr/share/kiwiwriters/htdocs
+etc/kiwiwriters.conf.template       usr/share/kiwiwriters/etc
+etc/kiwiwriters.cfg.template        usr/share/kiwiwriters/etc
 db/*                                usr/share/kiwiwriters/db
 lib/*                               usr/share/perl5
 banners/*                           usr/share/kiwiwriters/banners
