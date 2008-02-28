@@ -1,59 +1,26 @@
 %# ----------------------------------------------------------------------------
-<h1>My Pages</h1>
+<%init>
+    # return if $m->cache_self( key => $name, expire_in => '10s' );
 
-<p class="info">
-    Welcome back! You are signed in as
-    <& /zaapt/common/a_username.mhtml,
-        a_username => $SESS->{username}
-    &>.
-</p>
+    # see if this person is logged in
+    if ( $SESS->{_signed_in} ) {
+        $m->comp('/zaapt/model/account/user.mhtml',
+            %ARGS,
+            zaapt => $ZAAPT,
+            sess => $SESS,
+            id => $SESS->{id},
+            page => 'index',
+        );
+    }
+    else {
+        $m->comp('/zaapt/model/account/view.mhtml',
+            %ARGS,
+            zaapt => $ZAAPT,
+            sess => $SESS,
+            page => 'index',
+        );
+    }
 
-<&| /comp/table-split.mhtml &>
-<tr><td>
-    <h2>KiwiMail</h2>
-    <& /zaapt/model/message/widget-user-summary.mhtml, zaapt => $ZAAPT, id => $SESS->{id} &>
-</td><td>
-    <h2>Your Challenges</h2>
-    <& /zaapt/model/challenge/widget-user-summary.mhtml, zaapt => $ZAAPT, id => $SESS->{id} &>
-</td></tr>
-</&>
-
-% if ( $SESS->{admin} ) {
-<h2>Admin</h2>
-
-<p>
-    You are an administrator: <a href="/admin/">Admin Area 51</a>.
-</p>
-% }
-
-<p>
-    Quick links:
-</p>
-
-<ul>
-    <li><a href="/my/forum/">Forums</a></li>
-    <li><a href="/my/challenge/">Site Challenges</a> - <a href="/my/challenge/site/current.html">Current</a> and <a href="/my/challenge/site/future.html">Future</a></li>
-    <li><a href="/my/kiwimail/">KiwiMail</a></li>
-</ul>
-
-<p>
-    Welcome to your area. Here you can create challenges, join member and
-    site-wide as well as participate in forums. There are many other things to
-    get the creative juices flowing too.
-</p>
-
-<h2>Tell someone about this site</h2>
-
-<p>
-   Do you know someone who would just love this site? Anyone who wants to
-   challenge themselves or perhaps someone who just wants to have fun. Send
-   them an invitation and let them know - thanks for spreading the word.
-</p>
-
-<& comp/form_invite.mhtml &>
-%# ----------------------------------------------------------------------------
-<%attr>
-    done_today => 1
-    layout => 'wide'
-</%attr>
+    return;
+</%init>
 %# ----------------------------------------------------------------------------

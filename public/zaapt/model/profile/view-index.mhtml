@@ -5,7 +5,7 @@
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
-    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Profile");
+    my $model = $zaapt->get_model('Profile');
     my $profile = $model->sel_profile({ a_id => $id });
 
     unless ( defined $profile ) {
@@ -20,16 +20,5 @@
     }
 </%init>
 %# ----------------------------------------------------------------------------
-<div class="kw_profile">
-<h1>Profile</h1>
-
-<&  /zaapt/common/table.mhtml, rows => [
-        { field => 'Age', value => $profile->{p_age} || '' },
-        { field => 'Location', value => $profile->{p_location} },
-        { field => 'Website', value => $profile->{p_website}, type => 'url' },
-        { field => 'Favourite Authors', value => $profile->{p_favauthors} },
-        { field => 'Favourite Books', value => $profile->{p_favbooks} },
-    ]
-&>
-</div>
+<& view-index.render.mhtml, profile => $profile &>
 %# ----------------------------------------------------------------------------

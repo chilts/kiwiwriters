@@ -1,45 +1,64 @@
 %# ----------------------------------------------------------------------------
 <%doc>
-    Note: $my_roles is not a required arg, so make sure the person editing this
+    Note: $perms is not a required arg, so make sure the person editing this
     is allowed to.
 </%doc>
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $id => undef
+    $id
+    $redirect     => '.'
+    $_act         => ''
+    $p_age        => ''
+    $p_location   => ''
+    $p_website    => ''
+    $p_favauthors => ''
+    $p_favbooks   => ''
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
-    my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Profile");
+    use Data::Dumper;
+    warn Dumper(\%ARGS);
+
+    my $model = $zaapt->get_model('Profile');
     my $profile = $model->sel_profile({ a_id => $id });
 
-    # check the error conditions first - we need to recover
+    # this person should have a profile, so let's insert one if not
     unless ( defined $profile ) {
-        $m->clear_buffer();
-        $m->abort(404);
-        return;
+        $model->ins_profile_skeleton({ a_id => $id });
+
+        # then select it out again
+        $profile = $model->sel_profile({ a_id => $id });
+    }
+
+    my @err;
+    my $values = $profile;
+
+    if ( $_act eq 'upd' ) {
+        unless ( $p_age =~ m{ \A \d+ \z }xms ) {
+            push @err, "please specify a valid age";
+        }
+
+        # some processing
+        $p_favauthors =~ s{\r}{}gxms;
+        $p_favbooks =~ s{\r}{}gxms;
+
+        unless ( @err ) {
+            $model->upd_profile({
+                p_age => $p_age,
+                p_location => $p_location,
+                p_website => $p_website,
+                p_favauthors => $p_favauthors,
+                p_favbooks => $p_favbooks,
+                a_id => $id,
+            });
+            $m->redirect($redirect);
+            return;
+        }
+
+        $values = \%ARGS;
     }
 </%init>
 %# ----------------------------------------------------------------------------
-<h1>Edit your profile</h1>
-
-<a href="./">&laquo; Back to Profile</a>
-
-<& /zaapt/common/form.mhtml, action => 'user-upd.html', elements => [
-        { type => 'hidden', name => 'act', value => 'update' },
-        { type => 'text', field => 'Age', name => 'p_age', size => 3, maxlength => 3, value => $profile->{p_age} },
-        { type => 'text', field => 'Location', name => 'p_location', size => 30, maxlength => 30, value => $profile->{p_location} },
-        { type => 'text', field => 'Website', name => 'p_website', size => 30, maxlength => 50, value => $profile->{p_website} },
-        { type => 'textarea', field => 'Favourite Authors', name => 'p_favauthors', rows => 4, cols => 40, value => $profile->{p_favauthors} },
-        { type => 'textarea', field => 'Favourite Books', name => 'p_favbooks', rows => 4, cols => 40, value => $profile->{p_favbooks} },
-        { type => 'submit', field => '', value => 'Save Changes' },
-    ]
-&>
-
-% if ( 0 ) {
-<pre>
-% print Data::Dumper->Dump([$profile], ['p']);
-</pre>
-% }
-
+<& user-edit.render.mhtml, values => $values, err => \@err &>
 %# ----------------------------------------------------------------------------

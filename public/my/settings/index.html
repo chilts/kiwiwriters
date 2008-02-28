@@ -3,13 +3,15 @@
 <& /zaapt/model/account/user.mhtml,
     zaapt => $ZAAPT,
     id    => $SESS->{id},
+    sess  => $SESS,
     page  => 'info',
 &>
-<p><a href="account/user-edit.html">Edit your Account Info &raquo;</a></p>
+<p><a href="edit.html">Edit your Account Info &raquo;</a></p>
 
 <& /zaapt/model/profile/view.mhtml,
     zaapt => $ZAAPT,
     id    => $SESS->{id},
+    sess  => $SESS,
     page  => 'index',
 &>
 <p><a href="profile/user-edit.html">Edit your KiwiWriters Profile &raquo;</a></p>
@@ -18,6 +20,7 @@
     zaapt => $ZAAPT,
     id    => $SESS->{id},
     page  => 'info',
+    sess  => $SESS,
     t_name => 'bbcode',
 &>
 <p><a href="forum/user-edit.html">Edit your Forum Settings &raquo;</a></p>
@@ -25,6 +28,7 @@
 <& /zaapt/model/challenge/view.mhtml,
     zaapt => $ZAAPT,
     id    => $SESS->{id},
+    sess  => $SESS,
     page  => 'info',
 &>
 <p><a href="challenge/user-edit.html">Edit your Challenge Settings &raquo;</a></p>

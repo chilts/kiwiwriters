@@ -7,7 +7,11 @@
 </%args>
 %# ----------------------------------------------------------------------------
 <%once>
-    my $known_pages = {
+    my $pages = {
+        edit => 1,
+    };
+
+    my $view_pages = {
         index   => 1,
         future  => 1,
         archive => 1,
@@ -30,7 +34,15 @@
         return;
     }
 
-    if ( exists $known_pages->{$page} ) {
+    if ( exists $pages->{$page} ) {
+        $m->comp( "/zaapt/model/challenge/user-$page.mhtml",
+            %ARGS,
+            zaapt      => $zaapt,
+            name       => $page,
+            id         => $id,
+        );
+    }
+    elsif ( exists $view_pages->{$page} ) {
         # main index page
         $m->comp("/zaapt/model/challenge/view-$page.mhtml",
             %ARGS,
@@ -46,7 +58,7 @@
             model      => $model,
             challenge  => $challenge,
             name       => $page,
-            a_id       => $id,
+            id         => $id,
         );
     }
     return;

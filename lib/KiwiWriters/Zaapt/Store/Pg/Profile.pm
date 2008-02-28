@@ -5,49 +5,53 @@ use base qw( Zaapt::Store::Pg KiwiWriters::Zaapt::Model::Profile );
 use strict;
 use warnings;
 
+use Zaapt::Store::Pg::Account;
+
 ## ----------------------------------------------------------------------------
 # constants
 
-# table names
+# schema name
+my $schema = 'profile';
 
-my $profile_tablename = "profile.profile p";
+my $tables = {
+    profile => {
+        name => 'profile',
+        prefix => 'p',
+        cols => [
+            [ 'account_id', 'fk', 'a_id' ],
+            qw(age location website favauthors favbooks ts:inserted ts:updated)
+        ],
+        pk => [ 'account_id', 'fk', 'a_id' ],
+    },
+    account => Zaapt::Store::Pg::Account->_get_table( 'account' ),
+};
 
-# helper
-my $profile_cols = __PACKAGE__->_mk_cols( 'p', qw(account_id age location website favauthors favbooks ts:inserted ts:updated) );
-
-# profile
-my $ins_profile = __PACKAGE__->_mk_ins( 'profile.profile', qw(account_id age location website favauthors favbooks) );
-my $ins_profile_skeleton = "INSERT INTO profile.profile(account_id) VALUES(?)";
-my $upd_profile = __PACKAGE__->_mk_upd( 'profile.profile', 'account_id', qw(age location website favauthors favbooks) );
-my $del_profile = __PACKAGE__->_mk_del('profile.profile', 'account_id');
-my $sel_profile = "SELECT $profile_cols FROM $profile_tablename WHERE p.account_id = ?";
+my $join = {
+    p_a   => "JOIN account.account a ON (p.account_id = a.id)",
+};
 
 ## ----------------------------------------------------------------------------
-# methods
 
-sub ins_profile {
-    my ($self, $hr) = @_;
-    $self->_do( $ins_profile, $hr->{a_id}, $hr->{p_age}, $hr->{p_location}, $hr->{p_website}, $hr->{p_favauthors}, $hr->{p_favbooks} );
-}
+# creates {sql_fqt} and {sql_sel_cols}
+__PACKAGE__->_mk_sql( $schema, $tables );
 
+# generate the Perl method accessors
+__PACKAGE__->_mk_store_accessors( $schema, $tables );
+
+## ----------------------------------------------------------------------------
+# simple accessors
+
+# create some reusable sql
+my $profile_cols = "$tables->{profile}{sql_sel_cols}, $tables->{account}{sql_sel_cols}";
+my $profile_tables = "$tables->{profile}{sql_fqt} $join->{p_a}";
+
+# profile
+__PACKAGE__->mk_select_row( 'sel_profile', "SELECT $profile_cols FROM $profile_tables WHERE a.id = ?", [ 'a_id' ] );
+
+my $ins_profile_skeleton = "INSERT INTO profile.profile(account_id) VALUES(?)";
 sub ins_profile_skeleton {
     my ($self, $hr) = @_;
     $self->_do( $ins_profile_skeleton, $hr->{a_id} );
-}
-
-sub upd_profile {
-    my ($self, $hr) = @_;
-    $self->_do( $upd_profile, $hr->{p_age}, $hr->{p_location}, $hr->{p_website}, $hr->{p_favauthors}, $hr->{p_favbooks}, $hr->{a_id} );
-}
-
-sub del_profile {
-    my ($self, $hr) = @_;
-    $self->_do( $del_profile, $hr->{a_id} );
-}
-
-sub sel_profile {
-    my ($self, $hr) = @_;
-    return $self->_row( $sel_profile, $hr->{a_id} );
 }
 
 sub _nuke {

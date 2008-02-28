@@ -48,7 +48,7 @@ my $layout = Log::Log4perl::Layout::PatternLayout->new( "%d %p %F{1}[%5L] %m%n" 
 
 # choose and setup the appender
 my $appender;
-if ( 1 ) {
+if ( 0 ) {
     $appender = Log::Log4perl::Appender->new(
         "Log::Dispatch::File",
         filename => "/var/log/kiwiwriters/kw-progress.log",

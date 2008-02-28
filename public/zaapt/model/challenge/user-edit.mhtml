@@ -6,7 +6,10 @@
 %# ----------------------------------------------------------------------------
 <%args>
     $zaapt
-    $id => undef
+    $id       => undef
+    $_act     => ''
+    $t_id     => undef
+    $redirect => '.'
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
@@ -20,8 +23,19 @@
         return;
     }
 
-    use Data::Dumper;
-    warn Dumper($info);
+    # use Data::Dumper;
+    # warn Dumper($info);
+
+    # see if the user is updating their information
+    if ( $_act eq 'upd' ) {
+        # see if this timezone exists
+        my $tz = $model->sel_timezone({ t_id => $t_id });
+        if ( defined $tz ) {
+            $model->upd_info({ a_id => $id, t_id => $t_id });
+            $m->redirect(".");
+            return;
+        }
+    }
 
     # get all the Timezones from the database
     my $timezones = $model->sel_timezone_all();
@@ -31,6 +45,7 @@
     warn Dumper($timezones->[2]);
     warn Dumper($timezones->[3]);
     warn Dumper($timezones->[357]);
+
     my @options = map { { value => $_->{t_id}, text => $_->{t_name} } } @$timezones;
 </%init>
 %# ----------------------------------------------------------------------------
@@ -38,10 +53,11 @@
 
 <a href="./">&laquo; Back to Profile</a>
 
-<& /zaapt/common/form.mhtml, action => 'user-upd.html', elements => [
-        { type => 'hidden', name => '_act', value => 'update' },
-        { type => 'select', field => 'Timezone', name => 't_id', options => \@options, selected => $info->{i_timezone_id} },
+<& /zaapt/common/form.mhtml, action => '?', elements => [
+        { type => 'hidden', name => '_act', def => 'upd' },
+        { type => 'select', field => 'Timezone', name => 't_id', options => \@options },
         { type => 'submit', field => '', value => 'Save Changes' },
+        { type => 'submit', name => 'submit', field => '', cancel => 1, location => '.', def => 'Save Profile' },
     ]
 &>
 

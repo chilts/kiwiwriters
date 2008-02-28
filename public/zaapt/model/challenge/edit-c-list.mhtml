@@ -25,7 +25,8 @@
 %     next unless exists $perms->{$challenge->{_view}};
         <tr class="r<% $row=1-$row %>">
             <td>
-                <% $challenge->{c_name} | h %>
+                (<% $challenge->{c_id} | h %>) <strong><% $challenge->{c_name} | h %></strong> - '<% $challenge->{c_title} | h %>'<br />
+                <% $challenge->{c_description} | h %>
             </td>
             <td>
 %         if ( exists $perms->{$challenge->{_admin}} ) {

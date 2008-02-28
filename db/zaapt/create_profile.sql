@@ -16,4 +16,6 @@ CREATE TABLE profile.profile (
 CREATE TRIGGER profile_updated BEFORE UPDATE ON profile.profile
     FOR EACH ROW EXECUTE PROCEDURE updated();
 
+INSERT INTO zaapt.model(name, title, module) VALUES('profile', 'Profile', 'KiwiWriters::Zaapt::Store::Pg::Profile');
+
 -- ----------------------------------------------------------------------------

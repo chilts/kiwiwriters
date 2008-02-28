@@ -23,9 +23,9 @@
         return;
     }
 
-    warn Dumper($info);
-    warn "id=$id";
-    warn "t_id=$t_id";
+    # warn Dumper($info);
+    # warn "id=$id";
+    # warn "t_id=$t_id";
 
     # see if this timezone exists
     my $tz = $model->sel_timezone({ t_id => $t_id });

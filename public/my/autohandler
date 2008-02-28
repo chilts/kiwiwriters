@@ -1,6 +1,12 @@
 %# ----------------------------------------------------------------------------
 <%init>
-    WebApp::Session::begin( $SESS, $r, $DBH, 'session', ".$CFG->{domain_name}" );
+    $r->no_cache(1); # sets "Pragma: no-cache" and "Cache-control: no-cache"
+
+    $m->comp('/zaapt/model/session/session-begin.mas',
+        sess_rh => $SESS,
+        dbh     => $DBH,
+        domain  => ".$CFG->{domain_name}",
+    );
 
     # all of the pages under /my/ (with access restrictions) requires access, so check first
     if ( $m->request_comp->attr('sign_in_req') and !$SESS->{_signed_in} ) {
@@ -19,18 +25,13 @@
 % $m->call_next();
 
 %# ----------------------------------------------------------------------------
-<%perl>
-    # end the session
-    WebApp::Session::end( $SESS, $r, $DBH, 'session', ".$CFG->{domain_name}" );
-</%perl>
-%# ----------------------------------------------------------------------------
 <%method .menu>
-<& /zaapt/model/menu/widget-list.mhtml, zaapt => $ZAAPT, m_name => 'my' &>
+<& /zaapt/model/menu/widget-list.mhtml, zaapt => $ZAAPT, m_name => 'my-general' &>
 </%method>
 %# ----------------------------------------------------------------------------
 <%attr>
     section => 'my'
-    sign_in_req => 1
     cache => 0
+    done_today => 1
 </%attr>
 %# ----------------------------------------------------------------------------

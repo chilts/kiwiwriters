@@ -25,6 +25,10 @@
         #    ], 
         #},
         {
+            text => 'Help',
+            href => 'help.html',
+        },
+        {
             text => 'Sign Out',
             href => '/my/sign-out.html',
         },
@@ -32,7 +36,13 @@
 </%once>
 %# ----------------------------------------------------------------------------
 <%init>
-    WebApp::Session::begin( $SESS, $r, $DBH, 'session' );
+    $r->no_cache(1); # sets "Pragma: no-cache" and "Cache-control: no-cache"
+
+    $m->comp('/zaapt/model/session/session-begin.mas',
+        sess_rh => $SESS,
+        dbh     => $DBH,
+        domain  => ".$CFG->{domain_name}",
+    );
 
     # all of the pages under /admin/ requires that the user is an 'admin'
     unless ( $SESS->{admin} ) {
@@ -43,8 +53,6 @@
 
     # we're signed in okay and have admin privileges so continue...
     $m->call_next();
-
-    WebApp::Session::end( $SESS, $r, $DBH, 'session' );
 </%init>
 %# ----------------------------------------------------------------------------
 <%method .menu>

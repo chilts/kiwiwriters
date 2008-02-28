@@ -14,6 +14,7 @@
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
+    # since the event name is unique across all challenges...
     my $event = $model->sel_event_using_name({ e_name => $name });
 
     unless ( defined $event ) {

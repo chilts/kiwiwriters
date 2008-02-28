@@ -1,32 +1,14 @@
 %# ----------------------------------------------------------------------------
 <%init>
-    # return if $m->cache_self( key => 'index', expire_in => '10s' );
+    # return if $m->cache_self( key => $name, expire_in => '10s' );
+
+    $m->comp('/zaapt/model/profile/user.mhtml',
+        %ARGS,
+        zaapt    => $ZAAPT,
+        id       => $SESS->{id},
+        page     => 'index'
+        redirect => '/my/settings.html',
+    );
+    return;
 </%init>
-%# ----------------------------------------------------------------------------
-
-<& /zaapt/model/account/view.mhtml,
-    zaapt => $ZAAPT,
-    id    => $SESS->{id},
-    page  => 'index'
-&>
-
-%# the user can't edit anything about the account
-
-<& /zaapt/model/profile/view.mhtml,
-    zaapt => $ZAAPT,
-    id    => $SESS->{id},
-    page  => 'index',
-&>
-
-<p><a href="user-edit.html">Edit this Profile &raquo;</a></p>
-
-<& /zaapt/model/forum/view.mhtml,
-    zaapt => $ZAAPT,
-    id    => $SESS->{id},
-    page  => 'info',
-    t_name => 'bbcode',
-&>
-
-<p><a href="forum/user-edit.html">Edit your Forum Settings &raquo;</a></p>
-
 %# ----------------------------------------------------------------------------

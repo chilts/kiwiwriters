@@ -6,6 +6,8 @@ use strict;
 use warnings;
 use Data::Dumper;
 
+use Zaapt::Store::Pg::Account;
+
 ## ----------------------------------------------------------------------------
 # constants
 
@@ -72,13 +74,16 @@ my $table = {
         no_id => 1,
         pk => [ 'account_id', 'fk', 'a_id' ],
     },
+    account => Zaapt::Store::Pg::Account->_get_table( 'account' ),
 };
 
 my $join = {
-    c_e => "JOIN $schema.event e ON (c.id = e.challenge_id)",
+    c_e  => "JOIN $schema.event e ON (c.id = e.challenge_id)",
     e_ca => "JOIN $schema.category ca ON (e.category_id = ca.id)",
     p_pr => "JOIN $schema.progress pr ON (p.id = pr.participant_id)",
-    i_t => "JOIN $schema.timezone t ON (i.timezone_id = t.id)",
+    i_t  => "JOIN $schema.timezone t ON (i.timezone_id = t.id)",
+    e_p  => "JOIN $schema.participant p ON (e.id = p.event_id)",
+    p_a  => "JOIN account.account a ON (p.account_id = a.id)",
 };
 
 ## ----------------------------------------------------------------------------
@@ -87,47 +92,30 @@ my $join = {
 __PACKAGE__->_mk_sql( $schema, $table );
 
 # generate the Perl method accessors
-__PACKAGE__->_mk_sql_accessors( $schema, $table );
+__PACKAGE__->_mk_store_accessors( $schema, $table );
 
 ## ----------------------------------------------------------------------------
 
-# now that we've generated everything we want, we can add more to the data structure
-$table->{account} = {
-    schema => 'account',
-    name   => 'account',
-    prefix => 'a',
-    cols   => [ qw(id username) ],
-};
-$table->{account}{sql_fqt} = __PACKAGE__->_mk_sel_fqt($table->{account}{schema}, $table->{account}{name}, $table->{account}{prefix});
-$table->{account}{sql_sel_cols} = __PACKAGE__->_mk_cols( $table->{account}{prefix}, @{$table->{account}{cols}} );
-$join->{p_a} = "JOIN account.account a ON (p.account_id = a.id)";
+# set up some useful strings
+my $challenge_cols = "$table->{challenge}{sql_sel_cols}, $table->{event}{sql_sel_cols}, $table->{category}{sql_sel_cols}";
+my $challenge_joins = "$table->{challenge}{sql_fqt} $join->{c_e} $join->{e_ca}";
 
-## ----------------------------------------------------------------------------
-
-$join->{e_p} = "JOIN $schema.participant p ON (e.id = p.event_id)";
+__PACKAGE__->mk_selecter_from( $schema, $table->{challenge} );
+__PACKAGE__->mk_selecter_from( $schema, $table->{category} );
+__PACKAGE__->mk_selecter_from( $schema, $table->{timezone} );
 
 # create the standard selecters
-__PACKAGE__->mk_selecter( $schema, $table->{challenge}{name}, $table->{challenge}{prefix}, @{$table->{challenge}{cols}} );
-__PACKAGE__->mk_selecter( $schema, $table->{category}{name}, $table->{category}{prefix}, @{$table->{category}{cols}} );
-__PACKAGE__->mk_select_row( 'sel_event', "SELECT $table->{challenge}{sql_sel_cols}, $table->{event}{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} WHERE e.id = ?", [ 'e_id' ] );
+__PACKAGE__->mk_select_row( 'sel_event', "SELECT $challenge_cols FROM $challenge_joins WHERE e.id = ?", [ 'e_id' ] );
+__PACKAGE__->mk_select_row( 'sel_event_using_name', "SELECT $challenge_cols FROM $challenge_joins WHERE e.name = ?", [ 'e_name' ] );
 __PACKAGE__->mk_select_row( 'sel_info', "SELECT $table->{info}{sql_sel_cols}, $table->{timezone}{sql_sel_cols} FROM $table->{info}{sql_fqt} $join->{i_t} WHERE i.account_id = ?", [ 'a_id' ] );
-__PACKAGE__->mk_selecter( $schema, $table->{timezone}{name}, $table->{timezone}{prefix}, @{$table->{timezone}{cols}} );
 
 # challenge
-__PACKAGE__->mk_selecter_using( $schema, 'challenge', 'c', 'name', @{$table->{challenge}{cols}} );
-
-sub sel_challenge_all {
-    my ($self) = @_;
-    my $t = $table->{challenge};
-    return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} ORDER BY $t->{prefix}.id" );
-}
+__PACKAGE__->mk_selecter_using_from( $schema, $table->{challenge}, 'name' );
+__PACKAGE__->_mk_selecter_all_from( $schema, $table->{challenge} );
 
 # category
-sub sel_category_all {
-    my ($self) = @_;
-    my $t = $table->{category};
-    return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $t->{sql_fqt} ORDER BY $t->{prefix}.id" );
-}
+# - sel_category_all
+__PACKAGE__->_mk_selecter_all_from( $schema, $table->{category} );
 
 sub sel_category_isstandard_all {
     my ($self) = @_;
@@ -136,87 +124,67 @@ sub sel_category_isstandard_all {
 }
 
 # event
-sub sel_event_using_name {
-    my ($self, $hr) = @_;
-    my $t = $table->{event};
-    return $self->_row( "SELECT $table->{challenge}{sql_sel_cols}, $t->{sql_sel_cols}, $table->{category}{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} $join->{e_ca} WHERE $t->{prefix}.name = ?", $hr->{e_name} );
-}
+__PACKAGE__->mk_select_row( 'sel_event_all', "SELECT $challenge_cols FROM $challenge_joins WHERE e.name = ?", [ 'e_name' ] );
+__PACKAGE__->mk_select_rows( 'sel_event_all_for', "SELECT $challenge_cols FROM $challenge_joins WHERE c.id = ? ORDER BY e.id", [ 'c_id' ] );
 
-sub sel_event_all_for {
-    my ($self, $hr) = @_;
-    my $t = $table->{event};
-    return $self->_rows( "SELECT $t->{sql_sel_cols} FROM $table->{challenge}{sql_fqt} $join->{c_e} WHERE $table->{challenge}{prefix}.id = ? ORDER BY $t->{prefix}.id", $hr->{c_id} );
-}
+my $sel_event_all_current_for = "
+    SELECT
+        $table->{challenge}{sql_sel_cols},
+        $table->{event}{sql_sel_cols},
+        $table->{category}{sql_sel_cols}
+    FROM
+        $table->{challenge}{sql_fqt}
+        $join->{c_e}
+        $join->{e_ca}
+    WHERE
+        $table->{challenge}{prefix}.id = ?
+    AND
+        $table->{event}{prefix}.startts < CURRENT_TIMESTAMP
+    AND
+        $table->{event}{prefix}.endts > CURRENT_TIMESTAMP
+    ORDER BY
+        $table->{event}{prefix}.startts, $table->{event}{prefix}.endts
+";
 
-sub sel_event_all_current_for {
-    my ($self, $hr) = @_;
-    my $t = $table->{event};
-    my $p = $table->{event}{prefix};
+__PACKAGE__->mk_select_rows( 'sel_event_all_current_for', $sel_event_all_current_for, [ 'c_id' ] );
 
-    return $self->_rows(
-        "SELECT
-            $table->{challenge}{sql_sel_cols},
-            $t->{sql_sel_cols},
-            $table->{category}{sql_sel_cols}
-        FROM
-            $table->{challenge}{sql_fqt}
-            $join->{c_e}
-            $join->{e_ca}
-        WHERE
-            $table->{challenge}{prefix}.id = ?
-        AND
-            $p.startts < CURRENT_TIMESTAMP
-        AND
-            $p.endts > CURRENT_TIMESTAMP
-        ORDER BY
-            $p.startts, $p.endts",
-        $hr->{c_id}
-    );
-}
+my $sel_event_all_archive_for = "
+    SELECT
+        $table->{challenge}{sql_sel_cols},
+        $table->{event}{sql_sel_cols},
+        $table->{category}{sql_sel_cols}
+    FROM
+        $table->{challenge}{sql_fqt}
+        $join->{c_e}
+        $join->{e_ca}
+    WHERE
+        $table->{challenge}{prefix}.id = ?
+    AND
+        $table->{event}{prefix}.endts < CURRENT_TIMESTAMP
+    ORDER BY
+        $table->{event}{prefix}.startts, $table->{event}{prefix}.endts
+";
 
-sub sel_event_all_archive_for {
-    my ($self, $hr) = @_;
-    my $t = $table->{event};
-    return $self->_rows(
-        "SELECT
-            $table->{challenge}{sql_sel_cols},
-            $t->{sql_sel_cols},
-            $table->{category}{sql_sel_cols}
-        FROM
-            $table->{challenge}{sql_fqt}
-            $join->{c_e}
-            $join->{e_ca}
-        WHERE
-            $table->{challenge}{prefix}.id = ?
-        AND
-            $t->{prefix}.endts < CURRENT_TIMESTAMP
-        ORDER BY
-            $t->{prefix}.startts, $t->{prefix}.endts",
-        $hr->{c_id}
-    );
-}
+__PACKAGE__->mk_select_rows( 'sel_event_all_archive_for', $sel_event_all_archive_for, [ 'c_id' ] );
 
-sub sel_event_all_future_for {
-    my ($self, $hr) = @_;
-    my $t = $table->{event};
-    return $self->_rows(
-        "SELECT
-            $table->{challenge}{sql_sel_cols},
-            $t->{sql_sel_cols},
-            $table->{category}{sql_sel_cols}
-        FROM
-            $table->{challenge}{sql_fqt}
-            $join->{c_e}
-            $join->{e_ca}
-        WHERE
-            $table->{challenge}{prefix}.id = ?
-        AND
-            $t->{prefix}.startts > CURRENT_TIMESTAMP
-        ORDER BY
-            $t->{prefix}.startts, $t->{prefix}.endts",
-        $hr->{c_id}
-    );
-}
+my $sel_event_all_future_for = "
+    SELECT
+        $table->{challenge}{sql_sel_cols},
+        $table->{event}{sql_sel_cols},
+        $table->{category}{sql_sel_cols}
+    FROM
+        $table->{challenge}{sql_fqt}
+        $join->{c_e}
+        $join->{e_ca}
+    WHERE
+        $table->{challenge}{prefix}.id = ?
+    AND
+        $table->{event}{prefix}.startts > CURRENT_TIMESTAMP
+    ORDER BY
+        $table->{event}{prefix}.startts, $table->{event}{prefix}.endts
+";
+
+__PACKAGE__->mk_select_rows( 'sel_event_all_future_for', $sel_event_all_future_for, [ 'c_id' ] );
 
 sub sel_participants_all_for {
     my ($self, $hr) = @_;

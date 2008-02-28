@@ -17,15 +17,16 @@
     $r->content_type('text/html');
     my ($model, $a) = $m->dhandler_arg() =~ m{ \A (\w*) \/ ([\w-]+) \.html \z }xms;
 
+    my $comp_name = "/zaapt/model/$model/$a.mhtml";
+
     # see if this model can be edited
-    if ( exists $models->{$model} ) {
+    if ( exists $models->{$model} and $m->comp_exists( $comp_name ) ) {
         $m->comp(
-            "/zaapt/model/$model/$a.mhtml",
+            $comp_name,
             %ARGS,
             zaapt => $ZAAPT,
-            roles => $SESS->{roles},
-            my_roles => $SESS->{roles},
-            id => $SESS->{id}
+            perms => $SESS->{perms},
+            id    => $SESS->{id}
         );
     }
     else {

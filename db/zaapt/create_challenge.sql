@@ -100,4 +100,6 @@ CREATE TABLE challenge.progress (
 CREATE TRIGGER progress_updated BEFORE UPDATE ON challenge.progress
     FOR EACH ROW EXECUTE PROCEDURE updated();
 
+INSERT INTO zaapt.model(name, title, module) VALUES('challenge', 'Challenge', 'KiwiWriters::Zaapt::Store::Pg::Challenge');
+
 -- ----------------------------------------------------------------------------

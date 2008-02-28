@@ -1,8 +1,8 @@
-<VirtualHost *:80>
+<VirtualHost *>
     ServerName __SERVER_NAME__
     m4_ifdef(`__SERVER_ALIAS__',ServerAlias __SERVER_ALIAS__)
 
-    DocumentRoot /var/www/kiwiwriters/htdocs
+    DocumentRoot /usr/share/kiwiwriters/htdocs
 
     PerlSetVar MasonInPackage WebApp::KiwiWriters
 
@@ -11,18 +11,18 @@
     PerlAddVar MasonAllowGlobals $SESS
     PerlAddVar MasonAllowGlobals $ZAAPT
 
-    PerlAddVar MasonCompRoot "main => /var/www/kiwiwriters/htdocs"
+    PerlAddVar MasonCompRoot "main => /usr/share/kiwiwriters/htdocs"
     PerlAddVar MasonCompRoot "zaapt => /usr/share/zaapt/mason"
-    PerlSetVar MasonDataDir /var/www/kiwiwriters/mason
+    PerlSetVar MasonDataDir /var/cache/kiwiwriters/mason
 
+    PerlModule CGI
     PerlModule HTML::Mason::ApacheHandler
-    PerlModule Apache::Request
+    PerlModule Apache2::Request
     PerlModule Apache::DBI
-    PerlModule Apache::Cookie
+    PerlModule Apache2::Cookie
     PerlModule Apache::Session
     PerlModule Apache::Session::Postgres
     PerlModule Config::Simple
-    PerlModule WebApp::Session
     PerlModule Zaapt
     PerlModule Zaapt::Utils::Valid
     PerlModule Zaapt::Utils::Conv
@@ -44,10 +44,9 @@
     </LocationMatch>
 
     # but don't show them any internal Mason files
-    <LocationMatch "(handler|\.mhtml|\.mas)$">
+    <LocationMatch "(handler|\.mhtml|\.mxml|\.mas)$">
         SetHandler perl-script
-        PerlModule Apache::Constants
-        PerlHandler "sub { return Apache::Constants::NOT_FOUND }"
+        PerlHandler "sub { return Apache2::Constants::NOT_FOUND }"
     </LocationMatch>
 
     # everything in /d/ is dynamic
@@ -63,6 +62,6 @@
         Options -Indexes
     </Location>
 
-    CustomLog /var/log/apache-perl/kiwiwriters-access.log common
-    ErrorLog /var/log/apache-perl/kiwiwriters-error.log
+    CustomLog /var/log/apache2/kiwiwriters-access.log common
+    ErrorLog /var/log/apache2/kiwiwriters-error.log
 </VirtualHost>
