@@ -1,0 +1,43 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    my $model = $ZAAPT->get_model('Forum');
+    my $forums = $model->sel_forum_all();
+    # get a hash of the forums
+    my $h = {};
+    foreach my $forum ( @$forums ) {
+        $h->{$forum->{f_name}} = $forum;
+    }
+    $forums = [];
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Challenge Forums from 2008</h1>
+
+<p>
+    These forums for 2008 are the current challenge forums.
+</p>
+
+<p class="right"><& /zaapt/model/forum/widget-stats.mhtml, zaapt => $ZAAPT &></p>
+
+<table>
+    <tr class="r0">
+        <th colspan="2">Forum</th>
+        <th>Topics</th>
+        <th>Posts</th>
+        <th class="nw">Last Post</th>
+    </tr>
+<& comp/section.mhtml,
+    section => 'Challenges',
+    anchor => 'challenges',
+    forums => [
+        $h->{'challenges-2008'},
+        $h->{'new-year-novella-2008'},
+        $h->{'publish-a-book-2008'},
+        $h->{'wwww-2008'},
+        $h->{'socnoc-2008'},
+        $h->{'zing-thing-2008'},
+        $h->{'the-end-is-nigh-2008'},
+    ],
+    last => $SESS->{last},
+&>
+</table>
+%# ----------------------------------------------------------------------------

@@ -1,0 +1,31 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    my ($name) = $m->dhandler_arg() =~ m{ \A (.+) \. html \z }xms;
+    # return if $m->cache_self( key => $name, expire_in => '10s' );
+
+    # see if this person is logged in
+    if ( $SESS->{_signed_in} ) {
+        $m->comp('/zaapt/model/account/user.mhtml',
+            %ARGS,
+            zaapt   => $ZAAPT,
+            sess    => $SESS,
+            id      => $SESS->{id},
+            page    => $name,
+            invitor => "$SESS->{firstname} $SESS->{lastname} <$SESS->{email}>", # for user-invite
+            domain  => $CFG->{domain_name},  # for user-invite
+            redirect => '/my/settings.html', # for user-edit
+        );
+    }
+    else {
+        $m->comp('/zaapt/model/account/view.mhtml',
+            %ARGS,
+            zaapt  => $ZAAPT,
+            sess   => $SESS,
+            page   => $name,
+            domain => $CFG->{domain_name},
+        );
+    }
+
+    return;
+</%init>
+%# ----------------------------------------------------------------------------

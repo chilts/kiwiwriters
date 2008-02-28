@@ -1,0 +1,26 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $values
+    $err => undef
+</%args>
+%# ----------------------------------------------------------------------------
+<h1>Edit your profile</h1>
+
+<a href="./">&laquo; Back to Profile</a>
+
+<& /zaapt/common/err.mhtml, err => $err&>
+
+<& /zaapt/common/form/edit.mhtml,
+    action => '?',
+    values => $values,
+    elements => [
+        { type => 'hidden', name => '_act', def => 'upd' },
+        { type => 'text', field => 'Age', name => 'p_age', size => 3, maxlength => 3, def => '' },
+        { type => 'text', field => 'Location', name => 'p_location', size => 30, maxlength => 30, def => '' },
+        { type => 'text', field => 'Website', name => 'p_website', size => 30, maxlength => 50, def => '' },
+        { type => 'textarea', field => 'Favourite Authors', name => 'p_favauthors', rows => 4, cols => 40, def => '' },
+        { type => 'textarea', field => 'Favourite Books', name => 'p_favbooks', rows => 4, cols => 40, def => '' },
+        { type => 'submit', name => 'submit', field => '', cancel => 1, location => '.', def => 'Save Profile' },
+    ]
+&>
+%# ----------------------------------------------------------------------------

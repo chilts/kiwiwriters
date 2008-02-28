@@ -1,0 +1,16 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $profile
+</%args>
+%# ----------------------------------------------------------------------------
+<h1>Profile</h1>
+
+<&  /zaapt/common/table.mhtml, rows => [
+        { field => 'Age', value => $profile->{p_age} || '' },
+        { field => 'Location', value => $profile->{p_location} },
+        { field => 'Website', value => $profile->{p_website}, type => 'url' },
+        { field => 'Favourite Authors', value => $profile->{p_favauthors} },
+        { field => 'Favourite Books', value => $profile->{p_favbooks} },
+    ]
+&>
+%# ----------------------------------------------------------------------------

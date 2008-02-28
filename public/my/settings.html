@@ -1,0 +1,45 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    # return if $m->cache_self( key => 'index', expire_in => '10s' );
+</%init>
+%# ----------------------------------------------------------------------------
+<h1>Your Information</h1>
+
+<& /zaapt/model/account/user.mhtml,
+    zaapt => $ZAAPT,
+    id    => $SESS->{id},
+    sess  => $SESS,
+    page  => 'info',
+&>
+<p><a href="edit.html">Edit your Account Info &raquo;</a></p>
+
+<& /zaapt/model/profile/view.mhtml,
+    zaapt => $ZAAPT,
+    id    => $SESS->{id},
+    sess  => $SESS,
+    page  => 'index',
+&>
+<p><a href="/my/profile/edit.html">Edit your KiwiWriters Profile &raquo;</a></p>
+
+<& /zaapt/model/forum/view.mhtml,
+    zaapt => $ZAAPT,
+    id    => $SESS->{id},
+    page  => 'info',
+    sess  => $SESS,
+    t_name => 'bbcode',
+&>
+<p><a href="/my/forum/edit.html">Edit your Forum Settings &raquo;</a></p>
+
+<& /zaapt/model/challenge/view.mhtml,
+    zaapt => $ZAAPT,
+    id    => $SESS->{id},
+    sess  => $SESS,
+    page  => 'info',
+&>
+<p><a href="/my/challenge/user-edit.html">Edit your Challenge Settings &raquo;</a></p>
+
+%# ----------------------------------------------------------------------------
+<%attr>
+    done_today => 1
+</%attr>
+%# ----------------------------------------------------------------------------
