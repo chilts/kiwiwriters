@@ -31,11 +31,6 @@ my $sql = {
     ",
 };
 
-my $log_conf = <<'EOF';
-
-
-EOF
-
 ## ----------------------------------------------------------------------------
 # setup
 
@@ -47,19 +42,11 @@ $logger->level( $INFO );
 my $layout = Log::Log4perl::Layout::PatternLayout->new( "%d %p %F{1}[%5L] %m%n" );
 
 # choose and setup the appender
-my $appender;
-if ( 0 ) {
-    $appender = Log::Log4perl::Appender->new(
-        "Log::Dispatch::File",
-        filename => "/var/log/kiwiwriters/kw-progress.log",
-        mode     => "append",
-    );
-}
-else {
-    $appender = Log::Log4perl::Appender->new(
-        "Log::Dispatch::Screen",
-    );
-}
+my $appender = Log::Log4perl::Appender->new(
+    "Log::Dispatch::File",
+    filename => "/var/log/kiwiwriters/kw-progress.log",
+    mode     => "append",
+);
 $appender->layout( $layout );
 $logger->add_appender( $appender );
 
