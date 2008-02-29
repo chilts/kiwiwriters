@@ -7,7 +7,7 @@ Standards-Version: 3.5.5.0
 
 Package: kiwiwriters
 Architecture: all
-Depends: debconf, libapache2-mod-perl2, libhtml-mason-perl, libapache2-request-perl, libapache-dbi-perl, libdbd-pg-perl, libconfig-simple-perl, libxml-rss-perl, libxml-atom-perl, libapache-session-perl, libdbd-pg-perl, pgpatcher, zaapt, libtext-phliky-perl, libmail-sendmail-perl, libstring-random-perl, libbbcode-parser-perl, liblog-log4perl-perl, apache2
+Depends: debconf, libapache2-mod-perl2, libhtml-mason-perl, libapache2-request-perl, libapache-dbi-perl, libdbd-pg-perl, libconfig-simple-perl, libxml-rss-perl, libxml-atom-perl, libapache-session-perl, libdbd-pg-perl, pgpatcher, zaapt, libtext-phliky-perl, libmail-sendmail-perl, libstring-random-perl, libbbcode-parser-perl, liblog-log4perl-perl, apache2, libgd-gd2-perl
 Recommends: 
 Suggests: 
 Description: site for all Kiwi Writers
