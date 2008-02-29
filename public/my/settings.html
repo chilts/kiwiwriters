@@ -21,10 +21,10 @@
 &>
 <p><a href="/my/profile/edit.html">Edit your KiwiWriters Profile &raquo;</a></p>
 
-<& /zaapt/model/forum/view.mhtml,
+%# use view-info.mhtml (not view.mhtml with $page eq 'info', since it will never be it's own page
+<& /zaapt/model/forum/view-info.mhtml,
     zaapt => $ZAAPT,
     id    => $SESS->{id},
-    page  => 'info',
     sess  => $SESS,
     t_name => 'bbcode',
 &>
