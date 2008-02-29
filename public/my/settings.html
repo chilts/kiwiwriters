@@ -30,6 +30,8 @@
 &>
 <p><a href="/my/forum/edit.html">Edit your Forum Settings &raquo;</a></p>
 
+% if ( 0 ) {
+
 <& /zaapt/model/challenge/view.mhtml,
     zaapt => $ZAAPT,
     id    => $SESS->{id},
@@ -37,6 +39,8 @@
     page  => 'info',
 &>
 <p><a href="/my/challenge/user-edit.html">Edit your Challenge Settings &raquo;</a></p>
+
+% }
 
 %# ----------------------------------------------------------------------------
 <%attr>
