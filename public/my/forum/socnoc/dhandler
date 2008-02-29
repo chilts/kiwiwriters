@@ -15,6 +15,7 @@
         $t_id = $type->{t_id};
     }
 
+    # read only, so no-one can change it now
     $m->comp('/zaapt/model/forum/view.mhtml',
         %ARGS,
         zaapt => $ZAAPT,

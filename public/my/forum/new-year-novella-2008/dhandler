@@ -20,7 +20,7 @@
         $m->comp('/zaapt/model/forum/user.mhtml',
             %ARGS,
             zaapt => $ZAAPT,
-            perms => $SESS->{permissions},
+            perms => $SESS->{perms},
             f_name => 'new-year-novella-2008',
             page => $name,
             id => $SESS->{id},
