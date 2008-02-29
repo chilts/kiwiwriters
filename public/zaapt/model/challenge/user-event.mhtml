@@ -157,7 +157,7 @@
 </p>
 
 <p id="update-show">
-    <a href="#" onclick="removeElementClass('update-form', 'hide'); addElementClass('update-show', 'hide'); return false;">
+    <a href="#" onclick="$('#update-form, #update-show').toggleClass('hide'); return false;">
         <& /zaapt/common/icon.mhtml, name => 'arrow_up', title => "Update Progress" &> Update Progress &raquo;&raquo;
     </a>
 </p>
@@ -166,7 +166,7 @@
 <& /zaapt/common/form.mhtml, action => '?', elements => [
         { type => 'hidden', name => 'act', value => 'update' },
         { type => 'text', field => 'Progress', name => 'p_progress', value => $status->{p_progress} },
-        { type => 'submit', field => 'Actions', value => 'Update Progress', cancel_js => "removeElementClass('update-show', 'hide'); addElementClass('update-form', 'hide');" },
+        { type => 'submit', field => 'Actions', value => 'Update Progress', cancel_js => "$('#update-form, #update-show').toggleClass('hide');" },
     ]
 &>
 </div>
