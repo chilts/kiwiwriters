@@ -27,7 +27,7 @@
     page  => 'index',
 &>
 
-<& /zaapt/model/forum/view.mhtml,
+<& /zaapt/model/forum/view-info.mhtml,
     zaapt => $ZAAPT,
     id    => $account->{a_id},
     page  => 'info',
