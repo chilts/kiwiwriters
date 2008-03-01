@@ -4,7 +4,7 @@
 
     # return if $m->cache_self( key => $name, expire_in => '10s' );
 
-    $m->comp('/zaapt/model/blog/rss20.xml',
+    $m->comp('/zaapt/model/blog/rss20.mxml',
         zaapt  => $ZAAPT,
         b_name => 'klog',
         domain => $CFG->{domain_name},
