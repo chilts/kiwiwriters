@@ -9,9 +9,7 @@
     <meta name="author" content="Andrew Chilton / Original design: Andreas Viklund - http://andreasviklund.com/" />
     <link rel="shortcut icon" href="http://kiwiwriters.org/favicon.png" type="image/png" />
     <link rel="icon" href="http://kiwiwriters.org/favicon.png" type="image/png" />
-% if ( $m->request_comp->attr('use_jquery') ) {
     <script type="text/javascript" src="/s/jquery-1.2.3.pack.js"></script>
-% }
 % if ( $m->request_comp->attr('use_calendar') ) {
 
     <link rel="stylesheet" href="/s/calendar/calendar-blue.css" type="text/css" media="screen" />
@@ -76,7 +74,6 @@ urchinTracker();
     section => 'home'
     layout => 'menu'
     sign_in_req => 0
-    use_jquery => 1
     use_calendar => 0
     done_today => 0
     cache => 1
