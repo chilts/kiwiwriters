@@ -1,3 +1,8 @@
 %# ----------------------------------------------------------------------------
-<& view-index.render.mhtml &>
+<h1>Not signed in</h1>
+
+<p>
+    To be able to edit your challenge settings, you must
+    <& /zaapt/common/sign-in-url.mhtml, text => 'sign in' &> first.
+</p>
 %# ----------------------------------------------------------------------------

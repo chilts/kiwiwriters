@@ -2,6 +2,7 @@
 <%args>
     $values
     $err => undef
+    $redirect
 </%args>
 %# ----------------------------------------------------------------------------
 <h1>Edit your profile</h1>
@@ -20,7 +21,7 @@
         { type => 'text', field => 'Website', name => 'p_website', size => 30, maxlength => 50, def => '' },
         { type => 'textarea', field => 'Favourite Authors', name => 'p_favauthors', rows => 4, cols => 40, def => '' },
         { type => 'textarea', field => 'Favourite Books', name => 'p_favbooks', rows => 4, cols => 40, def => '' },
-        { type => 'submit', name => 'submit', field => '', cancel => 1, location => '.', def => 'Save Profile' },
+        { type => 'submit', name => 'submit', field => '', cancel => 1, location => $redirect, def => 'Save Profile' },
     ]
 &>
 %# ----------------------------------------------------------------------------

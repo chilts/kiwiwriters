@@ -13,7 +13,7 @@
 &>
 <p><a href="edit.html">Edit your Account Info &raquo;</a></p>
 
-<& /zaapt/model/profile/view.mhtml,
+<& /zaapt/model/profile/user.mhtml,
     zaapt => $ZAAPT,
     id    => $SESS->{id},
     sess  => $SESS,
@@ -30,20 +30,17 @@
 &>
 <p><a href="/my/forum/edit.html">Edit your Forum Settings &raquo;</a></p>
 
-% if ( 0 ) {
-
 <& /zaapt/model/challenge/view.mhtml,
     zaapt => $ZAAPT,
     id    => $SESS->{id},
     sess  => $SESS,
     page  => 'info',
 &>
-<p><a href="/my/challenge/user-edit.html">Edit your Challenge Settings &raquo;</a></p>
-
-% }
+<p><a href="/my/challenge/edit.html">Edit your Challenge Settings &raquo;</a></p>
 
 %# ----------------------------------------------------------------------------
 <%attr>
-    done_today => 1
+    done_today  => 1
+    sign_in_req => 1
 </%attr>
 %# ----------------------------------------------------------------------------

@@ -60,5 +60,9 @@
     }
 </%init>
 %# ----------------------------------------------------------------------------
-<& user-edit.render.mhtml, values => $values, err => \@err &>
+<& user-edit.render.mhtml,
+    values   => $values,
+    err      => \@err,
+    redirect => $redirect,
+&>
 %# ----------------------------------------------------------------------------

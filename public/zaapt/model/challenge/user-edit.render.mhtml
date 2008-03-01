@@ -1,0 +1,21 @@
+%# ----------------------------------------------------------------------------
+<%args>
+    $t_id
+    $options
+    $redirect
+</%args>
+%# ----------------------------------------------------------------------------
+<h1>Edit your Challenge Info</h1>
+
+<a href="./">&laquo; Back to Profile</a>
+
+<& /zaapt/common/form/edit.mhtml,
+    action => '?',
+    values => { t_id => $t_id },
+    elements => [
+        { type => 'hidden', name => '_act', def => 'upd' },
+        { type => 'select', field => 'Timezone', name => 't_id', options => $options },
+        { type => 'submit', name => 'submit', field => '', cancel => 1, location => $redirect, def => 'Save Changes' },
+    ]
+&>
+%# ----------------------------------------------------------------------------

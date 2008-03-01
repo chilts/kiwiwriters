@@ -20,7 +20,7 @@
         $m->comp('/zaapt/model/account/view.mhtml',
             %ARGS,
             zaapt  => $ZAAPT,
-            sess   => $SESS,
+            sess   => $SESS, # for view-sign-in.mhtml
             page   => $name,
             domain => $CFG->{domain_name},
         );
