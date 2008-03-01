@@ -17,9 +17,6 @@
 </%args>
 %# ----------------------------------------------------------------------------
 <%init>
-    use Data::Dumper;
-    warn Dumper(\%ARGS);
-
     my $model = $zaapt->get_model('Profile');
     my $profile = $model->sel_profile({ a_id => $id });
 
