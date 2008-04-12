@@ -23,6 +23,7 @@
             sess   => $SESS, # for view-sign-in.mhtml
             page   => $name,
             domain => $CFG->{domain_name},
+            path   => 'my',
         );
     }
 
