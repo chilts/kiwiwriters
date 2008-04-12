@@ -145,11 +145,11 @@ margin:0 4px 0 0;
 padding:0 0 0 9px;
 }
 
-#dropdown li.#current{
+#dropdown li#current{
 background:url(/s/tabs.gif) no-repeat 0 -41px;
 }
 
-#dropdown li.#current a{
+#dropdown li#current a{
 background:url(/s/tabs.gif) no-repeat 100% -41px;
 color:#303030;
 padding:7px 20px 5px 11px;
