@@ -68,6 +68,10 @@ case "$1" in
         echo "Remove Mason information..."
         find /var/cache/kiwiwriters/mason -mindepth 1 -type f -exec rm {} ';'
 
+        # make sure the webserver can write to the upload files directory
+        chown -R www-data:www-data /var/lib/kiwiwriters/files
+        chmod -R 0700 /var/lib/kiwiwriters/files
+
         # make the site info owned by www-data, 
         WEBUSER=www-data
         WEBGROUP=www-data

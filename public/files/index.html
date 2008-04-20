@@ -1,0 +1,8 @@
+%# ----------------------------------------------------------------------------
+<%init>
+    # return if $m->cache_self( key => $name, expire_in => '10s' );
+
+    $m->comp('/zaapt/model/dir/view.mhtml', zaapt => $ZAAPT, d_name => 'files', page => 'index');
+    return;
+</%init>
+%# ----------------------------------------------------------------------------
