@@ -1,8 +1,7 @@
 %# ----------------------------------------------------------------------------
-<h1>Not signed in</h1>
-
-<p>
-    To be able to view your profile settings, you must
-    <& /zaapt/common/sign-in-url.mhtml, text => 'sign in' &> first.
-</p>
+<%args>
+    $profile
+</%args>
+%# ----------------------------------------------------------------------------
+<& index.render.mhtml, profile => $profile &>
 %# ----------------------------------------------------------------------------
