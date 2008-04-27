@@ -7,3 +7,5 @@ google_adsense_show: __GOOGLE_ADSENSE_SHOW__
 paypal_donate_show: __PAYPAL_DONATE_SHOW__
 server_staging: __SERVER_STAGING__
 server_live: __SERVER_LIVE__
+log_dir: /var/log/kiwiwriters
+email_from_address: noreply@kiwiwriters.org
