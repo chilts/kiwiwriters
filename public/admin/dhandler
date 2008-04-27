@@ -6,6 +6,7 @@
         challenge => 1,
         content   => 1,
         dir       => 1,
+        email     => 1,
         faq       => 1,
         friend    => 1,
         forum     => 1,
