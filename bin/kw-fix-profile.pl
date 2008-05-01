@@ -21,7 +21,7 @@ my $sql = {
 INSERT INTO
     challenge.info
 SELECT
-    a.id, ( SELECT id FROM challenge.timezone WHERE name = 'Pacific/Auckland')
+    a.id, (SELECT id FROM challenge.timezone WHERE name = 'Pacific/Auckland')
 FROM
     account.account a
     LEFT JOIN challenge.info i ON (a.id = i.account_id)
@@ -76,7 +76,8 @@ MAIN: {
     $dbh->begin_work();
 
     # set to this timezone
-    $dbh->do( $sql->{fix_profile} );
+    my $count = $dbh->do( $sql->{fix_profile} );
+    $logger->info("Query affected $count " . ($count == 1 ? 'row' : 'rows'));
 
     $dbh->commit();
 

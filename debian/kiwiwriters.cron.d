@@ -6,4 +6,4 @@ MAILTO=andychilton@gmail.com
   0,15,30,45  *  *   *   *  kiwiwriters  kw-progress.pl
 
 # fix profiles regularly
-  */5         *  *   *   *  kiwiwriters  kw-fix-profile.pl
+  *           *  *   *   *  kiwiwriters  kw-fix-profile.pl
