@@ -4,3 +4,6 @@ MAILTO=andychilton@gmail.com
 
 # every fifteen minutes
   0,15,30,45  *  *   *   *  kiwiwriters  kw-progress.pl
+
+# fix profiles regularly
+  */5         *  *   *   *  kiwiwriters  kw-fix-profile.pl

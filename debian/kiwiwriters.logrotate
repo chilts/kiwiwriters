@@ -6,3 +6,12 @@
     delaycompress
     notifempty
 }
+
+/var/log/kiwiwriters/kw-fix-profile.log {
+    weekly
+    rotate 52
+    compress
+    missingok
+    delaycompress
+    notifempty
+}

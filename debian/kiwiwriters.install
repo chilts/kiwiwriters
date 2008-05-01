@@ -5,3 +5,4 @@ db/*                                usr/share/kiwiwriters/db
 lib/*                               usr/share/perl5
 banners/*                           usr/share/kiwiwriters/banners
 bin/kw-progress.pl                  usr/bin
+bin/kw-fix-profile.pl               usr/bin
