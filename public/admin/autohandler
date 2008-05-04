@@ -11,12 +11,12 @@
                 { text => 'Challenge', href => '/admin/challenge/edit.html' },
                 { text => 'Content', href => '/admin/content/edit.html' },
                 { text => 'Dir', href => '/admin/dir/edit.html' },
-                { text => 'Email', href => '/admin/email/edit.html' },
                 { text => 'FAQ', href => '/admin/faq/edit.html' },
                 { text => 'Friend', href => '/admin/friend/edit.html' },
                 { text => 'Forum', href => '/admin/forum/edit.html' },
                 { text => 'Menu', href => '/admin/menu/edit.html' },
                 { text => 'News', href => '/admin/news/edit.html' },
+                { text => 'Zaapt', href => '/admin/zaapt/edit.html' },
             ], 
         },
         #{
