@@ -11,7 +11,7 @@
 <%init>
     my $model = $zaapt->get_model("KiwiWriters::Zaapt::Store::Pg::Challenge");
     my $info = $model->sel_info({ a_id => $id });
-    my $tz = $model->sel_timezone({ t_id => $info->{i_timezone_id} });
+    my $tz = $model->sel_timezone({ t_id => $info->{t_id} });
 </%init>
 %# ----------------------------------------------------------------------------
 %#<pre>
