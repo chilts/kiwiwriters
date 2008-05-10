@@ -1,21 +1,25 @@
 %# ----------------------------------------------------------------------------
 <%init>
-    my ($m_id) = $m->dhandler_arg() =~ m{ \A msg:(\w+) \. html \z }xms;
+    my ($page) = $m->dhandler_arg() =~ m{ \A (.+) \. html \z }xms;
     # return if $m->cache_self( key => $name, expire_in => '10s' );
 
-    unless ( defined $m_id ) {
-        $m->abort(404);
-        return;
+    # see if this person is logged in
+    if ( $SESS->{_signed_in} ) {
+        $m->comp('/zaapt/model/message/user.mhtml',
+            %ARGS,
+            zaapt => $ZAAPT,
+            id    => $SESS->{id},
+            page  => $page,
+        );
+    }
+    else {
+        $m->comp('/zaapt/model/message/view.mhtml',
+            %ARGS,
+            zaapt => $ZAAPT,
+            page  => $page,
+        );
     }
 
-    $m->comp(
-        '/zaapt/model/message/user.mhtml',
-        %ARGS,
-        zaapt => $ZAAPT,
-        id    => $SESS->{id},
-        page  => 'message',
-        m_id  => $m_id,
-    );
     return;
 </%init>
 %# ----------------------------------------------------------------------------
