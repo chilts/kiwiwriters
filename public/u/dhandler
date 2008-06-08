@@ -11,7 +11,7 @@
 
 <ul>
     <li><a href="/u/forum/<% $username | u %>.html">Latest Forum Posts</a></li>
-    <li><a href="/u/challenge/<% $username | u %>.html">Challenge's Entered</a></li>
+    <li><a href="/u/challenge/<% $username | u %>.html">Challenges Entered</a></li>
     <li><& /zaapt/common/icon.mhtml, name => 'email_edit', title => 'New Message' &> <a href="/my/kiwimail/compose.html?t_username=<% $username | u %>">KiwiMail this Member</a></li>
 </ul>
 
