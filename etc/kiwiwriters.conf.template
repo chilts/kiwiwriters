@@ -65,6 +65,7 @@
 
     # alias the uploads directory onto the webserver
     Alias /s/files /var/lib/kiwiwriters/files
+    Alias /s/files-other /var/lib/kiwiwriters/files-other
 
     CustomLog /var/log/apache2/kiwiwriters-access.log common
     ErrorLog /var/log/apache2/kiwiwriters-error.log
