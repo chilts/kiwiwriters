@@ -30,8 +30,12 @@
 % } elsif ( $t_name eq 'phliky' ) {
     <% $phliky->text2html( $content ) %>
 % } elsif ( $t_name eq 'bbcode' ) {
-%     my $tree = BBCode::Parser->DEFAULT->parse( $content );
-    <% $tree->toHTML() %>
+%     my $tree = eval { BBCode::Parser->DEFAULT->parse( $content ); };
+%     if ( $@ ) {
+<p class="err">There was a problem rendering your BBCode, please re-edit and try again.</p>
+%     } else {
+<% $tree->toHTML() %>
+%     }
 % } else {
     <p>Unknown content type: '<% $t_name | h %>'
 % }
