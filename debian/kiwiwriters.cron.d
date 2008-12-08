@@ -7,3 +7,7 @@ MAILTO=andychilton@gmail.com
 
 # fix profiles regularly
   *           *  *   *   *  kiwiwriters  kw-fix-profile.pl
+
+# send emails out every 10 mins
+  */5         *  *   *   *  kiwiwriters  zaapt-send-email /etc/kiwiwriters/kiwiwriters.cfg
+
