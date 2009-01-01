@@ -15,29 +15,15 @@
         $t_id = $type->{t_id};
     }
 
-    # see if this person is logged in
-    if ( $SESS->{_signed_in} ) {
-        $m->comp('/zaapt/model/forum/user.mhtml',
-            %ARGS,
-            zaapt => $ZAAPT,
-            perms => $SESS->{perms},
-            f_name => 'the-end-is-nigh-2008',
-            page => $name,
-            id => $SESS->{id},
-            t_id => $t_id,
-            last => $SESS->{last},
-        );
-    }
-    else {
-        $m->comp('/zaapt/model/forum/view.mhtml',
-            %ARGS,
-            zaapt => $ZAAPT,
-            f_name => 'the-end-is-nigh-2008',
-            page => $name,
-            t_id => $t_id,
-            t_name => $t_name,
-        );
-    }
+    # read only, so no-one can change it now
+    $m->comp('/zaapt/model/forum/view.mhtml',
+        %ARGS,
+        zaapt => $ZAAPT,
+        f_name => 'the-end-is-nigh-2008',
+        page => $name,
+        t_id => $t_id,
+        t_name => $t_name,
+    );
 
     return;
 </%init>
