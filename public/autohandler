@@ -9,7 +9,7 @@
     <meta name="author" content="Andrew Chilton / Original design: Andreas Viklund - http://andreasviklund.com/" />
     <link rel="shortcut icon" href="http://kiwiwriters.org/favicon.png" type="image/png" />
     <link rel="icon" href="http://kiwiwriters.org/favicon.png" type="image/png" />
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 % if ( $m->request_comp->attr('use_calendar') ) {
     <link rel="stylesheet" href="/s/calendar/calendar-blue.css" type="text/css" media="screen" />
     <script type="text/javascript" src="/s/calendar/calendar.js"></script>
