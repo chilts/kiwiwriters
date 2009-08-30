@@ -1,6 +1,5 @@
 <VirtualHost *>
-    ServerName __SERVER_NAME__
-    m4_ifdef(`__SERVER_ALIAS__',ServerAlias __SERVER_ALIAS__)
+    ServerName www.__DOMAIN_NAME__
 
     DocumentRoot /usr/share/kiwiwriters/htdocs
 
@@ -69,4 +68,9 @@
 
     CustomLog /var/log/apache2/kiwiwriters-access.log common
     ErrorLog /var/log/apache2/kiwiwriters-error.log
+</VirtualHost>
+
+<VirtualHost *>
+    ServerName __DOMAIN_NAME__
+    RedirectMatch ^/(.*) http://www.__DOMAIN_NAME__/$1
 </VirtualHost>

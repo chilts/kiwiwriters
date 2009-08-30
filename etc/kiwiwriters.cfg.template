@@ -1,6 +1,6 @@
 domain_name: __DOMAIN_NAME__
-server_name: __SERVER_NAME__
-server_alias: __SERVER_ALIAS__
+server_name: www.__DOMAIN_NAME__
+server_alias: __DOMAIN_NAME__
 db_name: __DB_NAME__
 db_user: __DB_USER__
 google_adsense_show: __GOOGLE_ADSENSE_SHOW__

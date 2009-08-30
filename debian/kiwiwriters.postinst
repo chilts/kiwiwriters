@@ -18,14 +18,6 @@ case "$1" in
         db_get kiwiwriters/domain_name
         echo "m4_define(__DOMAIN_NAME__,$RET)m4_dnl" >> $CFG
 
-        db_get kiwiwriters/server_name
-        echo "m4_define(__SERVER_NAME__,$RET)m4_dnl" >> $CFG
-
-        db_get kiwiwriters/server_alias
-        if [ -n "$RET" ]; then
-            echo "m4_define(__SERVER_ALIAS__,$RET)m4_dnl" >> $CFG
-        fi
-
         db_get kiwiwriters/db_name
         echo "m4_define(__DB_NAME__,$RET)m4_dnl" >> $CFG
 
