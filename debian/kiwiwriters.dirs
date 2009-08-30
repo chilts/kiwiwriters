@@ -1,4 +1,5 @@
 var/cache/kiwiwriters/mason
 var/log/kiwiwriters
 var/lib/kiwiwriters/files
+var/lib/kiwiwriters/files-other
 etc/kiwiwriters
