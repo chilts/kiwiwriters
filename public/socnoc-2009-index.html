@@ -1,6 +1,7 @@
 %# ----------------------------------------------------------------------------
 <%init>
     my $count = $DBH->selectrow_hashref("SELECT count(id), sum(progress) FROM challenge.participant WHERE event_id = 52");
+    my $count_half = $DBH->selectrow_hashref("SELECT count(id), sum(progress) FROM challenge.participant WHERE event_id = 53");
 </%init>
 %# ----------------------------------------------------------------------------
 <div style="float: right; margin-left: 20px; text-align: center; border: medium dashed #fa9035; padding: 0 10px 14px 10px">
@@ -8,6 +9,12 @@
     <span style="font-size: 150%;font-weight: bold; color: #fa9035;"><% $count->{sum} | h %></span><br />
     words written by<br />
     <span style="font-size: 125%;font-weight: bold"><% $count->{count} | h %></span><br />
+    participants<br /><br />
+
+    <h2>HalfNoC Total</h2>
+    <span style="font-size: 150%;font-weight: bold; color: #fa9035;"><% $count_half->{sum} | h %></span><br />
+    words written by<br />
+    <span style="font-size: 125%;font-weight: bold"><% $count_half->{count} | h %></span><br />
     participants<br /><br />
 </div>
 %# ----------------------------------------------------------------------------
